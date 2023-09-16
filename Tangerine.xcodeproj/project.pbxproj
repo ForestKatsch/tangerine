@@ -7,13 +7,39 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8501F0DD2AB4306C0046AA3C /* SelectableText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8501F0DC2AB4306C0046AA3C /* SelectableText.swift */; };
+		8501F0DF2AB431650046AA3C /* ItemScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8501F0DE2AB431650046AA3C /* ItemScreen.swift */; };
+		8501F0E12AB437A30046AA3C /* View+if.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8501F0E02AB437A30046AA3C /* View+if.swift */; };
+		8501F0E32AB44C740046AA3C /* CopyLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8501F0E22AB44C740046AA3C /* CopyLink.swift */; };
+		853B50702AB44CEA00C2B611 /* OpenLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853B506F2AB44CEA00C2B611 /* OpenLink.swift */; };
+		853B50722AB52E9700C2B611 /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853B50712AB52E9700C2B611 /* Haptics.swift */; };
 		85954B6C2AB3EEBC00680758 /* TangerineApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954B6B2AB3EEBC00680758 /* TangerineApp.swift */; };
-		85954B6E2AB3EEBC00680758 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954B6D2AB3EEBC00680758 /* ContentView.swift */; };
 		85954B702AB3EEBD00680758 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85954B6F2AB3EEBD00680758 /* Assets.xcassets */; };
 		85954B732AB3EEBD00680758 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85954B722AB3EEBD00680758 /* Preview Assets.xcassets */; };
 		85954B7D2AB3EEBD00680758 /* TangerineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954B7C2AB3EEBD00680758 /* TangerineTests.swift */; };
 		85954B872AB3EEBD00680758 /* TangerineUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954B862AB3EEBD00680758 /* TangerineUITests.swift */; };
 		85954B892AB3EEBD00680758 /* TangerineUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954B882AB3EEBD00680758 /* TangerineUITestsLaunchTests.swift */; };
+		85954B982AB3F56600680758 /* TabRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954B972AB3F56600680758 /* TabRoot.swift */; };
+		85954B9B2AB3FF3700680758 /* ListingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954B9A2AB3FF3700680758 /* ListingScreen.swift */; };
+		85954B9F2AB3FF7300680758 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954B9E2AB3FF7300680758 /* API.swift */; };
+		85954BA32AB404E000680758 /* Fetchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954BA22AB404E000680758 /* Fetchable.swift */; };
+		85954BA52AB404F600680758 /* FetchInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954BA42AB404F600680758 /* FetchInstance.swift */; };
+		85954BA72AB4051300680758 /* FetchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954BA62AB4051300680758 /* FetchView.swift */; };
+		85954BA92AB4054800680758 /* FetchInstanceCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954BA82AB4054800680758 /* FetchInstanceCache.swift */; };
+		85954BAC2AB405B600680758 /* TangerineError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954BAB2AB405B600680758 /* TangerineError.swift */; };
+		85954BAF2AB4070F00680758 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 85954BAE2AB4070F00680758 /* SwiftSoup */; };
+		85954BB12AB4074900680758 /* FetchBrowseListing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954BB02AB4074900680758 /* FetchBrowseListing.swift */; };
+		85954BB42AB407F700680758 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954BB32AB407F700680758 /* Item.swift */; };
+		85954BB62AB408CB00680758 /* API+fetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954BB52AB408CB00680758 /* API+fetch.swift */; };
+		85954BB82AB408FC00680758 /* URLResponse+http.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954BB72AB408FC00680758 /* URLResponse+http.swift */; };
+		85954BBA2AB4091400680758 /* Bundle+appInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954BB92AB4091400680758 /* Bundle+appInfo.swift */; };
+		85954BBC2AB409BD00680758 /* Logger+init.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954BBB2AB409BD00680758 /* Logger+init.swift */; };
+		85954BBE2AB40FF100680758 /* ListingTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954BBD2AB40FF100680758 /* ListingTab.swift */; };
+		85954BC12AB4178000680758 /* ItemRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954BC02AB4178000680758 /* ItemRow.swift */; };
+		85954BC32AB41ACE00680758 /* CGFloat+constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954BC22AB41ACE00680758 /* CGFloat+constants.swift */; };
+		85954BC52AB41DBA00680758 /* Parse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954BC42AB41DBA00680758 /* Parse.swift */; };
+		85954BC72AB421C100680758 /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954BC62AB421C100680758 /* Formatter.swift */; };
+		85954BC92AB42BC100680758 /* ExternalLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954BC82AB42BC100680758 /* ExternalLink.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,9 +60,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8501F0DC2AB4306C0046AA3C /* SelectableText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectableText.swift; sourceTree = "<group>"; };
+		8501F0DE2AB431650046AA3C /* ItemScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemScreen.swift; sourceTree = "<group>"; };
+		8501F0E02AB437A30046AA3C /* View+if.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+if.swift"; sourceTree = "<group>"; };
+		8501F0E22AB44C740046AA3C /* CopyLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyLink.swift; sourceTree = "<group>"; };
+		853B506F2AB44CEA00C2B611 /* OpenLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenLink.swift; sourceTree = "<group>"; };
+		853B50712AB52E9700C2B611 /* Haptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptics.swift; sourceTree = "<group>"; };
 		85954B682AB3EEBC00680758 /* Tangerine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tangerine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		85954B6B2AB3EEBC00680758 /* TangerineApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TangerineApp.swift; sourceTree = "<group>"; };
-		85954B6D2AB3EEBC00680758 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		85954B6F2AB3EEBD00680758 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		85954B722AB3EEBD00680758 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		85954B782AB3EEBD00680758 /* TangerineTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TangerineTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -44,6 +75,26 @@
 		85954B822AB3EEBD00680758 /* TangerineUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TangerineUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		85954B862AB3EEBD00680758 /* TangerineUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TangerineUITests.swift; sourceTree = "<group>"; };
 		85954B882AB3EEBD00680758 /* TangerineUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TangerineUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		85954B972AB3F56600680758 /* TabRoot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabRoot.swift; sourceTree = "<group>"; };
+		85954B9A2AB3FF3700680758 /* ListingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingScreen.swift; sourceTree = "<group>"; };
+		85954B9E2AB3FF7300680758 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		85954BA22AB404E000680758 /* Fetchable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fetchable.swift; sourceTree = "<group>"; };
+		85954BA42AB404F600680758 /* FetchInstance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchInstance.swift; sourceTree = "<group>"; };
+		85954BA62AB4051300680758 /* FetchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchView.swift; sourceTree = "<group>"; };
+		85954BA82AB4054800680758 /* FetchInstanceCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchInstanceCache.swift; sourceTree = "<group>"; };
+		85954BAB2AB405B600680758 /* TangerineError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TangerineError.swift; sourceTree = "<group>"; };
+		85954BB02AB4074900680758 /* FetchBrowseListing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchBrowseListing.swift; sourceTree = "<group>"; };
+		85954BB32AB407F700680758 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		85954BB52AB408CB00680758 /* API+fetch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "API+fetch.swift"; sourceTree = "<group>"; };
+		85954BB72AB408FC00680758 /* URLResponse+http.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLResponse+http.swift"; sourceTree = "<group>"; };
+		85954BB92AB4091400680758 /* Bundle+appInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+appInfo.swift"; sourceTree = "<group>"; };
+		85954BBB2AB409BD00680758 /* Logger+init.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Logger+init.swift"; sourceTree = "<group>"; };
+		85954BBD2AB40FF100680758 /* ListingTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingTab.swift; sourceTree = "<group>"; };
+		85954BC02AB4178000680758 /* ItemRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemRow.swift; sourceTree = "<group>"; };
+		85954BC22AB41ACE00680758 /* CGFloat+constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+constants.swift"; sourceTree = "<group>"; };
+		85954BC42AB41DBA00680758 /* Parse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parse.swift; sourceTree = "<group>"; };
+		85954BC62AB421C100680758 /* Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
+		85954BC82AB42BC100680758 /* ExternalLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalLink.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +102,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85954BAF2AB4070F00680758 /* SwiftSoup in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,8 +146,10 @@
 		85954B6A2AB3EEBC00680758 /* Tangerine */ = {
 			isa = PBXGroup;
 			children = (
+				85954BAA2AB405AE00680758 /* Util */,
+				85954BA12AB404D500680758 /* Data */,
+				85954B952AB3F55500680758 /* Views */,
 				85954B6B2AB3EEBC00680758 /* TangerineApp.swift */,
-				85954B6D2AB3EEBC00680758 /* ContentView.swift */,
 				85954B6F2AB3EEBD00680758 /* Assets.xcassets */,
 				85954B712AB3EEBD00680758 /* Preview Content */,
 			);
@@ -127,6 +181,109 @@
 			path = TangerineUITests;
 			sourceTree = "<group>";
 		};
+		85954B952AB3F55500680758 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				85954BBF2AB4122D00680758 /* Item */,
+				85954B992AB3FF2E00680758 /* Listing */,
+				85954B962AB3F55C00680758 /* Root */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		85954B962AB3F55C00680758 /* Root */ = {
+			isa = PBXGroup;
+			children = (
+				85954B972AB3F56600680758 /* TabRoot.swift */,
+			);
+			path = Root;
+			sourceTree = "<group>";
+		};
+		85954B992AB3FF2E00680758 /* Listing */ = {
+			isa = PBXGroup;
+			children = (
+				85954B9A2AB3FF3700680758 /* ListingScreen.swift */,
+				85954BBD2AB40FF100680758 /* ListingTab.swift */,
+			);
+			path = Listing;
+			sourceTree = "<group>";
+		};
+		85954B9C2AB3FF6800680758 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				85954BB22AB407EE00680758 /* Item */,
+				85954B9D2AB3FF6D00680758 /* Listing */,
+				85954B9E2AB3FF7300680758 /* API.swift */,
+				85954BB52AB408CB00680758 /* API+fetch.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		85954B9D2AB3FF6D00680758 /* Listing */ = {
+			isa = PBXGroup;
+			children = (
+				85954BB02AB4074900680758 /* FetchBrowseListing.swift */,
+			);
+			path = Listing;
+			sourceTree = "<group>";
+		};
+		85954BA02AB404CF00680758 /* Fetchable */ = {
+			isa = PBXGroup;
+			children = (
+				85954BA22AB404E000680758 /* Fetchable.swift */,
+				85954BA42AB404F600680758 /* FetchInstance.swift */,
+				85954BA62AB4051300680758 /* FetchView.swift */,
+				85954BA82AB4054800680758 /* FetchInstanceCache.swift */,
+			);
+			path = Fetchable;
+			sourceTree = "<group>";
+		};
+		85954BA12AB404D500680758 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				85954B9C2AB3FF6800680758 /* API */,
+				85954BA02AB404CF00680758 /* Fetchable */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		85954BAA2AB405AE00680758 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				85954BAB2AB405B600680758 /* TangerineError.swift */,
+				85954BB72AB408FC00680758 /* URLResponse+http.swift */,
+				85954BB92AB4091400680758 /* Bundle+appInfo.swift */,
+				85954BBB2AB409BD00680758 /* Logger+init.swift */,
+				85954BC22AB41ACE00680758 /* CGFloat+constants.swift */,
+				85954BC42AB41DBA00680758 /* Parse.swift */,
+				85954BC62AB421C100680758 /* Formatter.swift */,
+				85954BC82AB42BC100680758 /* ExternalLink.swift */,
+				8501F0DC2AB4306C0046AA3C /* SelectableText.swift */,
+				8501F0E02AB437A30046AA3C /* View+if.swift */,
+				8501F0E22AB44C740046AA3C /* CopyLink.swift */,
+				853B506F2AB44CEA00C2B611 /* OpenLink.swift */,
+				853B50712AB52E9700C2B611 /* Haptics.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
+		85954BB22AB407EE00680758 /* Item */ = {
+			isa = PBXGroup;
+			children = (
+				85954BB32AB407F700680758 /* Item.swift */,
+			);
+			path = Item;
+			sourceTree = "<group>";
+		};
+		85954BBF2AB4122D00680758 /* Item */ = {
+			isa = PBXGroup;
+			children = (
+				85954BC02AB4178000680758 /* ItemRow.swift */,
+				8501F0DE2AB431650046AA3C /* ItemScreen.swift */,
+			);
+			path = Item;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -143,6 +300,9 @@
 			dependencies = (
 			);
 			name = Tangerine;
+			packageProductDependencies = (
+				85954BAE2AB4070F00680758 /* SwiftSoup */,
+			);
 			productName = Tangerine;
 			productReference = 85954B682AB3EEBC00680758 /* Tangerine.app */;
 			productType = "com.apple.product-type.application";
@@ -215,6 +375,9 @@
 				Base,
 			);
 			mainGroup = 85954B5F2AB3EEBB00680758;
+			packageReferences = (
+				85954BAD2AB4070F00680758 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
+			);
 			productRefGroup = 85954B692AB3EEBC00680758 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -257,8 +420,33 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				85954B6E2AB3EEBC00680758 /* ContentView.swift in Sources */,
+				85954BA72AB4051300680758 /* FetchView.swift in Sources */,
+				85954BC12AB4178000680758 /* ItemRow.swift in Sources */,
+				85954BC72AB421C100680758 /* Formatter.swift in Sources */,
+				85954BC52AB41DBA00680758 /* Parse.swift in Sources */,
+				85954B982AB3F56600680758 /* TabRoot.swift in Sources */,
+				8501F0E12AB437A30046AA3C /* View+if.swift in Sources */,
+				85954B9F2AB3FF7300680758 /* API.swift in Sources */,
+				85954B9B2AB3FF3700680758 /* ListingScreen.swift in Sources */,
+				85954BA52AB404F600680758 /* FetchInstance.swift in Sources */,
+				853B50722AB52E9700C2B611 /* Haptics.swift in Sources */,
+				85954BB62AB408CB00680758 /* API+fetch.swift in Sources */,
+				85954BB82AB408FC00680758 /* URLResponse+http.swift in Sources */,
+				85954BA32AB404E000680758 /* Fetchable.swift in Sources */,
+				85954BB42AB407F700680758 /* Item.swift in Sources */,
+				85954BA92AB4054800680758 /* FetchInstanceCache.swift in Sources */,
+				85954BAC2AB405B600680758 /* TangerineError.swift in Sources */,
+				8501F0DD2AB4306C0046AA3C /* SelectableText.swift in Sources */,
+				85954BC92AB42BC100680758 /* ExternalLink.swift in Sources */,
+				85954BC32AB41ACE00680758 /* CGFloat+constants.swift in Sources */,
+				85954BBC2AB409BD00680758 /* Logger+init.swift in Sources */,
+				85954BBE2AB40FF100680758 /* ListingTab.swift in Sources */,
+				85954BBA2AB4091400680758 /* Bundle+appInfo.swift in Sources */,
+				8501F0DF2AB431650046AA3C /* ItemScreen.swift in Sources */,
+				8501F0E32AB44C740046AA3C /* CopyLink.swift in Sources */,
+				853B50702AB44CEA00C2B611 /* OpenLink.swift in Sources */,
 				85954B6C2AB3EEBC00680758 /* TangerineApp.swift in Sources */,
+				85954BB12AB4074900680758 /* FetchBrowseListing.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -425,6 +613,7 @@
 				DEVELOPMENT_TEAM = HRM88D6372;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.reference";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -435,11 +624,15 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.forestkatsch.Tangerine;
+				PRODUCT_BUNDLE_IDENTIFIER = com.forestkatsch.tangerine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,7";
 			};
 			name = Debug;
 		};
@@ -454,6 +647,7 @@
 				DEVELOPMENT_TEAM = HRM88D6372;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.reference";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -464,11 +658,15 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.forestkatsch.Tangerine;
+				PRODUCT_BUNDLE_IDENTIFIER = com.forestkatsch.tangerine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,7";
 			};
 			name = Release;
 		};
@@ -588,6 +786,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		85954BAD2AB4070F00680758 /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scinfu/SwiftSoup.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.6.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		85954BAE2AB4070F00680758 /* SwiftSoup */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 85954BAD2AB4070F00680758 /* XCRemoteSwiftPackageReference "SwiftSoup" */;
+			productName = SwiftSoup;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 85954B602AB3EEBB00680758 /* Project object */;
 }
