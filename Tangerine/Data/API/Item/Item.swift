@@ -6,8 +6,29 @@
 //
 
 import Foundation
+import SwiftUI
 
-struct Item: Identifiable, Hashable {
+class Item: Identifiable, Hashable {
+    init(id: String, title: String? = nil, link: URL? = nil, text: String? = nil, score: Int? = nil, authorId: String? = nil, postedDate: Date? = nil, commentCount: Int? = nil, kind: Item.Kind? = nil) {
+        self.id = id
+        self.title = title
+        self.link = link
+        self.text = text
+        self.score = score
+        self.authorId = authorId
+        self.postedDate = postedDate
+        self.commentCount = commentCount
+        self.kind = kind
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+
+    static func == (a: Item, b: Item) -> Bool {
+        a.id == b.id
+    }
+
     var id: String
     var title: String?
 

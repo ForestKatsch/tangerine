@@ -78,10 +78,6 @@ struct ItemRow: View {
                 if let kind = item.kind {
                     Image(systemName: kind.systemImage)
                 }
-                Spacer()
-                if let date = item.postedDate {
-                    Text(date.formatted(.relative(presentation: .named)))
-                }
             }
         } else {
             HStack(spacing: .spacingMedium) {
@@ -114,7 +110,9 @@ struct ItemRow: View {
                     linkContentsView
                 }
                 .buttonStyle(.borderless)
-                .foregroundStyle(.accent)
+                #if os(iOS)
+                    .foregroundStyle(.secondary)
+                #endif
             } else {
                 linkContentsView
             }
@@ -126,13 +124,15 @@ struct ItemRow: View {
             // Title should NEVER be missing, so if it's empty, that's fine.
             Text(item.title ?? "")
                 .font(.headline.weight(.medium))
-            HStack {
-                linkView
-                Spacer()
-                postedDateView
-                    .foregroundStyle(.secondary)
+            if item.link != nil {
+                HStack {
+                    linkView
+                    Spacer()
+                    postedDateView
+                        .foregroundStyle(.secondary)
+                }
+                .font(.footnote)
             }
-            .font(.footnote)
             sublineView
                 .font(.footnote)
                 .foregroundStyle(.secondary)
@@ -150,6 +150,9 @@ struct ItemRow: View {
                  Label("Hide", systemImage: "eye.slash")
              }
               */
+            #if os(macOS)
+                CopyLink(destination: item.hnUrl, label: "Copy comments link")
+            #endif
             ShareLink(item: item.hnUrl)
             if let url = item.link {
                 Section(Formatter.format(urlWithoutPrefix: url)) {

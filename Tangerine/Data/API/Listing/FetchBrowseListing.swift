@@ -51,7 +51,7 @@ extension Item {
         var items: [Item] = []
 
         for element in itemElements.array() {
-            var item = Item(id: element.id())
+            let item = Item(id: element.id())
 
             item.kind = type == .jobs ? .job : .normal
 

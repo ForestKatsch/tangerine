@@ -11,7 +11,7 @@ import SwiftUI
 struct TangerineApp: App {
     var body: some Scene {
         WindowGroup {
-            TabRoot()
+            WindowRoot()
         }
     }
 }

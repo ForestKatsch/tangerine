@@ -7,12 +7,10 @@
 
 import SwiftUI
 
-#if os(visionOS)
+#if os(visionOS) || os(macOS)
     private let nativeTitle = true
-    private let scoreButtonHeight: CGFloat = 44
 #else
     private let nativeTitle = false
-    private let scoreButtonHeight: CGFloat = 20
 #endif
 
 struct ScoreButton<Content: View>: View {
@@ -28,13 +26,17 @@ struct ScoreButton<Content: View>: View {
 
     var labelView: some View {
         Button(action: {
-            withAnimation { isVoted.toggle() }
+            withAnimation {
+                isVoted.toggle()
+            }
 
             Haptics.impact()
         }) {
             label()
                 .fixedSize()
-                .frame(height: scoreButtonHeight)
+            #if os(iOS)
+                .frame(minHeight: 25)
+            #endif
         }
     }
 
@@ -71,12 +73,11 @@ struct ScoreView: View {
             ScoreButton(isVoted: $votedUp) {
                 Label(score.formatted(), systemImage: "arrow.up")
             }
-            /*
-             ScoreButton(isVoted: $votedDown) {
-                 Label(score.formatted(), systemImage: "arrow.down")
-                     .labelStyle(.iconOnly)
-             }
-              */
+            // .disabled(true)
+            ScoreButton(isVoted: $votedDown) {
+                Label(score.formatted(), systemImage: "arrow.down")
+                    .labelStyle(.iconOnly)
+            }
         }
     }
 }
@@ -145,6 +146,7 @@ struct ItemScreen: View {
         if let date = item.postedDate {
             Text(date.formatted(.relative(presentation: .named)))
                 .foregroundStyle(.secondary)
+                .help(date.formatted())
         }
     }
 
@@ -201,6 +203,9 @@ struct ItemScreen: View {
                 headerView
                     .padding(.bottom)
                     .padding(.horizontal, .spacingHorizontal)
+                #if os(macOS)
+                    .padding(.top)
+                #endif
                 ZStack(alignment: .center) {
                     commentsView
                         .fixedSize(horizontal: false, vertical: /*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/)
@@ -216,7 +221,7 @@ struct ItemScreen: View {
             }
         }
         .navigationTitle(nativeTitle ? title : "")
-        #if !os(visionOS)
+        #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
         #endif
     }

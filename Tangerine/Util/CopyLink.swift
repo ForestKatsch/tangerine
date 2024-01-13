@@ -17,9 +17,15 @@ struct CopyLink: View {
     }
 
     var body: some View {
-        Button(action: { UIPasteboard.general.url = url }) {
+        Button(action: copy) {
             Label(label ?? "Copy", systemImage: "doc.on.doc")
         }
+    }
+
+    func copy() {
+        #if canImport(UIKit)
+            UIPasteboard.general.url = url
+        #endif
     }
 }
 

@@ -23,6 +23,7 @@ struct ListingTab: View {
     var body: some View {
         NavigationSplitView(columnVisibility: $visibility, preferredCompactColumn: $column) {
             ListingScreen(selected: $item, initial: $initial)
+                .navigationSplitViewColumnWidth(min: 300, ideal: 500)
         } detail: {
             NavigationStack {
                 if let item {

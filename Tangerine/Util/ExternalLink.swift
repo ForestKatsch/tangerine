@@ -8,18 +8,24 @@
 import Foundation
 import SafariServices
 import SwiftUI
-import UIKit
 
-extension UIApplication {
-    var firstKeyWindow: UIWindow? {
-        return UIApplication.shared.connectedScenes
-            .compactMap { $0 as? UIWindowScene }
-            .filter { $0.activationState == .foregroundActive }
-            .first?.keyWindow
+#if canImport(UIKit)
+    import UIKit
+
+    extension UIApplication {
+        var firstKeyWindow: UIWindow? {
+            return UIApplication.shared.connectedScenes
+                .compactMap { $0 as? UIWindowScene }
+                .filter { $0.activationState == .foregroundActive }
+                .first?.keyWindow
+        }
     }
-}
+#endif
 
 struct ExternalLink<Content: View>: View {
+    @Environment(\.isFocused)
+    var isFocused
+
     var url: URL
 
     @ViewBuilder
@@ -32,8 +38,10 @@ struct ExternalLink<Content: View>: View {
 
     var safariView: some View {
         Button(action: {
-            let vc = SFSafariViewController(url: url)
-            UIApplication.shared.firstKeyWindow?.rootViewController?.present(vc, animated: true)
+            #if !os(macOS)
+                let vc = SFSafariViewController(url: url)
+                UIApplication.shared.firstKeyWindow?.rootViewController?.present(vc, animated: true)
+            #endif
         }) {
             label()
         }
@@ -50,7 +58,7 @@ struct ExternalLink<Content: View>: View {
     }
 
     var wrapperView: some View {
-        #if os(visionOS)
+        #if os(visionOS) || os(macOS)
             linkView
         #else
             automaticView
@@ -59,12 +67,16 @@ struct ExternalLink<Content: View>: View {
 
     var body: some View {
         wrapperView
-            .buttonStyle(.plain)
-            .foregroundStyle(.accent)
-            .contextMenu {
-                OpenLink(destination: url)
-                CopyLink(destination: url)
-                ShareLink(item: url)
-            }
+        #if os(visionOS)
+        .buttonStyle(.bordered)
+        #elseif os(iOS)
+        .foregroundStyle(.accent)
+        .buttonStyle(.plain)
+        #endif
+        .contextMenu {
+            OpenLink(destination: url)
+            CopyLink(destination: url)
+            ShareLink(item: url)
+        }
     }
 }

@@ -61,32 +61,33 @@ struct ListingScreen: View {
     var type = API.ListingType.news
 
     @Binding
-    var selectedItem: Item?
+    var selected: Item?
 
     @Binding
     var initial: Item?
 
     init(selected item: Binding<Item?>, initial: Binding<Item?>) {
-        self._selectedItem = item
+        self._selected = item
         self._initial = initial
     }
 
     var body: some View {
         FetchView(FetchBrowseListing(type: type)) { items in
-            List(selection: $selectedItem) {
-                ForEach(items, id: \.self) { item in
+            List(selection: $selected) {
+                ForEach(items, id: \.id) { item in
                     ItemRow(item: item)
+                        .tag(item)
                 }
             }
             .onAppear {
                 initial = items[0]
             }
             #if os(iOS)
-            .listStyle(.plain)
+            .listStyle(.inset)
             #endif
         }
         .toolbar {
-            ToolbarItem {
+            ToolbarItem(placement: .primaryAction) {
                 ListingTypePicker($type)
                 #if os(visionOS) || os(macOS)
                     .labelStyle(.titleAndIcon)
@@ -99,9 +100,9 @@ struct ListingScreen: View {
 
 #Preview {
     @State
-    var selectedItem: Item? = nil
+    var selected: Item? = nil
 
     return NavigationStack {
-        ListingScreen(selected: $selectedItem, initial: Binding(get: { nil }, set: { _, _ in }))
+        ListingScreen(selected: $selected, initial: Binding(get: { nil }, set: { _, _ in }))
     }
 }
