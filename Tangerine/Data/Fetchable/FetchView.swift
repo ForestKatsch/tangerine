@@ -82,9 +82,7 @@ struct FetchView<Request: Fetchable, Content: View>: View {
                 instance.onDisappear()
             }
             .refreshable {
-                print("fetchstart")
                 try? await instance.fetchImmediate()
-                print("fetchdone")
             }
     }
 }

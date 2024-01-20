@@ -44,7 +44,6 @@ extension API {
         l.trace("\(request.httpMethod ?? "??") \(request.url?.absoluteString ?? "??")")
 
         do {
-            print("start")
             let (data, response) = try await URLSession.shared.data(for: request)
 
             try await Task.sleep(nanoseconds: 1_000_000_000)
@@ -54,7 +53,6 @@ extension API {
             }
 
             if httpResponse.isSuccessful {
-                print("end")
                 return (data, httpResponse)
             }
 

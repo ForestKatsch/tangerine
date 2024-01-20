@@ -25,28 +25,32 @@ struct ListingTab: View {
                 .navigationSplitViewColumnWidth(min: 200, ideal: 300)
             #endif
         } detail: {
-//            InfiniteFetchView(FetchBrowseListing(type: type)) { data in
-            NavigationStack {
-                if let item {
-                    ItemScreen(item)
-                } else {
-                    ProgressView()
+            InfiniteFetchView(FetchBrowseListing(type: type)) { data, _, _ in
+                NavigationStack {
+                    if let item {
+                        ItemScreen(item)
+                    } else {
+                        ProgressView()
+                    }
                 }
-            }
-            /*
                 .onAppear {
-                    if data[0].isPlaceholder {
+                    if data.isEmpty || data[0].isEmpty {
+                        return
+                    }
+
+                    let first = data[0][0]
+
+                    if first.isPlaceholder {
                         return
                     }
                     #if os(macOS)
-                        item = data[0]
+                        item = first
                     #endif
                     if horizontalSizeClass == .regular {
-                        item = data[0]
+                        item = first
                     }
                 }
-             */
-//            }
+            }
         }
         #if os(iOS)
         .introspect(.navigationSplitView, on: .iOS(.v17)) { navigationController in
