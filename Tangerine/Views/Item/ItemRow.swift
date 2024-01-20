@@ -13,11 +13,13 @@ struct ItemRow: View {
 
     var item: Item
 
+    var selected: Bool = false
+
     var tappableItemsInList: Bool {
         #if os(visionOS)
             return false
         #endif
-        return horizontalSizeClass == .compact
+        return horizontalSizeClass == .compact && !selected
     }
 
     @ViewBuilder
@@ -96,13 +98,7 @@ struct ItemRow: View {
     @ViewBuilder
     var linkContentsView: some View {
         if let url = item.link {
-            HStack(spacing: .spacingSmall) {
-                if tappableItemsInList {
-                    Image(systemName: "link")
-                        .imageScale(.small)
-                }
-                Text(Formatter.format(urlHost: url))
-            }
+            Text(Formatter.format(urlHost: url))
         }
     }
 

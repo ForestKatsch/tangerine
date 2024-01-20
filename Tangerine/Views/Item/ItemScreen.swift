@@ -58,9 +58,7 @@ struct ItemScreen: View {
 
     @ViewBuilder
     var scoreView: some View {
-        if let score = item.score {
-            ScoreView(score: score)
-        }
+        PostScoreView(post: item)
     }
 
     @ViewBuilder
@@ -153,7 +151,6 @@ struct ItemScreen: View {
         #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
         #endif
-            .memorial()
     }
 }
 

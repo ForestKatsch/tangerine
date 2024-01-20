@@ -8,6 +8,12 @@
 import Foundation
 import SwiftUI
 
+enum Vote {
+    case up
+    case down
+}
+
+@Observable
 class Item: Identifiable, Hashable {
     init(id: String, title: String? = nil, link: URL? = nil, text: String? = nil, score: Int? = nil, authorId: String? = nil, postedDate: Date? = nil, commentCount: Int? = nil, kind: Item.Kind? = nil) {
         self.id = id
@@ -65,6 +71,21 @@ class Item: Identifiable, Hashable {
     }
 
     static var placeholder: Item {
-        Item(id: UUID().uuidString, title: "Show HN: Tangerine for Hacker News open-source iOS app", score: 128, authorId: "zlsa", postedDate: Date(), commentCount: 32, kind: .normal)
+        Item(id: UUID().uuidString, title: "Show HN: Tangerine for Hacker News open-source iOS app", link: URL(string: "https://forestkatsch.com/"), score: 128, authorId: "zlsa", commentCount: 32, kind: .normal)
+    }
+
+    func canVote(_: Vote) {}
+
+    func vote(_ vote: Vote) {
+        if vote == .up {
+            score? += 1
+        } else {
+            score? -= 1
+        }
+        // TODO: upvote/downvote event
+    }
+
+    static func placeholder(list count: Int) -> [Item] {
+        return [Item](repeating: Item.placeholder, count: count)
     }
 }

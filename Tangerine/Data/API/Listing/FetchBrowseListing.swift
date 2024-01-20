@@ -90,6 +90,14 @@ extension Item {
                     l.warning("could not find footer '.age' for item \(item.id)")
                 }
 
+                // If the comment URL and link URL go to the same URL, it's a text post!
+                if let commentUrl = try? footer.select("a[href^=item]").last()?.attr("href") {
+                    if let commentUrl = URL(string: commentUrl, relativeTo: url) {
+                        if commentUrl == item.link {
+                            item.link = nil
+                        }
+                    }
+                }
                 if let commentCountText = try? footer.select("a[href^=item]").last()?.text() {
                     if commentCountText.hasSuffix("discuss") {
                         item.commentCount = 0
@@ -120,7 +128,7 @@ struct FetchBrowseListing: Fetchable {
     typealias T = [Item]
     typealias P = Int
 
-    static var placeholder: [Item]? = nil // Item.placeholder(list: 20)
+    static var placeholder: [Item]? = Item.placeholder(list: 20)
 
     var type: API.ListingType
 

@@ -17,6 +17,7 @@
 		85568B952B5B898D00EA2E20 /* View+memorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85568B942B5B898D00EA2E20 /* View+memorial.swift */; };
 		85568B982B5B8EE600EA2E20 /* BetterSafariView in Frameworks */ = {isa = PBXBuildFile; productRef = 85568B972B5B8EE600EA2E20 /* BetterSafariView */; };
 		85568B9A2B5B91A700EA2E20 /* ScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85568B992B5B91A700EA2E20 /* ScoreView.swift */; };
+		85568B9D2B5B9B4200EA2E20 /* SwiftUIIntrospect in Frameworks */ = {isa = PBXBuildFile; productRef = 85568B9C2B5B9B4200EA2E20 /* SwiftUIIntrospect */; };
 		85954B6C2AB3EEBC00680758 /* TangerineApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954B6B2AB3EEBC00680758 /* TangerineApp.swift */; };
 		85954B702AB3EEBD00680758 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85954B6F2AB3EEBD00680758 /* Assets.xcassets */; };
 		85954B732AB3EEBD00680758 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85954B722AB3EEBD00680758 /* Preview Assets.xcassets */; };
@@ -111,6 +112,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85568B9D2B5B9B4200EA2E20 /* SwiftUIIntrospect in Frameworks */,
 				85954BAF2AB4070F00680758 /* SwiftSoup in Frameworks */,
 				85568B982B5B8EE600EA2E20 /* BetterSafariView in Frameworks */,
 			);
@@ -325,6 +327,7 @@
 			packageProductDependencies = (
 				85954BAE2AB4070F00680758 /* SwiftSoup */,
 				85568B972B5B8EE600EA2E20 /* BetterSafariView */,
+				85568B9C2B5B9B4200EA2E20 /* SwiftUIIntrospect */,
 			);
 			productName = Tangerine;
 			productReference = 85954B682AB3EEBC00680758 /* Tangerine.app */;
@@ -401,6 +404,7 @@
 			packageReferences = (
 				85954BAD2AB4070F00680758 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
 				85568B962B5B8EE600EA2E20 /* XCRemoteSwiftPackageReference "BetterSafariView" */,
+				85568B9B2B5B9B4200EA2E20 /* XCRemoteSwiftPackageReference "swiftui-introspect" */,
 			);
 			productRefGroup = 85954B692AB3EEBC00680758 /* Products */;
 			projectDirPath = "";
@@ -824,6 +828,14 @@
 				kind = branch;
 			};
 		};
+		85568B9B2B5B9B4200EA2E20 /* XCRemoteSwiftPackageReference "swiftui-introspect" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/siteline/swiftui-introspect";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.2;
+			};
+		};
 		85954BAD2AB4070F00680758 /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/scinfu/SwiftSoup.git";
@@ -839,6 +851,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 85568B962B5B8EE600EA2E20 /* XCRemoteSwiftPackageReference "BetterSafariView" */;
 			productName = BetterSafariView;
+		};
+		85568B9C2B5B9B4200EA2E20 /* SwiftUIIntrospect */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 85568B9B2B5B9B4200EA2E20 /* XCRemoteSwiftPackageReference "swiftui-introspect" */;
+			productName = SwiftUIIntrospect;
 		};
 		85954BAE2AB4070F00680758 /* SwiftSoup */ = {
 			isa = XCSwiftPackageProductDependency;

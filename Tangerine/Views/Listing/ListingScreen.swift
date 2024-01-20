@@ -23,6 +23,15 @@ extension API.ListingType {
         }
     }
 
+    var title: LocalizedStringKey {
+        switch self {
+        case .news:
+            return "HN"
+        default:
+            return name
+        }
+    }
+
     var systemImage: String {
         switch self {
         case .news:
@@ -62,53 +71,38 @@ struct ListingTypePicker: View {
 }
 
 struct ListingScreen: View {
-    @State
-    var type = API.ListingType.news
+    @Binding
+    var type: API.ListingType
 
     @Binding
-    var selected: Item?
+    var selection: Item?
 
     var api = API.shared
 
-    init(selected item: Binding<Item?>) {
-        self._selected = item
+    init(type: Binding<API.ListingType>, selection: Binding<Item?>) {
+        self._type = type
+        self._selection = selection
     }
 
     var body: some View {
         FetchView(FetchBrowseListing(type: type)) { items in
-            List(selection: $selected) {
+            List(selection: $selection) {
                 ForEach(items, id: \.id) { item in
-                    ItemRow(item: item)
+                    ItemRow(item: item, selected: selection == item)
                         .tag(item)
                 }
             }
-            .onAppear {
-                if selected == nil {
-                    selected = items[0]
-                }
-            }
-            #if os(iOS)
-            .listStyle(.inset)
-            #endif
         }
+        #if !os(visionOS)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 ListingTypePicker($type)
-                #if os(visionOS) || os(macOS)
+                #if os(macOS)
                     .labelStyle(.titleAndIcon)
                 #endif
             }
         }
-        .navigationTitle("HN")
-        .memorial()
-    }
-}
-
-#Preview {
-    @State
-    var selected: Item? = nil
-
-    return NavigationStack {
-        ListingScreen(selected: $selected)
+        #endif
+        .navigationTitle(type.title)
     }
 }

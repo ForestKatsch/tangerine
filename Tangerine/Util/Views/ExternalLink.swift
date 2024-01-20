@@ -32,7 +32,7 @@ struct ExternalLink<Content: View>: View {
         self.label = label
     }
 
-    #if supportsSafariView
+    #if os(iOS)
         var safariView: some View {
             Button(action: {
                 #if !os(macOS)
@@ -55,7 +55,7 @@ struct ExternalLink<Content: View>: View {
         }
     #else
         var safariView: some View {
-            EmptyView()
+            Text("oh no")
         }
     #endif
 

@@ -57,11 +57,11 @@ struct ScoreButton<Content: View>: View {
 struct ScoreView: View {
     var score: Int
 
-    @State
-    var votedUp: Bool = false
+    @Binding
+    var votedUp: Bool
 
-    @State
-    var votedDown: Bool = false
+    @Binding
+    var votedDown: Bool
 
     var canDown: Bool = false
 
@@ -77,5 +77,24 @@ struct ScoreView: View {
                 }
             }
         }
+    }
+}
+
+struct PostScoreView: View {
+    var post: Item
+
+    @State
+    var votedUp: Bool = false
+
+    @State
+    var votedDown: Bool = false
+
+    var body: some View {
+        ScoreView(score: post.score ?? 0, votedUp: $votedUp, votedDown: $votedDown)
+            .onChange(of: votedUp, initial: true) { voted, _ in
+                if voted {
+                    post.vote(.up)
+                }
+            }
     }
 }
