@@ -13,75 +13,6 @@ import SwiftUI
     private let nativeTitle = false
 #endif
 
-struct ScoreButton<Content: View>: View {
-    var label: () -> Content
-
-    @Binding
-    var isVoted: Bool
-
-    init(isVoted: Binding<Bool>, @ViewBuilder label: @escaping () -> Content) {
-        self._isVoted = isVoted
-        self.label = label
-    }
-
-    var labelView: some View {
-        Button(action: {
-            withAnimation {
-                isVoted.toggle()
-            }
-
-            Haptics.impact()
-        }) {
-            label()
-                .fixedSize()
-            #if os(iOS)
-                .frame(minHeight: 25)
-            #endif
-        }
-    }
-
-    @ViewBuilder
-    var contentView: some View {
-        if isVoted {
-            labelView
-                .buttonStyle(.borderedProminent)
-                .tint(.accent)
-                .foregroundStyle(.white)
-        } else {
-            labelView
-                .foregroundStyle(.primary)
-                .buttonStyle(.bordered)
-        }
-    }
-
-    var body: some View {
-        contentView
-    }
-}
-
-struct ScoreView: View {
-    var score: Int
-
-    @State
-    var votedUp: Bool = false
-
-    @State
-    var votedDown: Bool = false
-
-    var body: some View {
-        HStack(spacing: 2) {
-            ScoreButton(isVoted: $votedUp) {
-                Label(score.formatted(), systemImage: "arrow.up")
-            }
-            // .disabled(true)
-            ScoreButton(isVoted: $votedDown) {
-                Label(score.formatted(), systemImage: "arrow.down")
-                    .labelStyle(.iconOnly)
-            }
-        }
-    }
-}
-
 struct ItemScreen: View {
     var item: Item
 
@@ -192,7 +123,7 @@ struct ItemScreen: View {
         VStack {
             ContentUnavailableView("Comments not implemented yet", systemImage: "exclamationmark.bubble")
             ExternalLink(item.hnUrl) {
-                Label("Open comments in Safari", systemImage: "safari")
+                Label("Browse comments", systemImage: "globe")
             }
         }
     }
@@ -203,9 +134,7 @@ struct ItemScreen: View {
                 headerView
                     .padding(.bottom)
                     .padding(.horizontal, .spacingHorizontal)
-                #if os(macOS)
                     .padding(.top)
-                #endif
                 ZStack(alignment: .center) {
                     commentsView
                         .fixedSize(horizontal: false, vertical: /*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/)
@@ -224,6 +153,7 @@ struct ItemScreen: View {
         #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
         #endif
+            .memorial()
     }
 }
 

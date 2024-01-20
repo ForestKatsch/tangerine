@@ -53,6 +53,11 @@ struct ListingTypePicker: View {
                 Label(type.name, systemImage: type.systemImage).tag(type)
             }
         }
+        #if os(macOS)
+        .labelStyle(.titleOnly)
+        #else
+        .labelStyle(.automatic)
+        #endif
     }
 }
 
@@ -63,12 +68,10 @@ struct ListingScreen: View {
     @Binding
     var selected: Item?
 
-    @Binding
-    var initial: Item?
+    var api = API.shared
 
-    init(selected item: Binding<Item?>, initial: Binding<Item?>) {
+    init(selected item: Binding<Item?>) {
         self._selected = item
-        self._initial = initial
     }
 
     var body: some View {
@@ -80,7 +83,9 @@ struct ListingScreen: View {
                 }
             }
             .onAppear {
-                initial = items[0]
+                if selected == nil {
+                    selected = items[0]
+                }
             }
             #if os(iOS)
             .listStyle(.inset)
@@ -95,6 +100,7 @@ struct ListingScreen: View {
             }
         }
         .navigationTitle("HN")
+        .memorial()
     }
 }
 
@@ -103,6 +109,6 @@ struct ListingScreen: View {
     var selected: Item? = nil
 
     return NavigationStack {
-        ListingScreen(selected: $selected, initial: Binding(get: { nil }, set: { _, _ in }))
+        ListingScreen(selected: $selected)
     }
 }

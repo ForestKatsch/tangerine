@@ -36,6 +36,8 @@ extension API {
 
 extension Item {
     static func parse(fromListingPage document: Document, url: URL? = nil, listingType type: API.ListingType? = nil) throws -> [Item] {
+        try? API.shared.parse(document)
+
         guard let main = try? document.select("#hnmain").first() else {
             throw TangerineError.generic(.cannotParseHtml, context: "#hnmain")
         }

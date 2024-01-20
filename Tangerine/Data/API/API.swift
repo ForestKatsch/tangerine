@@ -6,7 +6,9 @@
 //
 
 import Foundation
+import SwiftUI
 
+@Observable
 class API {
     static let shared = API()
 
@@ -23,4 +25,6 @@ class API {
         case show
         case jobs
     }
+
+    var memorial: Bool = false
 }

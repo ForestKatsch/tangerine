@@ -7,14 +7,18 @@
 
 import SwiftUI
 
-#if os(visionOS)
-    let tappableItemsInList = false
-#else
-    let tappableItemsInList = true
-#endif
-
 struct ItemRow: View {
+    @Environment(\.horizontalSizeClass)
+    var horizontalSizeClass
+
     var item: Item
+
+    var tappableItemsInList: Bool {
+        #if os(visionOS)
+            return false
+        #endif
+        return horizontalSizeClass == .compact
+    }
 
     @ViewBuilder
     var scoreView: some View {
@@ -124,6 +128,7 @@ struct ItemRow: View {
             // Title should NEVER be missing, so if it's empty, that's fine.
             Text(item.title ?? "")
                 .font(.headline.weight(.medium))
+                .lineLimit(2)
             if item.link != nil {
                 HStack {
                     linkView
