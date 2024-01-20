@@ -41,8 +41,8 @@ extension API {
     }
 }
 
-extension Item {
-    static func parse(fromListingPage document: Document, url: URL? = nil, listingType type: API.ListingType? = nil) throws -> [Item] {
+extension Post {
+    static func parse(fromListingPage document: Document, url: URL? = nil, listingType type: API.ListingType? = nil) throws -> [Post] {
         try? API.shared.parse(document)
 
         guard let main = try? document.select("#hnmain").first() else {
@@ -57,85 +57,85 @@ extension Item {
             throw TangerineError.generic(.cannotParseHtml, context: "listing items")
         }
 
-        var items: [Item] = []
+        var posts: [Post] = []
 
         for element in itemElements.array() {
-            let item = Item(id: element.id())
+            let post = Post(id: element.id())
 
-            item.kind = type == .jobs ? .job : .normal
+            post.kind = type == .jobs ? .job : .normal
 
             if let titleLine = try? element.select(".titleline").first() {
                 if let link = try? titleLine.select("a").first() {
                     if let linkUrl = try? link.attr("href") {
-                        item.link = URL(string: linkUrl, relativeTo: url)
+                        post.link = URL(string: linkUrl, relativeTo: url)
                     }
                 }
 
                 if let title = try? titleLine.select("a").first()?.text() {
-                    item.title = title
+                    post.title = title
                 }
             }
 
             if let footer = try? element.nextElementSibling()?.select(".subtext").first() {
                 if let scoreText = try? footer.select(".score").text() {
-                    item.score = Parse.int(scoreText)
+                    post.score = Parse.int(scoreText)
                 } else {
-                    l.warning("could not find footer '.score' for item \(item.id)")
+                    l.warning("could not find footer '.score' for post \(post.id)")
                 }
 
                 if let authorText = try? footer.select(".hnuser").text() {
-                    item.authorId = authorText
+                    post.authorId = authorText
                 } else {
-                    l.warning("could not find footer '.hnuser' for item \(item.id)")
+                    l.warning("could not find footer '.hnuser' for post \(post.id)")
                 }
 
                 if let age = try? footer.select(".age").first() {
                     if let postedDate = try? age.attr("title") {
-                        item.postedDate = Parse.date(fromSubline: postedDate)
+                        post.postedDate = Parse.date(fromSubline: postedDate)
                     }
                 } else {
-                    l.warning("could not find footer '.age' for item \(item.id)")
+                    l.warning("could not find footer '.age' for post \(post.id)")
                 }
 
                 // If the comment URL and link URL go to the same URL, it's a text post!
                 if let commentUrl = try? footer.select("a[href^=item]").last()?.attr("href") {
                     if let commentUrl = URL(string: commentUrl, relativeTo: url) {
-                        if commentUrl == item.link {
-                            item.link = nil
+                        if commentUrl == post.link {
+                            post.link = nil
                         }
                     }
                 }
                 if let commentCountText = try? footer.select("a[href^=item]").last()?.text() {
                     if commentCountText.hasSuffix("discuss") {
-                        item.commentCount = 0
+                        post.commentCount = 0
                     } else if commentCountText.hasSuffix("comment") || commentCountText.hasSuffix("comments") {
-                        item.commentCount = Parse.int(commentCountText)
+                        post.commentCount = Parse.int(commentCountText)
                     }
                 } else {
-                    l.warning("could not find footer '.score' for item \(item.id)")
+                    l.warning("could not find footer '.score' for post \(post.id)")
                 }
 
                 if let hideElement = try? footer.select("a[href^=hide]").first() {
                     if (try? hideElement.nextElementSibling()) == nil {
-                        item.kind = .job
+                        post.kind = .job
                     }
                 }
             } else {
-                l.warning("could not find sibling '.subtext' for item \(item.id) - most fields will be nil")
+                l.warning("could not find sibling '.subtext' for post \(post.id) - most fields will be nil")
             }
 
-            items.append(item)
+            posts.append(post)
         }
 
-        return items
+        return posts
     }
 }
 
 struct FetchBrowseListing: InfiniteFetchable {
-    typealias T = [Item]
+    typealias T = [Post]
     typealias P = Int
 
-    static var placeholder: [Item]? = Item.placeholder(list: 20)
+    static var placeholder: [Post]? = Post.placeholder(list: 20)
 
     var type: API.ListingType
 
@@ -143,7 +143,7 @@ struct FetchBrowseListing: InfiniteFetchable {
         self.type = type
     }
 
-    func fetch(page: Int?) async throws -> ([Item], Int) {
+    func fetch(page: Int?) async throws -> ([Post], Int) {
         guard let url = API.urlFor(listingType: type, page: page) else {
             throw TangerineError.generic(.cannotCreateUrl)
         }
@@ -151,7 +151,7 @@ struct FetchBrowseListing: InfiniteFetchable {
         let request = URLRequest(url: url)
 
         return try (
-            Item.parse(fromListingPage: await API.shared.fetchHTML(for: request), url: url, listingType: type),
+            Post.parse(fromListingPage: await API.shared.fetchHTML(for: request), url: url, listingType: type),
             (page ?? 0) + 1
         )
     }

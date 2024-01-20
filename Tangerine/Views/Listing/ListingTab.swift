@@ -16,19 +16,19 @@ struct ListingTab: View {
     var type: API.ListingType = .news
 
     @State
-    private var item: Item?
+    private var post: Post?
 
     var body: some View {
         NavigationSplitView {
-            ListingScreen(type: $type, selection: $item)
+            ListingScreen(type: $type, selection: $post)
             #if os(macOS)
                 .navigationSplitViewColumnWidth(min: 200, ideal: 300)
             #endif
         } detail: {
             InfiniteFetchView(FetchBrowseListing(type: type)) { data, _, _ in
                 NavigationStack {
-                    if let item {
-                        ItemScreen(item)
+                    if let post {
+                        PostScreen(post)
                     } else {
                         ProgressView()
                     }
@@ -44,10 +44,10 @@ struct ListingTab: View {
                         return
                     }
                     #if os(macOS)
-                        item = first
+                        post = first
                     #endif
                     if horizontalSizeClass == .regular {
-                        item = first
+                        post = first
                     }
                 }
             }

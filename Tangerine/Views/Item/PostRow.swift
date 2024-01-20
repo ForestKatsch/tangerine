@@ -1,5 +1,5 @@
 //
-//  ItemRow.swift
+//  PostRow.swift
 //  Tangerine
 //
 //  Created by Forest Katsch on 9/14/23.
@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-struct ItemRow: View {
+struct PostRow: View {
     @Environment(\.horizontalSizeClass)
     var horizontalSizeClass
 
-    var item: Item
+    var post: Post
 
     var selected: Bool = false
 
@@ -24,7 +24,7 @@ struct ItemRow: View {
 
     @ViewBuilder
     var scoreView: some View {
-        if let score = item.score {
+        if let score = post.score {
             HStack(spacing: .spacingSmall) {
                 Image(systemName: "arrow.up")
                 Text(Formatter.format(intToAbbreviation: score))
@@ -34,7 +34,7 @@ struct ItemRow: View {
 
     @ViewBuilder
     var authorContents: some View {
-        if let authorId = item.authorId {
+        if let authorId = post.authorId {
             HStack(spacing: .spacingSmall) {
                 Image(systemName: "person.fill")
                     .imageScale(.small)
@@ -48,7 +48,7 @@ struct ItemRow: View {
 
     @ViewBuilder
     var authorView: some View {
-        if item.authorId != nil {
+        if post.authorId != nil {
             if tappableItemsInList {
                 Button(action: {}) {
                     authorContents
@@ -62,7 +62,7 @@ struct ItemRow: View {
 
     @ViewBuilder
     var commentCountView: some View {
-        if let commentCount = item.commentCount {
+        if let commentCount = post.commentCount {
             HStack(spacing: .spacingSmall) {
                 Image(systemName: "text.bubble")
                 Text(Formatter.format(intToAbbreviation: commentCount))
@@ -72,16 +72,16 @@ struct ItemRow: View {
 
     @ViewBuilder
     var postedDateView: some View {
-        if let date = item.postedDate {
+        if let date = post.postedDate {
             Text(date.formatted(.relative(presentation: .named)))
         }
     }
 
     @ViewBuilder
     var sublineView: some View {
-        if item.kind != .normal {
+        if post.kind != .normal {
             HStack {
-                if let kind = item.kind {
+                if let kind = post.kind {
                     Image(systemName: kind.systemImage)
                 }
             }
@@ -97,14 +97,14 @@ struct ItemRow: View {
 
     @ViewBuilder
     var linkContentsView: some View {
-        if let url = item.link {
+        if let url = post.link {
             Text(Formatter.format(urlHost: url))
         }
     }
 
     @ViewBuilder
     var linkView: some View {
-        if let url = item.link {
+        if let url = post.link {
             if tappableItemsInList {
                 ExternalLink(url) {
                     linkContentsView
@@ -122,10 +122,10 @@ struct ItemRow: View {
     var body: some View {
         VStack(alignment: .leading, spacing: .spacingSmall) {
             // Title should NEVER be missing, so if it's empty, that's fine.
-            Text(item.title ?? "")
+            Text(post.title ?? "")
                 .font(.headline.weight(.medium))
                 .lineLimit(2)
-            if item.link != nil {
+            if post.link != nil {
                 HStack {
                     linkView
                     Spacer()
@@ -153,10 +153,10 @@ struct ItemRow: View {
              }
               */
             #if os(macOS)
-                CopyLink(destination: item.hnUrl, label: "Copy HN link")
+                CopyLink(destination: post.hnUrl, label: "Copy HN link")
             #endif
-            ShareLink(item: item.hnUrl)
-            if let url = item.link {
+            ShareLink(item: post.hnUrl)
+            if let url = post.link {
                 Section(Formatter.format(urlWithoutPrefix: url)) {
                     OpenLink(destination: url)
                     ShareLink(item: url) {
@@ -169,5 +169,5 @@ struct ItemRow: View {
 }
 
 #Preview {
-    ItemRow(item: .placeholder)
+    PostRow(post: .placeholder)
 }

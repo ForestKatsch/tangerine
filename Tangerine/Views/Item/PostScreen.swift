@@ -1,5 +1,5 @@
 //
-//  ItemScreen.swift
+//  PostScreen.swift
 //  Tangerine
 //
 //  Created by Forest Katsch on 9/14/23.
@@ -13,28 +13,28 @@ import SwiftUI
     private let nativeTitle = false
 #endif
 
-struct ItemScreen: View {
-    var item: Item
+struct PostScreen: View {
+    var post: Post
 
-    init(_ item: Item) {
-        self.item = item
+    init(_ post: Post) {
+        self.post = post
     }
 
     var title: LocalizedStringKey {
-        if let title = item.title {
+        if let title = post.title {
             return "\(title)"
         }
 
-        if let commentCount = item.commentCount {
+        if let commentCount = post.commentCount {
             return "\(commentCount, format: .number) comments"
         }
 
-        return "\(item.id)"
+        return "\(post.id)"
     }
 
     @ViewBuilder
     var linkView: some View {
-        if let url = item.link {
+        if let url = post.link {
             ExternalLink(url) {
                 HStack(alignment: .firstTextBaseline, spacing: .spacingSmall) {
                     Label(Formatter.format(urlWithoutPrefix: url), systemImage: "link")
@@ -48,7 +48,7 @@ struct ItemScreen: View {
 
     @ViewBuilder
     var titleView: some View {
-        if let title = item.title {
+        if let title = post.title {
             Text(title)
                 .font(.headline)
                 .multilineTextAlignment(.leading)
@@ -58,12 +58,12 @@ struct ItemScreen: View {
 
     @ViewBuilder
     var scoreView: some View {
-        PostScoreView(post: item)
+        PostScoreView(post: post)
     }
 
     @ViewBuilder
     var authorView: some View {
-        if let authorId = item.authorId {
+        if let authorId = post.authorId {
             Label(authorId, systemImage: "person.fill")
                 .foregroundStyle(.secondary)
                 .fixedSize()
@@ -72,7 +72,7 @@ struct ItemScreen: View {
 
     @ViewBuilder
     var postedDateView: some View {
-        if let date = item.postedDate {
+        if let date = post.postedDate {
             Text(date.formatted(.relative(presentation: .named)))
                 .foregroundStyle(.secondary)
                 .help(date.formatted())
@@ -81,8 +81,8 @@ struct ItemScreen: View {
 
     @ViewBuilder
     var infoLeadingView: some View {
-        if item.kind == .job {
-            Image(systemName: Item.Kind.job.systemImage)
+        if post.kind == .job {
+            Image(systemName: Post.Kind.job.systemImage)
         } else {
             HStack(spacing: .spacingMedium) {
                 scoreView
@@ -120,7 +120,7 @@ struct ItemScreen: View {
     var commentsView: some View {
         VStack {
             ContentUnavailableView("Comments not implemented yet", systemImage: "exclamationmark.bubble")
-            ExternalLink(item.hnUrl) {
+            ExternalLink(post.hnUrl) {
                 Label("Browse comments", systemImage: "globe")
             }
         }
@@ -144,7 +144,7 @@ struct ItemScreen: View {
         }
         .toolbar {
             ToolbarItem {
-                ShareLink("Share", item: item.hnUrl)
+                ShareLink("Share", item: post.hnUrl)
             }
         }
         .navigationTitle(nativeTitle ? title : "")
@@ -155,5 +155,5 @@ struct ItemScreen: View {
 }
 
 #Preview {
-    ItemScreen(.placeholder)
+    PostScreen(.placeholder)
 }

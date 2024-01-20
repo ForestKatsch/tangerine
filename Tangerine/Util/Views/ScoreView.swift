@@ -84,7 +84,7 @@ struct ScoreView: View {
 }
 
 struct PostScoreView: View {
-    var post: Item
+    var post: Post
 
     @State
     var votedUp: Bool = false

@@ -1,5 +1,5 @@
 //
-//  Item.swift
+//  Post.swift
 //  Tangerine
 //
 //  Created by Forest Katsch on 9/14/23.
@@ -14,8 +14,12 @@ enum Vote {
 }
 
 @Observable
-class Item: Identifiable, Hashable {
-    init(id: String, title: String? = nil, link: URL? = nil, text: String? = nil, score: Int? = nil, authorId: String? = nil, postedDate: Date? = nil, commentCount: Int? = nil, kind: Item.Kind? = nil) {
+class Post: Identifiable, Hashable {
+    init(
+        id: String, title: String? = nil, link: URL? = nil, text: String? = nil, score: Int? = nil,
+        authorId: String? = nil, postedDate: Date? = nil, commentCount: Int? = nil,
+        kind: Post.Kind? = nil
+    ) {
         self.id = id
         self.title = title
         self.link = link
@@ -31,7 +35,7 @@ class Item: Identifiable, Hashable {
         hasher.combine(id)
     }
 
-    static func == (a: Item, b: Item) -> Bool {
+    static func == (a: Post, b: Post) -> Bool {
         a.id == b.id
     }
 
@@ -72,10 +76,14 @@ class Item: Identifiable, Hashable {
         }
     }
 
-    static var placeholder: Item {
-        let item = Item(id: UUID().uuidString, title: "Show HN: Tangerine for Hacker News open-source iOS app", link: URL(string: "https://forestkatsch.com/"), score: 128, authorId: "zlsa", commentCount: 32, kind: .normal)
-        item.isPlaceholder = true
-        return item
+    static var placeholder: Post {
+        let post = Post(
+            id: UUID().uuidString, title: "Show HN: Tangerine for Hacker News open-source iOS app",
+            link: URL(string: "https://forestkatsch.com/"), score: 128, authorId: "zlsa",
+            commentCount: 32, kind: .normal
+        )
+        post.isPlaceholder = true
+        return post
     }
 
     func canVote(_: Vote) {}
@@ -90,7 +98,7 @@ class Item: Identifiable, Hashable {
         // TODO: upvote/downvote event
     }
 
-    static func placeholder(list count: Int) -> [Item] {
-        return [Item](repeating: Item.placeholder, count: count)
+    static func placeholder(list count: Int) -> [Post] {
+        return [Post](repeating: Post.placeholder, count: count)
     }
 }

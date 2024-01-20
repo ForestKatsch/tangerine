@@ -75,22 +75,22 @@ struct ListingScreen: View {
     var type: API.ListingType
 
     @Binding
-    var selection: Item?
+    var selection: Post?
 
     var api = API.shared
 
-    init(type: Binding<API.ListingType>, selection: Binding<Item?>) {
+    init(type: Binding<API.ListingType>, selection: Binding<Post?>) {
         self._type = type
         self._selection = selection
     }
 
     var body: some View {
         InfiniteFetchView(FetchBrowseListing(type: type)) { pages, next, error in
-            let items = pages.flatMap { $0 }
+            let posts = pages.flatMap { $0 }
             List(selection: $selection) {
-                ForEach(items, id: \.id) { item in
-                    ItemRow(item: item, selected: selection == item)
-                        .tag(item)
+                ForEach(posts, id: \.id) { post in
+                    PostRow(post: post, selected: selection == post)
+                        .tag(post)
                 }
                 InfiniteEnd(next: next, error: error)
             }
