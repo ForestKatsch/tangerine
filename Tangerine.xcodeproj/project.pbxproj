@@ -46,6 +46,8 @@
 		85954BC72AB421C100680758 /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954BC62AB421C100680758 /* Formatter.swift */; };
 		85954BC92AB42BC100680758 /* ExternalLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954BC82AB42BC100680758 /* ExternalLink.swift */; };
 		85D4F12A2ABE86AF00CF8498 /* WindowRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D4F1292ABE86AF00CF8498 /* WindowRoot.swift */; };
+		85DF8D692B5BB16F00F9ADAC /* InfiniteFetchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DF8D682B5BB16F00F9ADAC /* InfiniteFetchView.swift */; };
+		85DF8D6B2B5C45C100F9ADAC /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DF8D6A2B5C45C100F9ADAC /* ErrorView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,6 +107,8 @@
 		85954BC62AB421C100680758 /* Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
 		85954BC82AB42BC100680758 /* ExternalLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalLink.swift; sourceTree = "<group>"; };
 		85D4F1292ABE86AF00CF8498 /* WindowRoot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowRoot.swift; sourceTree = "<group>"; };
+		85DF8D682B5BB16F00F9ADAC /* InfiniteFetchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfiniteFetchView.swift; sourceTree = "<group>"; };
+		85DF8D6A2B5C45C100F9ADAC /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,6 +145,7 @@
 				85954BC82AB42BC100680758 /* ExternalLink.swift */,
 				853B506F2AB44CEA00C2B611 /* OpenLink.swift */,
 				85568B992B5B91A700EA2E20 /* ScoreView.swift */,
+				85DF8D6A2B5C45C100F9ADAC /* ErrorView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -257,6 +262,7 @@
 				85954BA22AB404E000680758 /* Fetchable.swift */,
 				85954BA42AB404F600680758 /* FetchInstance.swift */,
 				85954BA62AB4051300680758 /* FetchView.swift */,
+				85DF8D682B5BB16F00F9ADAC /* InfiniteFetchView.swift */,
 				85954BA82AB4054800680758 /* FetchInstanceCache.swift */,
 			);
 			path = Fetchable;
@@ -458,9 +464,11 @@
 				8501F0E12AB437A30046AA3C /* View+if.swift in Sources */,
 				85954B9F2AB3FF7300680758 /* API.swift in Sources */,
 				85954B9B2AB3FF3700680758 /* ListingScreen.swift in Sources */,
+				85DF8D6B2B5C45C100F9ADAC /* ErrorView.swift in Sources */,
 				85954BA52AB404F600680758 /* FetchInstance.swift in Sources */,
 				853B50722AB52E9700C2B611 /* Haptics.swift in Sources */,
 				85954BB62AB408CB00680758 /* API+fetch.swift in Sources */,
+				85DF8D692B5BB16F00F9ADAC /* InfiniteFetchView.swift in Sources */,
 				85954BB82AB408FC00680758 /* URLResponse+http.swift in Sources */,
 				85954BA32AB404E000680758 /* Fetchable.swift in Sources */,
 				85954BB42AB407F700680758 /* Item.swift in Sources */,
@@ -658,13 +666,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.forestkatsch.tangerine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTED_PLATFORMS = "appletvos appletvsimulator iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,3,7";
+				TARGETED_DEVICE_FAMILY = "1,2,7";
 			};
 			name = Debug;
 		};
@@ -692,13 +700,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.forestkatsch.tangerine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTED_PLATFORMS = "appletvos appletvsimulator iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,3,7";
+				TARGETED_DEVICE_FAMILY = "1,2,7";
 			};
 			name = Release;
 		};

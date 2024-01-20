@@ -85,13 +85,17 @@ struct ListingScreen: View {
     }
 
     var body: some View {
-        FetchView(FetchBrowseListing(type: type)) { items in
+        InfiniteFetchView(FetchBrowseListing(type: type)) { pages, next, error in
+            let items = pages.flatMap { $0 }
             List(selection: $selection) {
                 ForEach(items, id: \.id) { item in
                     ItemRow(item: item, selected: selection == item)
                         .tag(item)
                 }
+                InfiniteEnd(next: next, error: error)
             }
+            .listStyle(.inset)
+            .scrollIndicators(.hidden)
         }
         #if !os(visionOS)
         .toolbar {

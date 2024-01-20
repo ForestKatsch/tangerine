@@ -138,6 +138,7 @@ struct ItemRow: View {
                 .font(.footnote)
                 .foregroundStyle(.secondary)
         }
+        .padding(.horizontal)
         .contextMenu {
             // TODO: implement these actions!
             /*
@@ -152,14 +153,14 @@ struct ItemRow: View {
              }
               */
             #if os(macOS)
-                CopyLink(destination: item.hnUrl, label: "Copy comments link")
+                CopyLink(destination: item.hnUrl, label: "Copy HN link")
             #endif
             ShareLink(item: item.hnUrl)
             if let url = item.link {
                 Section(Formatter.format(urlWithoutPrefix: url)) {
                     OpenLink(destination: url)
                     ShareLink(item: url) {
-                        Label("Share Link", systemImage: "link")
+                        Label("Share link", systemImage: "link")
                     }
                 }
             }

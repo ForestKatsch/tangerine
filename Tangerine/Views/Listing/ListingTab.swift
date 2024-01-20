@@ -21,28 +21,40 @@ struct ListingTab: View {
     var body: some View {
         NavigationSplitView {
             ListingScreen(type: $type, selection: $item)
-                .navigationSplitViewColumnWidth(min: 600, ideal: 900)
+            #if os(macOS)
+                .navigationSplitViewColumnWidth(min: 200, ideal: 300)
+            #endif
         } detail: {
-            FetchView(FetchBrowseListing(type: type)) { data in
-                NavigationStack {
-                    if let item {
-                        ItemScreen(item)
-                    } else {
-                        ProgressView()
-                    }
+//            InfiniteFetchView(FetchBrowseListing(type: type)) { data in
+            NavigationStack {
+                if let item {
+                    ItemScreen(item)
+                } else {
+                    ProgressView()
                 }
+            }
+            /*
                 .onAppear {
+                    if data[0].isPlaceholder {
+                        return
+                    }
+                    #if os(macOS)
+                        item = data[0]
+                    #endif
                     if horizontalSizeClass == .regular {
                         item = data[0]
                     }
                 }
-            }
+             */
+//            }
         }
+        #if os(iOS)
         .introspect(.navigationSplitView, on: .iOS(.v17)) { navigationController in
-            navigationController.preferredPrimaryColumnWidthFraction = 0.4
-            navigationController.maximumPrimaryColumnWidth = 500
-            navigationController.minimumPrimaryColumnWidth = 250
+            navigationController.preferredPrimaryColumnWidthFraction = 0.35
+            navigationController.maximumPrimaryColumnWidth = 400
+            navigationController.minimumPrimaryColumnWidth = 200
         }
+        #endif
     }
 }
 

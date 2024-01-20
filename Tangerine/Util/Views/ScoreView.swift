@@ -9,22 +9,21 @@ import Foundation
 import SwiftUI
 
 struct ScoreButton<Content: View>: View {
+    var action: () -> Void
     var label: () -> Content
 
     @Binding
     var isVoted: Bool
 
-    init(isVoted: Binding<Bool>, @ViewBuilder label: @escaping () -> Content) {
+    init(isVoted: Binding<Bool>, action: @escaping () -> Void, @ViewBuilder label: @escaping () -> Content) {
         self._isVoted = isVoted
+        self.action = action
         self.label = label
     }
 
     var labelView: some View {
         Button(action: {
-            withAnimation {
-                isVoted.toggle()
-            }
-
+            action()
             Haptics.impact()
         }) {
             label()
@@ -63,15 +62,19 @@ struct ScoreView: View {
     @Binding
     var votedDown: Bool
 
+    var voteUp: () -> Void
+
+    var voteDown: () -> Void
+
     var canDown: Bool = false
 
     var body: some View {
         HStack(spacing: 2) {
-            ScoreButton(isVoted: $votedUp) {
+            ScoreButton(isVoted: $votedUp, action: voteUp) {
                 Label(score.formatted(), systemImage: "arrow.up")
             }
             if canDown {
-                ScoreButton(isVoted: $votedDown) {
+                ScoreButton(isVoted: $votedDown, action: voteDown) {
                     Label(score.formatted(), systemImage: "arrow.down")
                         .labelStyle(.iconOnly)
                 }
@@ -90,11 +93,10 @@ struct PostScoreView: View {
     var votedDown: Bool = false
 
     var body: some View {
-        ScoreView(score: post.score ?? 0, votedUp: $votedUp, votedDown: $votedDown)
-            .onChange(of: votedUp, initial: true) { voted, _ in
-                if voted {
-                    post.vote(.up)
-                }
-            }
+        ScoreView(score: post.score ?? 0, votedUp: $votedUp, votedDown: $votedDown) {
+            votedUp = !votedUp
+        } voteDown: {
+            votedDown = !votedDown
+        }
     }
 }

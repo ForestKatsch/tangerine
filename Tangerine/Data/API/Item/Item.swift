@@ -50,6 +50,8 @@ class Item: Identifiable, Hashable {
 
     var kind: Kind?
 
+    var isPlaceholder = false
+
     var hnUrl: URL {
         URL(string: "https://news.ycombinator.com/item?id=\(id)")!
     }
@@ -71,7 +73,9 @@ class Item: Identifiable, Hashable {
     }
 
     static var placeholder: Item {
-        Item(id: UUID().uuidString, title: "Show HN: Tangerine for Hacker News open-source iOS app", link: URL(string: "https://forestkatsch.com/"), score: 128, authorId: "zlsa", commentCount: 32, kind: .normal)
+        let item = Item(id: UUID().uuidString, title: "Show HN: Tangerine for Hacker News open-source iOS app", link: URL(string: "https://forestkatsch.com/"), score: 128, authorId: "zlsa", commentCount: 32, kind: .normal)
+        item.isPlaceholder = true
+        return item
     }
 
     func canVote(_: Vote) {}
@@ -82,6 +86,7 @@ class Item: Identifiable, Hashable {
         } else {
             score? -= 1
         }
+        print("lmao voted")
         // TODO: upvote/downvote event
     }
 

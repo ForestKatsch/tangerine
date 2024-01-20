@@ -7,10 +7,22 @@
 
 import Foundation
 
-protocol Fetchable: Hashable {
+protocol BaseFetchable: Hashable {
+    associatedtype T
+
+    static var placeholder: T? { get }
+}
+
+protocol Fetchable: BaseFetchable {
     associatedtype T
 
     func fetch() async throws -> T
 
     static var placeholder: T? { get }
+}
+
+protocol InfiniteFetchable: BaseFetchable {
+    associatedtype P
+
+    func fetch(page: P?) async throws -> (T, P)
 }

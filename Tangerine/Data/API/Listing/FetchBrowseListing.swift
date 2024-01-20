@@ -29,8 +29,15 @@ extension API.ListingType {
 }
 
 extension API {
-    static func urlFor(listingType type: ListingType) -> URL? {
-        return type.url
+    static func urlFor(listingType type: ListingType, page: Int? = nil) -> URL? {
+        var url = type.url
+
+        if let page {
+            url?.append(queryItems: [
+                .init(name: "p", value: String(page + 1)),
+            ])
+        }
+        return url
     }
 }
 
@@ -124,7 +131,7 @@ extension Item {
     }
 }
 
-struct FetchBrowseListing: Fetchable {
+struct FetchBrowseListing: InfiniteFetchable {
     typealias T = [Item]
     typealias P = Int
 
@@ -132,18 +139,20 @@ struct FetchBrowseListing: Fetchable {
 
     var type: API.ListingType
 
-    var url: URL? { API.urlFor(listingType: type) }
-
     init(type: API.ListingType) {
         self.type = type
     }
 
-    func fetch() async throws -> [Item] {
-        guard let url = url else {
+    func fetch(page: Int?) async throws -> ([Item], Int) {
+        guard let url = API.urlFor(listingType: type, page: page) else {
             throw TangerineError.generic(.cannotCreateUrl)
         }
 
         let request = URLRequest(url: url)
-        return try Item.parse(fromListingPage: await API.shared.fetchHTML(for: request), url: url, listingType: type)
+
+        return try (
+            Item.parse(fromListingPage: await API.shared.fetchHTML(for: request), url: url, listingType: type),
+            (page ?? 0) + 1
+        )
     }
 }

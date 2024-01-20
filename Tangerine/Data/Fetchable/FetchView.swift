@@ -45,15 +45,7 @@ struct FetchView<Request: Fetchable, Content: View>: View {
     }
 
     func errorView(_ error: Error) -> some View {
-        guard let error = error as? TangerineError else {
-            return AnyView(ContentUnavailableView("Unexpected Error", systemImage: "exclamationmark.triangle", description: Text(error.localizedDescription)))
-        }
-
-        if let detail = error.detail {
-            return AnyView(ContentUnavailableView(error.name, systemImage: "exclamationmark.triangle", description: Text(detail)))
-        } else {
-            return AnyView(ContentUnavailableView(error.name, systemImage: "exclamationmark.triangle"))
-        }
+        ErrorView(error)
     }
 
     @ViewBuilder
