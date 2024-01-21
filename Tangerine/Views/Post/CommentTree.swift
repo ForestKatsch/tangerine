@@ -5,6 +5,7 @@
 //  Created by Forest Katsch on 1/20/24.
 //
 
+import Defaults
 import SwiftUI
 
 struct CommentView: View {
@@ -47,10 +48,13 @@ struct CommentView: View {
             authorView
             postedDate
             Spacer()
-            Button(action: {}) {
-                Label("More", systemImage: "ellipsis")
-                    .labelStyle(.iconOnly)
-            }
+            /*
+             Button(action: {}) {
+                 Label("More", systemImage: "ellipsis")
+                     .labelStyle(.iconOnly)
+             }
+             .fixedSize()
+              */
         }
         .foregroundStyle(.secondary)
         .font(.subheadline)
@@ -63,22 +67,34 @@ struct CommentView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .id(comment.id + "-text")
         }
-        /*
-         .overlay {
-             RoundedRectangle(cornerRadius: 10)
-                 .stroke(.fill)
-         }
-          */
         .id(comment.id)
     }
 }
 
 struct CommentTree: View {
-    var comment: Comment
+    @Default(.commentPalette)
+    var commentPalette
+
+    @Default(.commentTreeMode)
+    var commentTreeMode
+
+    enum Mode: Int, Identifiable, Defaults.Serializable, CaseIterable {
+        var id: Self { self }
+        case nested
+        case paged
+    }
+
+    enum IndentPalette: Int, Identifiable, Defaults.Serializable, CaseIterable {
+        var id: Self { self }
+        case colorful
+        case minimal
+    }
+
+    var comments: [Comment]
     var post: Post?
 
-    init(_ comment: Comment, post: Post? = nil) {
-        self.comment = comment
+    init(_ comments: [Comment], post: Post? = nil) {
+        self.comments = comments
         self.post = post
     }
 
@@ -94,60 +110,92 @@ struct CommentTree: View {
     static let indentBarSize: CGFloat = 2
 
     var indentColor: Color {
-        switch comment.indent {
-        case 0:
-            .red
-        case 1:
-            .orange
-        case 2:
-            .yellow
-        case 3:
-            .green
-        case 4:
-            .teal
-        case 5:
-            .blue
-        case 6:
-            .purple
-        default:
-            .accentColor
+        if commentPalette == .minimal {
+            .gray
+        } else {
+            switch comments[0].indent % 7 {
+            case 0:
+                .red
+            case 1:
+                .orange
+            case 2:
+                .yellow
+            case 3:
+                .green
+            case 4:
+                .teal
+            case 5:
+                .blue
+            case 6:
+                .purple
+            default:
+                .gray
+            }
         }
     }
 
-    var children: some View {
-        HStack {
-            ZStack(alignment: .leading) {
-                RoundedRectangle(cornerRadius: 3)
-                    .fill(indentColor.opacity(0.5))
-                    .frame(width: CommentTree.indentBarSize)
-                    .frame(maxHeight: .infinity)
-                    .offset(x: -CommentTree.indentBarSize / 2)
-                Spacer()
-                    .frame(width: indent)
-            }
-
-            LazyVStack(spacing: CommentTree.commentSpacing) {
-                ForEach(Array(zip(comment.children.indices, comment.children)), id: \.0) { index, reply in
-                    if index != 0 {
-                        // Divider()
-                    }
-                    CommentTree(reply, post: post)
-                }
-            }
-            .id(comment.id + "-stack")
+    var nestedDepth: some View {
+        ZStack(alignment: .leading) {
+            RoundedRectangle(cornerRadius: 3)
+            #if os(visionOS)
+                .fill(indentColor)
+            #else
+                .fill(indentColor.opacity(0.5))
+            #endif
+                .frame(width: CommentTree.indentBarSize)
+                .frame(maxHeight: .infinity)
+                .offset(x: -CommentTree.indentBarSize / 2)
+            Spacer()
+                .frame(width: indent)
         }
-        // .padding(.bottom)
     }
 
-    var body: some View {
+    var nested: some View {
         LazyVStack(spacing: CommentTree.commentSpacing) {
-            CommentView(comment, post: post)
-            if !comment.children.isEmpty {
-                children
+            ForEach(comments) { comment in
+                CommentView(comment, post: post)
+                if !comment.children.isEmpty {
+                    HStack {
+                        nestedDepth
+                        CommentTree(comment.children, post: post)
+                    }
+                    .frame(maxWidth: .infinity)
+                }
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .id(comment.id + "-tree")
+    }
+
+    var paged: some View {
+        ScrollView(.horizontal) {
+            ForEach(comments) { comment in
+                LazyVStack {
+                    CommentView(comment, post: post)
+                    if !comment.children.isEmpty {
+                        CommentTree(comment.children, post: post)
+                    }
+                }
+            }
+        }
+        .scrollTargetBehavior(.paging)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+
+    @ViewBuilder
+    var children: some View {
+        nested
+        /*
+         switch commentTreeMode {
+         case .nested:
+             nested
+         case .paged:
+             paged
+         }
+          */
+    }
+
+    var body: some View {
+        children
     }
 }
 

@@ -32,6 +32,9 @@ struct ScoreButton<Content: View>: View {
                 .frame(minHeight: 25)
             #endif
         }
+        #if os(iOS)
+        .buttonBorderShape(.roundedRectangle(radius: .radius))
+        #endif
     }
 
     @ViewBuilder
@@ -71,11 +74,11 @@ struct ScoreView: View {
     var body: some View {
         HStack(spacing: 2) {
             ScoreButton(isVoted: $votedUp, action: voteUp) {
-                Label(score.formatted(), systemImage: "arrow.up")
+                Label(score.formatted(), systemImage: "arrowtriangle.up")
             }
             if canDown {
                 ScoreButton(isVoted: $votedDown, action: voteDown) {
-                    Label(score.formatted(), systemImage: "arrow.down")
+                    Label(score.formatted(), systemImage: "arrowtriangle.down")
                         .labelStyle(.iconOnly)
                 }
             }

@@ -20,6 +20,13 @@ struct TabRoot: View {
                         Label(type.name, systemImage: type.systemImage)
                     }
             }
+            NavigationStack {
+                AccountScreen()
+            }
+            .tag("account")
+            .tabItem {
+                Label("Account", systemImage: "person.crop.circle")
+            }
         }
     }
 }

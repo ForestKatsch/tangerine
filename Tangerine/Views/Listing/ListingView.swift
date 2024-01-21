@@ -100,21 +100,17 @@ struct ListingView: View {
             }
             .listStyle(.inset)
             .scrollIndicators(.hidden)
-            .onAppear {
+            .onChange(of: posts.count, initial: true) {
                 if posts.isEmpty || selection != nil {
                     return
                 }
 
                 let first = posts[0]
 
-                if first.isPlaceholder {
-                    return
-                }
-
-                #if os(macOS)
+                #if os(macOS) || os(visionOS)
                     selection = first
                 #endif
-                if horizontalSizeClass == .regular {
+                if horizontalSizeClass != .compact {
                     selection = first
                 }
             }

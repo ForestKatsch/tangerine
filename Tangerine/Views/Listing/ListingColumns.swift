@@ -9,11 +9,20 @@ import SwiftUI
 import SwiftUIIntrospect
 
 struct ListingColumns: View {
+    enum Page: Hashable {
+        case listing(API.ListingType)
+        case account
+    }
+
     @State
-    var type: API.ListingType? = .news
+    var page: Page? = .listing(.news)
 
     @State
     private var post: Post?
+
+    init(type: API.ListingType = .news) {
+        self.page = .listing(type)
+    }
 
     #if os(visionOS)
         @State
@@ -24,21 +33,30 @@ struct ListingColumns: View {
     #endif
 
     var sidebar: some View {
-        List(selection: $type) {
+        List(selection: $page) {
             Section {
                 ForEach(API.ListingType.allCases) { type in
-                    Label(type.name, systemImage: type.systemImage).tag(type)
+                    Label(type.name, systemImage: type.systemImage).tag(Page.listing(type))
                 }
+            }
+            Section {
+                Label("account.title", systemImage: "person.crop.circle").tag(Page.account)
             }
         }
         .navigationTitle("Tangerine")
     }
 
+    @ViewBuilder
     var listing: some View {
-        ListingView(type: type ?? .news, selection: $post)
-        #if os(macOS)
-            .navigationSplitViewColumnWidth(min: 300, ideal: 500)
-        #endif
+        switch page {
+        case .account:
+            AccountScreen()
+        case let .listing(type):
+            ListingView(type: type, selection: $post)
+        default:
+            // should never get here lol
+            EmptyView()
+        }
     }
 
     @ViewBuilder
@@ -60,6 +78,9 @@ struct ListingColumns: View {
             sidebar
         } content: {
             listing
+            #if os(macOS)
+            .navigationSplitViewColumnWidth(min: 300, ideal: 500)
+            #endif
         } detail: {
             detail
         }

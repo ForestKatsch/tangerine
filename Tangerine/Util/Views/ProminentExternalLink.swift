@@ -88,7 +88,6 @@ struct ProminentExternalLink: View {
             ZStack(alignment: .center) {
                 Spacer()
                     .aspectRatio(1.91 / 1, contentMode: .fit)
-                ProgressView()
 
                 Rectangle()
                     .fill(.clear)
@@ -105,7 +104,7 @@ struct ProminentExternalLink: View {
                                     }
                                 }
                         }, placeholder: {
-                            EmptyView()
+                            ProgressView()
                         })
                     }
             }
@@ -148,7 +147,6 @@ struct ProminentExternalLink: View {
     var portrait: some View {
         VStack(alignment: .leading, spacing: 0) {
             image
-            Divider()
             text
         }
         .frame(maxWidth: .infinity)
@@ -160,7 +158,6 @@ struct ProminentExternalLink: View {
         HStack(alignment: .center, spacing: 0) {
             image
                 .frame(maxWidth: 400)
-            Divider()
             text
         }
         .fixedSize(horizontal: false, vertical: true)
@@ -179,7 +176,11 @@ struct ProminentExternalLink: View {
     private var horizontalSizeClass
 
     var showAsLandscape: Bool {
-        horizontalSizeClass == .regular
+        #if os(macOS)
+            true
+        #else
+            horizontalSizeClass == .regular
+        #endif
     }
 
     @ViewBuilder
@@ -208,21 +209,21 @@ struct ProminentExternalLink: View {
     var body: some View {
         PlainExternalLink(url) {
             contents
-                .clipShape(RoundedRectangle(cornerRadius: 10))
+                .clipShape(RoundedRectangle(cornerRadius: .radius))
                 .background {
-                    RoundedRectangle(cornerRadius: 10)
+                    RoundedRectangle(cornerRadius: .radius)
                         .fill(.background)
                 }
             #if os(iOS)
                 .overlay {
-                    RoundedRectangle(cornerRadius: 10)
+                    RoundedRectangle(cornerRadius: .radius)
                         .stroke(.fill)
                 }
             #endif
         }
         .buttonStyle(.plain)
-        .buttonBorderShape(.roundedRectangle(radius: 10))
-        .contentShape(RoundedRectangle(cornerRadius: 10))
+        .buttonBorderShape(.roundedRectangle(radius: .radius))
+        // .contentShape(RoundedRectangle(cornerRadius: .radius))
         #if !os(macOS)
             .hoverEffect(.lift)
         #endif

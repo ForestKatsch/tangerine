@@ -17,7 +17,7 @@ struct PostRow: View {
     var scoreView: some View {
         if let score = post.score {
             HStack(spacing: .spacingSmall) {
-                Image(systemName: "arrow.up")
+                Image(systemName: "arrowtriangle.up")
                 Text(Formatter.format(intToAbbreviation: score))
             }
         }
@@ -56,19 +56,31 @@ struct PostRow: View {
 
     @ViewBuilder
     var sublineView: some View {
+        HStack(spacing: .spacingMedium) {
+            scoreView
+            authorView
+            Spacer()
+            commentCountView
+        }
+    }
+
+    @ViewBuilder
+    var infoView: some View {
         if post.kind != .normal {
             HStack {
                 if let kind = post.kind {
                     Image(systemName: kind.systemImage)
                 }
+                Spacer()
+                postedDateView
             }
         } else {
-            HStack(spacing: .spacingMedium) {
-                scoreView
-                authorView
+            HStack {
+                linkView
                 Spacer()
-                commentCountView
+                postedDateView
             }
+            sublineView
         }
     }
 
@@ -85,14 +97,7 @@ struct PostRow: View {
             Text(post.title ?? "")
                 .font(.headline.weight(.medium))
                 .lineLimit(2)
-            HStack {
-                linkView
-                Spacer()
-                postedDateView
-            }
-            .foregroundStyle(.secondary)
-            .font(.footnote)
-            sublineView
+            infoView
                 .font(.footnote)
                 .foregroundStyle(.secondary)
         }

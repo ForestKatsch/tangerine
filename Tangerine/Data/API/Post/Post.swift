@@ -54,8 +54,6 @@ class Post: Identifiable, Hashable {
 
     var kind: Kind?
 
-    var isPlaceholder = false
-
     var comments: [Comment] = []
 
     var hnUrl: URL {
@@ -72,12 +70,21 @@ class Post: Identifiable, Hashable {
         case normal
         case job
 
+        var name: LocalizedStringKey {
+            switch self {
+            case .normal:
+                return "Post"
+            case .job:
+                return "Job Posting"
+            }
+        }
+
         var systemImage: String {
             switch self {
             case .normal:
                 return "link"
             case .job:
-                return "briefcase"
+                return "briefcase.fill"
             }
         }
     }
@@ -94,7 +101,6 @@ class Post: Identifiable, Hashable {
         childComment.parent = topComment
 
         post.comments.append(topComment)
-        post.isPlaceholder = true
         return post
     }
 

@@ -18,6 +18,11 @@
 		85568B982B5B8EE600EA2E20 /* BetterSafariView in Frameworks */ = {isa = PBXBuildFile; productRef = 85568B972B5B8EE600EA2E20 /* BetterSafariView */; };
 		85568B9A2B5B91A700EA2E20 /* ScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85568B992B5B91A700EA2E20 /* ScoreView.swift */; };
 		85568B9D2B5B9B4200EA2E20 /* SwiftUIIntrospect in Frameworks */ = {isa = PBXBuildFile; productRef = 85568B9C2B5B9B4200EA2E20 /* SwiftUIIntrospect */; };
+		857B3AD82B5DADE500CE90C7 /* AccountScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857B3AD72B5DADE500CE90C7 /* AccountScreen.swift */; };
+		857B3ADA2B5DAE8200CE90C7 /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857B3AD92B5DAE8200CE90C7 /* Defaults.swift */; };
+		857B3ADD2B5DAED400CE90C7 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 857B3ADC2B5DAED400CE90C7 /* Defaults */; };
+		857B3ADF2B5DB54F00CE90C7 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 857B3ADE2B5DB54F00CE90C7 /* Localizable.xcstrings */; };
+		857B3AE12B5DB67600CE90C7 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857B3AE02B5DB67600CE90C7 /* SettingsView.swift */; };
 		858CA7EC2B5CBAFD00FF49D0 /* HNTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858CA7EB2B5CBAFD00FF49D0 /* HNTextView.swift */; };
 		85954B6C2AB3EEBC00680758 /* TangerineApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954B6B2AB3EEBC00680758 /* TangerineApp.swift */; };
 		85954B702AB3EEBD00680758 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85954B6F2AB3EEBD00680758 /* Assets.xcassets */; };
@@ -84,6 +89,10 @@
 		85568B942B5B898D00EA2E20 /* View+memorial.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "View+memorial.swift"; sourceTree = "<group>"; };
 		85568B992B5B91A700EA2E20 /* ScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreView.swift; sourceTree = "<group>"; };
 		857B3AD52B5D23AD00CE90C7 /* Tangerine.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Tangerine.entitlements; sourceTree = "<group>"; };
+		857B3AD72B5DADE500CE90C7 /* AccountScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountScreen.swift; sourceTree = "<group>"; };
+		857B3AD92B5DAE8200CE90C7 /* Defaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Defaults.swift; sourceTree = "<group>"; };
+		857B3ADE2B5DB54F00CE90C7 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		857B3AE02B5DB67600CE90C7 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		858CA7EB2B5CBAFD00FF49D0 /* HNTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HNTextView.swift; sourceTree = "<group>"; };
 		85954B682AB3EEBC00680758 /* Tangerine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tangerine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		85954B6B2AB3EEBC00680758 /* TangerineApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TangerineApp.swift; sourceTree = "<group>"; };
@@ -130,6 +139,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				857B3ADD2B5DAED400CE90C7 /* Defaults in Frameworks */,
 				85568B9D2B5B9B4200EA2E20 /* SwiftUIIntrospect in Frameworks */,
 				85954BAF2AB4070F00680758 /* SwiftSoup in Frameworks */,
 				85568B982B5B8EE600EA2E20 /* BetterSafariView in Frameworks */,
@@ -166,9 +176,19 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		857B3AD62B5DADDE00CE90C7 /* Account */ = {
+			isa = PBXGroup;
+			children = (
+				857B3AD72B5DADE500CE90C7 /* AccountScreen.swift */,
+				857B3AE02B5DB67600CE90C7 /* SettingsView.swift */,
+			);
+			path = Account;
+			sourceTree = "<group>";
+		};
 		85954B5F2AB3EEBB00680758 = {
 			isa = PBXGroup;
 			children = (
+				857B3ADE2B5DB54F00CE90C7 /* Localizable.xcstrings */,
 				85954B6A2AB3EEBC00680758 /* Tangerine */,
 				85954B7B2AB3EEBD00680758 /* TangerineTests */,
 				85954B852AB3EEBD00680758 /* TangerineUITests */,
@@ -229,6 +249,7 @@
 		85954B952AB3F55500680758 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				857B3AD62B5DADDE00CE90C7 /* Account */,
 				85954BBF2AB4122D00680758 /* Post */,
 				85954B992AB3FF2E00680758 /* Listing */,
 				85954B962AB3F55C00680758 /* Root */,
@@ -313,6 +334,7 @@
 				85568B942B5B898D00EA2E20 /* View+memorial.swift */,
 				8501F0E22AB44C740046AA3C /* CopyLink.swift */,
 				853B50712AB52E9700C2B611 /* Haptics.swift */,
+				857B3AD92B5DAE8200CE90C7 /* Defaults.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -356,6 +378,7 @@
 				85954BAE2AB4070F00680758 /* SwiftSoup */,
 				85568B972B5B8EE600EA2E20 /* BetterSafariView */,
 				85568B9C2B5B9B4200EA2E20 /* SwiftUIIntrospect */,
+				857B3ADC2B5DAED400CE90C7 /* Defaults */,
 			);
 			productName = Tangerine;
 			productReference = 85954B682AB3EEBC00680758 /* Tangerine.app */;
@@ -433,6 +456,7 @@
 				85954BAD2AB4070F00680758 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
 				85568B962B5B8EE600EA2E20 /* XCRemoteSwiftPackageReference "BetterSafariView" */,
 				85568B9B2B5B9B4200EA2E20 /* XCRemoteSwiftPackageReference "swiftui-introspect" */,
+				857B3ADB2B5DAED400CE90C7 /* XCRemoteSwiftPackageReference "Defaults" */,
 			);
 			productRefGroup = 85954B692AB3EEBC00680758 /* Products */;
 			projectDirPath = "";
@@ -452,6 +476,7 @@
 			files = (
 				85954B732AB3EEBD00680758 /* Preview Assets.xcassets in Resources */,
 				85954B702AB3EEBD00680758 /* Assets.xcassets in Resources */,
+				857B3ADF2B5DB54F00CE90C7 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -479,6 +504,7 @@
 				85954BA72AB4051300680758 /* FetchView.swift in Sources */,
 				85954BC12AB4178000680758 /* PostRow.swift in Sources */,
 				85954BC72AB421C100680758 /* Formatter.swift in Sources */,
+				857B3AD82B5DADE500CE90C7 /* AccountScreen.swift in Sources */,
 				85D4F12A2ABE86AF00CF8498 /* WindowRoot.swift in Sources */,
 				85954BC52AB41DBA00680758 /* Parse.swift in Sources */,
 				858CA7EC2B5CBAFD00FF49D0 /* HNTextView.swift in Sources */,
@@ -494,8 +520,10 @@
 				85954BB62AB408CB00680758 /* API+fetch.swift in Sources */,
 				85DF8D692B5BB16F00F9ADAC /* InfiniteFetchView.swift in Sources */,
 				85954BB82AB408FC00680758 /* URLResponse+http.swift in Sources */,
+				857B3ADA2B5DAE8200CE90C7 /* Defaults.swift in Sources */,
 				85954BA32AB404E000680758 /* Fetchable.swift in Sources */,
 				85954BB42AB407F700680758 /* Post.swift in Sources */,
+				857B3AE12B5DB67600CE90C7 /* SettingsView.swift in Sources */,
 				85954BA92AB4054800680758 /* FetchInstanceCache.swift in Sources */,
 				85954BAC2AB405B600680758 /* TangerineError.swift in Sources */,
 				8501F0DD2AB4306C0046AA3C /* SelectableText.swift in Sources */,
@@ -698,7 +726,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.forestkatsch.tangerine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SDKROOT = xros;
+				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -737,7 +765,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.forestkatsch.tangerine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SDKROOT = xros;
+				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -882,6 +910,14 @@
 				minimumVersion = 1.1.2;
 			};
 		};
+		857B3ADB2B5DAED400CE90C7 /* XCRemoteSwiftPackageReference "Defaults" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/Defaults";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		85954BAD2AB4070F00680758 /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/scinfu/SwiftSoup.git";
@@ -902,6 +938,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 85568B9B2B5B9B4200EA2E20 /* XCRemoteSwiftPackageReference "swiftui-introspect" */;
 			productName = SwiftUIIntrospect;
+		};
+		857B3ADC2B5DAED400CE90C7 /* Defaults */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 857B3ADB2B5DAED400CE90C7 /* XCRemoteSwiftPackageReference "Defaults" */;
+			productName = Defaults;
 		};
 		85954BAE2AB4070F00680758 /* SwiftSoup */ = {
 			isa = XCSwiftPackageProductDependency;

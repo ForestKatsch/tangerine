@@ -94,7 +94,7 @@ struct PostScreen: View {
     @ViewBuilder
     var infoLeadingView: some View {
         if post.kind == .job {
-            Image(systemName: Post.Kind.job.systemImage)
+            Label(Post.Kind.job.name, systemImage: Post.Kind.job.systemImage)
         } else {
             HStack(spacing: .spacingMedium) {
                 scoreView
@@ -131,9 +131,7 @@ struct PostScreen: View {
 
     var commentsView: some View {
         LazyVStack(spacing: .spacingHuge) {
-            ForEach(post.comments) { comment in
-                CommentTree(comment, post: post)
-            }
+            CommentTree(post.comments, post: post)
             if fetchStatus.isLoading {
                 HStack {
                     Spacer()

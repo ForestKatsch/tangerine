@@ -23,62 +23,6 @@ extension API {
     }
 }
 
-private func parseText(element: Element) throws -> String {
-    // Weird "p" fuckery is needed because HN's formatting is insane:
-    //
-    // <div id="container">
-    //   My first paragraph.
-    //   <p>My second paragraph.</p>
-    //   <p>My third paragraph.</p>
-    // </div>
-
-    // And for comments:
-    //
-    // <div class="comment">
-    //   <span class="commtext c00">My first paragraph.</span>
-    //   <p>My second paragraph.</p>
-    //   <p>My third paragraph.</p>
-    //   <div class="reply">...</div> <!-- wtf -->
-    // </div>
-
-    return element.getChildNodes().flatMap { node in
-        if let node = node as? TextNode {
-            return [node.text()]
-        } else if let element = node as? Element {
-            let name = element.tagName()
-            if name == "a" {
-                if let href = try? element.attr("href"), let text = try? element.text() {
-                    return ["[\(text)](\(href))"]
-                }
-            } else if name == "p" {
-                if let paragraph = try? parseText(element: element) {
-                    return ["\n\n" + paragraph]
-                }
-            } else if name == "span" && element.hasClass("commtext") {
-                if let paragraph = try? parseText(element: element) {
-                    return [paragraph]
-                }
-            } else if name == "div" && element.hasClass("reply") {
-                return []
-            } else if name == "i" {
-                if let contents = try? parseText(element: element) {
-                    return ["_", contents, "_"]
-                }
-            } else {
-                return ["**unknown tag '\(element.tagName())'**"]
-
-                /*
-                 if let text = try? parseText(element: element) {
-                 return [text]
-                 }
-                 */
-            }
-        }
-
-        return []
-    }.joined(separator: "")
-}
-
 extension Post {
     static func parse(fromPostPage document: Document, postId: String, url _: URL? = nil) throws -> Post {
         try? API.shared.parse(document)
@@ -94,7 +38,7 @@ extension Post {
         }
 
         if let textContainer = try? postContainer.select("div.toptext").first() {
-            post.text = try? parseText(element: textContainer)
+            post.text = try? Parse.parseHNText(text: textContainer).joined(separator: "\n\n")
         }
 
         // Ugh, comment parsing lol.
@@ -171,8 +115,8 @@ extension Post {
                 }
             }
 
-            if let textElement = try? element.select("div.comment").first() {
-                comment.text = try? parseText(element: textElement)
+            if let textElement = try? element.select("div.comment > span.commtext").first() {
+                comment.text = try? Parse.parseHNText(text: textElement).joined(separator: "\n\n")
             }
         }
 

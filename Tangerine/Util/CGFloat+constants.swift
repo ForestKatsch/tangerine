@@ -18,4 +18,10 @@ extension CGFloat {
     #else
         static let spacingHorizontal: CGFloat = 20
     #endif
+
+    #if os(visionOS)
+        static let radius: CGFloat = 20
+    #else
+        static let radius: CGFloat = 10
+    #endif
 }

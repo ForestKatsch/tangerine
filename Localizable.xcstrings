@@ -1,0 +1,227 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "" : {
+
+    },
+    "%@" : {
+
+    },
+    "%@ comments" : {
+
+    },
+    ">" : {
+
+    },
+    "Account" : {
+
+    },
+    "account.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Account"
+          }
+        }
+      }
+    },
+    "Ask" : {
+
+    },
+    "Ask HN" : {
+
+    },
+    "comment-palette.colorful.label" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Colorful"
+          }
+        }
+      }
+    },
+    "comment-palette.label" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Depth Indicator Palette"
+          }
+        }
+      }
+    },
+    "comment-palette.minimal.label" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minimal"
+          }
+        }
+      }
+    },
+    "comment-tree-mode.label" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Display Mode"
+          }
+        }
+      }
+    },
+    "comment-tree-mode.nested.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Traditional tree layout, using indentation to show hierarchy"
+          }
+        }
+      }
+    },
+    "comment-tree-mode.nested.label" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nested"
+          }
+        }
+      }
+    },
+    "comment-tree-mode.paged.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Horizontally swipe between sibling comments to view an entire branch at once"
+          }
+        }
+      }
+    },
+    "comment-tree-mode.paged.label" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paged"
+          }
+        }
+      }
+    },
+    "Comments" : {
+
+    },
+    "Copy" : {
+
+    },
+    "E%@ .%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "E%1$@ .%2$@"
+          }
+        }
+      }
+    },
+    "E%@ .%@\n%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "E%1$@ .%2$@\n%3$@"
+          }
+        }
+      }
+    },
+    "Feed" : {
+
+    },
+    "HN" : {
+
+    },
+    "Job Posting" : {
+
+    },
+    "Jobs" : {
+
+    },
+    "Loading..." : {
+
+    },
+    "Network Error %lld%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Network Error %1$lld%2$@"
+          }
+        }
+      }
+    },
+    "Network Error%@" : {
+
+    },
+    "Network issue" : {
+
+    },
+    "New" : {
+
+    },
+    "News" : {
+
+    },
+    "No comments" : {
+
+    },
+    "No more results" : {
+
+    },
+    "oh no" : {
+
+    },
+    "Open in browser" : {
+
+    },
+    "Post" : {
+
+    },
+    "settings.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings"
+          }
+        }
+      }
+    },
+    "Share" : {
+
+    },
+    "Share link" : {
+
+    },
+    "Show" : {
+
+    },
+    "Show HN" : {
+
+    },
+    "Tangerine" : {
+
+    },
+    "Unexpected Error" : {
+
+    },
+    "Unexpected issue" : {
+
+    }
+  },
+  "version" : "1.0"
+}
