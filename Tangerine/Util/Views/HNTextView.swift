@@ -26,7 +26,7 @@ struct HNTextView: View {
         }
         .multilineTextAlignment(.leading)
         .font(.body)
-        .lineSpacing(3)
+        .lineSpacing(4)
     }
 }
 

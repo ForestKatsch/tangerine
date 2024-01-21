@@ -221,11 +221,16 @@ struct ProminentExternalLink: View {
             #endif
         }
         .buttonStyle(.plain)
-        .onAppear {
-            Task {
-                await fetch()
+        .buttonBorderShape(.roundedRectangle(radius: 10))
+        .contentShape(RoundedRectangle(cornerRadius: 10))
+        #if !os(macOS)
+            .hoverEffect(.lift)
+        #endif
+            .onAppear {
+                Task {
+                    await fetch()
+                }
             }
-        }
     }
 }
 

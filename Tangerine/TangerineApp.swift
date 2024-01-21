@@ -13,5 +13,6 @@ struct TangerineApp: App {
         WindowGroup {
             WindowRoot()
         }
+        .windowResizability(.contentSize)
     }
 }

@@ -37,7 +37,7 @@ struct ListingColumns: View {
     var listing: some View {
         ListingView(type: type ?? .news, selection: $post)
         #if os(macOS)
-            .navigationSplitViewColumnWidth(min: 200, ideal: 300)
+            .navigationSplitViewColumnWidth(min: 300, ideal: 500)
         #endif
     }
 

@@ -47,13 +47,17 @@ struct CommentView: View {
             authorView
             postedDate
             Spacer()
+            Button(action: {}) {
+                Label("More", systemImage: "ellipsis")
+                    .labelStyle(.iconOnly)
+            }
         }
         .foregroundStyle(.secondary)
         .font(.subheadline)
     }
 
     var body: some View {
-        VStack {
+        VStack(spacing: .spacingMedium) {
             header
             HNTextView(comment.text ?? "oh no")
                 .frame(maxWidth: .infinity, alignment: .leading)
