@@ -27,6 +27,10 @@ extension API.ListingType {
         switch self {
         case .news:
             return "HN"
+        case .ask:
+            return "Ask HN"
+        case .show:
+            return "Show HN"
         default:
             return name
         }
@@ -64,8 +68,6 @@ struct ListingTypePicker: View {
         }
         #if os(macOS)
         .labelStyle(.titleOnly)
-        #else
-        .labelStyle(.automatic)
         #endif
     }
 }

@@ -46,7 +46,7 @@ extension API {
         do {
             let (data, response) = try await URLSession.shared.data(for: request)
 
-            try await Task.sleep(nanoseconds: 1_000_000_000)
+            // try await Task.sleep(nanoseconds: 1_000_000_000)
 
             guard let httpResponse = response.http else {
                 throw TangerineError.generic(.notHttpResponse)
@@ -59,8 +59,9 @@ extension API {
             l.trace("request unsuccessful: \(request.httpMethod ?? "??") \(httpResponse.statusCode) \(request.url?.absoluteString ?? "??")")
             throw TangerineError.network(httpResponse.statusCode)
         } catch {
-            print(error)
-            throw TangerineError.network(0)
+            throw TangerineError.from(error)
+            // print(error)
+            // throw TangerineError.network(0)
         }
     }
 }

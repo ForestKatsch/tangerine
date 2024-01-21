@@ -25,31 +25,34 @@ struct ListingTab: View {
                 .navigationSplitViewColumnWidth(min: 200, ideal: 300)
             #endif
         } detail: {
-            InfiniteFetchView(FetchBrowseListing(type: type)) { data, _, _ in
-                NavigationStack {
-                    if let post {
-                        PostScreen(post)
-                    } else {
-                        ProgressView()
+            if let post {
+                InfiniteFetchView(FetchPost(postId: post.id)) { commentPages, _, _ in
+                    NavigationStack {
+                        PostScreen(post.merge(from: commentPages[0]))
+                            .unredacted()
                     }
-                }
-                .onAppear {
-                    if data.isEmpty || data[0].isEmpty {
-                        return
-                    }
+                    /*
+                     .onAppear {
+                         if data.isEmpty || data[0].isEmpty {
+                             return
+                         }
 
-                    let first = data[0][0]
+                         let first = data[0][0]
 
-                    if first.isPlaceholder {
-                        return
-                    }
-                    #if os(macOS)
-                        post = first
-                    #endif
-                    if horizontalSizeClass == .regular {
-                        post = first
-                    }
+                         if first.isPlaceholder {
+                             return
+                         }
+                         #if os(macOS)
+                             post = first
+                         #endif
+                         if horizontalSizeClass == .regular {
+                             post = first
+                         }
+                     }
+                      */
                 }
+            } else {
+                ProgressView()
             }
         }
         #if os(iOS)

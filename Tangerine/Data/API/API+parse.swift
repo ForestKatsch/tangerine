@@ -15,7 +15,5 @@ extension API {
         }
 
         memorial = (try? main.select("> tbody > tr > td[bgcolor=#000000]").first()) != nil
-
-        print(memorial)
     }
 }

@@ -138,7 +138,10 @@ struct PostRow: View {
                 .font(.footnote)
                 .foregroundStyle(.secondary)
         }
+        // This extra padding matches Apple Mail.
+        #if os(iOS)
         .padding(.horizontal)
+        #endif
         .contextMenu {
             // TODO: implement these actions!
             /*

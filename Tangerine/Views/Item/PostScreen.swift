@@ -15,9 +15,11 @@ import SwiftUI
 
 struct PostScreen: View {
     var post: Post
+    var comments: [Comment]
 
-    init(_ post: Post) {
+    init(_ post: Post, comments: [Comment] = []) {
         self.post = post
+        self.comments = comments
     }
 
     var title: LocalizedStringKey {
@@ -43,6 +45,21 @@ struct PostScreen: View {
                 }
             }
             .font(.footnote)
+        }
+    }
+
+    var isLoading: Bool {
+        FetchInstanceCache.shared.get(infinite: FetchPost(postId: post.id)).isLoading
+    }
+
+    @ViewBuilder
+    var contentView: some View {
+        linkView
+        if let text = post.text {
+            HNTextView(text)
+        } else if post.likelyToContainText && isLoading {
+            HNTextView("Hi! This is just a few phony lines to make it appear as if we're currently loading some text. Don't worry though, it's a placeholder!\n\nAnd another paragraph to make it look longer :) and a link to [https://google.com/] to see if that shows up in the placeholder.")
+                .redacted(reason: .placeholder)
         }
     }
 
@@ -108,7 +125,7 @@ struct PostScreen: View {
             if !nativeTitle {
                 titleView
             }
-            linkView
+            contentView
             infoView
             #if os(visionOS)
             .frame(minHeight: 50)
@@ -130,9 +147,8 @@ struct PostScreen: View {
         CenteredScrollView {
             VStack(alignment: .leading) {
                 headerView
-                    .padding(.bottom)
+                    .padding(.vertical)
                     .padding(.horizontal, .spacingHorizontal)
-                    .padding(.top)
                 ZStack(alignment: .center) {
                     commentsView
                         .fixedSize(horizontal: false, vertical: /*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/)

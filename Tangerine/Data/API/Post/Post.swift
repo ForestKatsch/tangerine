@@ -56,8 +56,14 @@ class Post: Identifiable, Hashable {
 
     var isPlaceholder = false
 
+    var comments: [Comment] = []
+
     var hnUrl: URL {
         URL(string: "https://news.ycombinator.com/item?id=\(id)")!
+    }
+
+    var likelyToContainText: Bool {
+        kind != .job && link == nil
     }
 
     enum Kind: Identifiable, CaseIterable {
@@ -94,11 +100,20 @@ class Post: Identifiable, Hashable {
         } else {
             score? -= 1
         }
-        print("lmao voted")
         // TODO: upvote/downvote event
     }
 
     static func placeholder(list count: Int) -> [Post] {
         return [Post](repeating: Post.placeholder, count: count)
+    }
+
+    func merge(from: Post) -> Post {
+        if from != self {
+            return self
+        }
+
+        text = from.text
+        comments = from.comments
+        return self
     }
 }

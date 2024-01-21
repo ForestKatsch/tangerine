@@ -24,6 +24,8 @@ class FetchInstance<F: Fetchable> {
 
     var fetchState: FetchState = .idle
 
+    var isLoading: Bool { data == nil && fetchState == .fetching }
+
     init(_ fetchable: F) {
         self.fetchable = fetchable
     }
@@ -69,6 +71,8 @@ class InfiniteFetchInstance<F: InfiniteFetchable> {
     var page: F.P?
 
     var fetchState: FetchState = .idle
+
+    var isLoading: Bool { data.count == 0 && fetchState == .fetching }
 
     init(_ fetchable: F) {
         self.fetchable = fetchable
