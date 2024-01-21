@@ -9,11 +9,10 @@ import SwiftUI
 
 struct WindowRoot: View {
     var body: some View {
-        // TODO: differentiate on iPad as well?
         #if os(visionOS)
             TabRoot()
         #else
-            ListingTab()
+            ListingColumns()
         #endif
     }
 }

@@ -72,8 +72,10 @@ struct ListingTypePicker: View {
     }
 }
 
-struct ListingScreen: View {
-    @Binding
+struct ListingView: View {
+    @Environment(\.horizontalSizeClass)
+    var horizontalSizeClass
+
     var type: API.ListingType
 
     @Binding
@@ -81,8 +83,8 @@ struct ListingScreen: View {
 
     var api = API.shared
 
-    init(type: Binding<API.ListingType>, selection: Binding<Post?>) {
-        self._type = type
+    init(type: API.ListingType, selection: Binding<Post?>) {
+        self.type = type
         self._selection = selection
     }
 
@@ -98,17 +100,24 @@ struct ListingScreen: View {
             }
             .listStyle(.inset)
             .scrollIndicators(.hidden)
-        }
-        #if !os(visionOS)
-        .toolbar {
-            ToolbarItem(placement: .primaryAction) {
-                ListingTypePicker($type)
+            .onAppear {
+                if posts.isEmpty {
+                    return
+                }
+
+                let first = posts[0]
+
+                if first.isPlaceholder {
+                    return
+                }
                 #if os(macOS)
-                    .labelStyle(.titleAndIcon)
+                    selection = first
                 #endif
+                if horizontalSizeClass == .regular {
+                    selection = first
+                }
             }
         }
-        #endif
         .navigationTitle(type.title)
     }
 }

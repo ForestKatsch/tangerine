@@ -24,6 +24,14 @@ extension API {
 }
 
 private func parseText(element: Element) throws -> String {
+    // Weird "p" fuckery is needed because HN's formatting is insane:
+    //
+    // <div id="container">
+    // My first paragraph.
+    // <p>My second paragraph.</p>
+    // <p>My third paragraph.</p>
+    // </div>
+
     return element.getChildNodes().flatMap { node in
         if let node = node as? TextNode {
             return [node.text()]
@@ -33,27 +41,23 @@ private func parseText(element: Element) throws -> String {
                 if let href = try? element.attr("href"), let text = try? element.text() {
                     return ["[\(text)](\(href))"]
                 }
-            default:
-                if let text = try? parseText(element: element) {
-                    return [text]
+            case "p":
+                if let paragraph = try? parseText(element: element) {
+                    return ["\n\n" + paragraph]
                 }
+            default:
+                return ["**unknown tag '\(element.tagName())'**"]
+
+                /*
+                 if let text = try? parseText(element: element) {
+                 return [text]
+                 }
+                 */
             }
         }
+
         return []
     }.joined(separator: "")
-}
-
-private func parseText(paragraph: Element) throws -> String {
-    return paragraph.getChildNodes().flatMap { node in
-        if let node = node as? TextNode {
-            return [node.text()]
-        } else if let element = node as? Element {
-            if let text = try? parseText(element: element) {
-                return [text]
-            }
-        }
-        return []
-    }.joined(separator: "\n\n")
 }
 
 extension Post {
@@ -71,7 +75,8 @@ extension Post {
         }
 
         if let textContainer = try? postContainer.select("div.toptext").first() {
-            post.text = try? parseText(paragraph: textContainer)
+            post.text = try? parseText(element: textContainer)
+            print(post.text)
         }
 
         return post

@@ -7,19 +7,15 @@
 
 import SwiftUI
 
-extension API.ListingType {
-    @ViewBuilder
-    var view: some View {
-        ListingTab(type: self)
-            .tag(self)
-    }
-}
-
 struct TabRoot: View {
+    @State
+    var post: Post?
+
     var body: some View {
         TabView {
             ForEach(API.ListingType.allCases) { type in
-                type.view
+                ListingColumns(type: type)
+                    .tag(type)
                     .tabItem {
                         Label(type.name, systemImage: type.systemImage)
                     }

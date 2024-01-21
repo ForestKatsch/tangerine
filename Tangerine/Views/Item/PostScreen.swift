@@ -44,7 +44,7 @@ struct PostScreen: View {
                         .lineLimit(4)
                 }
             }
-            .font(.footnote)
+            .font(.subheadline)
         }
     }
 

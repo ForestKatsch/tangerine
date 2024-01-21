@@ -127,6 +127,10 @@ extension Post {
             posts.append(post)
         }
 
+        if posts.isEmpty {
+            throw TangerineError.noMoreResults
+        }
+
         return posts
     }
 }

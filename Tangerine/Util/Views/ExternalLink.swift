@@ -49,7 +49,7 @@ struct ExternalLink<Content: View>: View {
                         barCollapsingEnabled: true
                     )
                 )
-                .preferredControlAccentColor(.accentColor)
+                .preferredControlAccentColor(.accent)
                 .dismissButtonStyle(.done)
             }
         }

@@ -14,6 +14,18 @@
     },
     {
       "color" : {
+        "color-space" : "srgb",
+        "components" : {
+          "alpha" : "1.000",
+          "blue" : "0.000",
+          "green" : "0.349",
+          "red" : "1.000"
+        }
+      },
+      "idiom" : "mac"
+    },
+    {
+      "color" : {
         "color-space" : "display-p3",
         "components" : {
           "alpha" : "1.000",

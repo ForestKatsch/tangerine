@@ -20,9 +20,9 @@ struct ErrorView: View {
         }
 
         if let detail = error.detail {
-            return AnyView(ContentUnavailableView(error.name, systemImage: "exclamationmark.triangle", description: Text(detail)))
+            return AnyView(ContentUnavailableView(error.name, systemImage: error.systemImage, description: Text(detail)))
         } else {
-            return AnyView(ContentUnavailableView(error.name, systemImage: "exclamationmark.triangle"))
+            return AnyView(ContentUnavailableView(error.name, systemImage: error.systemImage))
         }
     }
 }
