@@ -139,9 +139,13 @@ struct FetchBrowseListing: InfiniteFetchable {
     typealias T = [Post]
     typealias P = Int
 
-    static var placeholder: [Post]? = Post.placeholder(list: 20)
+    static var placeholder: [Post]?
 
     var type: API.ListingType
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(type.id)
+    }
 
     init(type: API.ListingType) {
         self.type = type

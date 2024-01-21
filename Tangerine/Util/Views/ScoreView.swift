@@ -98,5 +98,6 @@ struct PostScoreView: View {
         } voteDown: {
             votedDown = !votedDown
         }
+        .disabled(true)
     }
 }

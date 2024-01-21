@@ -103,10 +103,6 @@ class Post: Identifiable, Hashable {
         // TODO: upvote/downvote event
     }
 
-    static func placeholder(list count: Int) -> [Post] {
-        return [Post](repeating: Post.placeholder, count: count)
-    }
-
     func merge(from: Post) -> Post {
         if from != self {
             return self

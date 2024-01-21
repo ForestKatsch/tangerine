@@ -66,7 +66,7 @@ struct InfiniteFetchView<Request: InfiniteFetchable, Content: View>: View {
 
     var body: some View {
         fetchStateView
-            .onAppear {
+            .onChange(of: request, initial: true) {
                 instance.onAppear()
             }
             .onDisappear {

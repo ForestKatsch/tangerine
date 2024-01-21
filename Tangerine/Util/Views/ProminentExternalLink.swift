@@ -42,8 +42,13 @@ struct ProminentExternalLink: View {
 
         state = .fetching
 
+        var metadata: Metadata?
+
         defer {
-            state = .done
+            withAnimation {
+                state = .done
+                self.metadata = metadata
+            }
         }
 
         var request = URLRequest(url: url)
@@ -124,7 +129,7 @@ struct ProminentExternalLink: View {
                 if let description = metadata?.description {
                     Text(description)
                         .font(.subheadline)
-                        .lineLimit(showAsLandscape ? 15 : 3)
+                        .lineLimit(showAsLandscape ? 8 : 3)
                 } else if let host = url.host() {
                     Text(host)
                         .font(.subheadline)

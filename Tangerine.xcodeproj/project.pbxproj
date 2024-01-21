@@ -119,6 +119,7 @@
 		85DF8D6A2B5C45C100F9ADAC /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		85DF8D6C2B5C4C1500F9ADAC /* FetchPost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchPost.swift; sourceTree = "<group>"; };
 		85DF8D6E2B5C51DA00F9ADAC /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		85E60A412B5CFB4000BE4DC1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,6 +186,7 @@
 		85954B6A2AB3EEBC00680758 /* Tangerine */ = {
 			isa = PBXGroup;
 			children = (
+				85E60A412B5CFB4000BE4DC1 /* Info.plist */,
 				85954BAA2AB405AE00680758 /* Util */,
 				85954BA12AB404D500680758 /* Data */,
 				85954B952AB3F55500680758 /* Views */,
@@ -674,6 +676,7 @@
 				DEVELOPMENT_TEAM = HRM88D6372;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Tangerine/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.reference";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -710,6 +713,7 @@
 				DEVELOPMENT_TEAM = HRM88D6372;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Tangerine/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.reference";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

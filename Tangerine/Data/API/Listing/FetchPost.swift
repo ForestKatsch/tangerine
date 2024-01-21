@@ -76,7 +76,6 @@ extension Post {
 
         if let textContainer = try? postContainer.select("div.toptext").first() {
             post.text = try? parseText(element: textContainer)
-            print(post.text)
         }
 
         return post
@@ -90,6 +89,10 @@ struct FetchPost: InfiniteFetchable {
     static var placeholder: Post? = Post.placeholder
 
     var postId: String
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(postId)
+    }
 
     init(postId: String) {
         self.postId = postId

@@ -13,16 +13,6 @@ struct PostRow: View {
 
     var post: Post
 
-    var selected: Bool = false
-
-    var tappableItemsInList: Bool {
-        #if os(visionOS)
-            return false
-        #else
-            return horizontalSizeClass == .compact && !selected
-        #endif
-    }
-
     @ViewBuilder
     var scoreView: some View {
         if let score = post.score {
@@ -34,7 +24,7 @@ struct PostRow: View {
     }
 
     @ViewBuilder
-    var authorContents: some View {
+    var authorView: some View {
         if let authorId = post.authorId {
             HStack(spacing: .spacingSmall) {
                 Image(systemName: "person.fill")
@@ -44,20 +34,6 @@ struct PostRow: View {
         } else {
             // Should not happen - this view is only called if authorId is valid.
             EmptyView()
-        }
-    }
-
-    @ViewBuilder
-    var authorView: some View {
-        if post.authorId != nil {
-            if tappableItemsInList {
-                Button(action: {}) {
-                    authorContents
-                }
-                .buttonStyle(.borderless)
-            } else {
-                authorContents
-            }
         }
     }
 
@@ -97,26 +73,9 @@ struct PostRow: View {
     }
 
     @ViewBuilder
-    var linkContentsView: some View {
-        if let url = post.link {
-            Text(Formatter.format(urlHost: url))
-        }
-    }
-
-    @ViewBuilder
     var linkView: some View {
         if let url = post.link {
-            if tappableItemsInList {
-                ExternalLink(url) {
-                    linkContentsView
-                }
-                .buttonStyle(.borderless)
-                #if os(iOS)
-                    .foregroundStyle(.secondary)
-                #endif
-            } else {
-                linkContentsView
-            }
+            Text(Formatter.format(urlHost: url))
         }
     }
 
@@ -126,15 +85,13 @@ struct PostRow: View {
             Text(post.title ?? "")
                 .font(.headline.weight(.medium))
                 .lineLimit(2)
-            if post.link != nil {
-                HStack {
-                    linkView
-                    Spacer()
-                    postedDateView
-                        .foregroundStyle(.secondary)
-                }
-                .font(.footnote)
+            HStack {
+                linkView
+                Spacer()
+                postedDateView
             }
+            .foregroundStyle(.secondary)
+            .font(.footnote)
             sublineView
                 .font(.footnote)
                 .foregroundStyle(.secondary)

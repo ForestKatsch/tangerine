@@ -93,7 +93,7 @@ struct ListingView: View {
             let posts = pages.flatMap { $0 }
             List(selection: $selection) {
                 ForEach(posts, id: \.id) { post in
-                    PostRow(post: post, selected: selection == post)
+                    PostRow(post: post)
                         .tag(post)
                 }
                 InfiniteEnd(next: next, error: error)
