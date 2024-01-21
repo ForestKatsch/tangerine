@@ -83,6 +83,7 @@
 		85568B922B5B880D00EA2E20 /* API+parse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "API+parse.swift"; sourceTree = "<group>"; };
 		85568B942B5B898D00EA2E20 /* View+memorial.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "View+memorial.swift"; sourceTree = "<group>"; };
 		85568B992B5B91A700EA2E20 /* ScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreView.swift; sourceTree = "<group>"; };
+		857B3AD52B5D23AD00CE90C7 /* Tangerine.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Tangerine.entitlements; sourceTree = "<group>"; };
 		858CA7EB2B5CBAFD00FF49D0 /* HNTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HNTextView.swift; sourceTree = "<group>"; };
 		85954B682AB3EEBC00680758 /* Tangerine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tangerine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		85954B6B2AB3EEBC00680758 /* TangerineApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TangerineApp.swift; sourceTree = "<group>"; };
@@ -188,6 +189,7 @@
 		85954B6A2AB3EEBC00680758 /* Tangerine */ = {
 			isa = PBXGroup;
 			children = (
+				857B3AD52B5D23AD00CE90C7 /* Tangerine.entitlements */,
 				85E60A412B5CFB4000BE4DC1 /* Info.plist */,
 				85954BAA2AB405AE00680758 /* Util */,
 				85954BA12AB404D500680758 /* Data */,
@@ -673,9 +675,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Tangerine/Tangerine.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"Tangerine/Preview Content\"";
 				DEVELOPMENT_TEAM = HRM88D6372;
 				ENABLE_PREVIEWS = YES;
@@ -685,8 +688,8 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -695,6 +698,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.forestkatsch.tangerine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = xros;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -710,9 +714,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Tangerine/Tangerine.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"Tangerine/Preview Content\"";
 				DEVELOPMENT_TEAM = HRM88D6372;
 				ENABLE_PREVIEWS = YES;
@@ -722,8 +727,8 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -732,6 +737,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.forestkatsch.tangerine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = xros;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
