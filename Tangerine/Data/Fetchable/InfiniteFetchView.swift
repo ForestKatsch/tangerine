@@ -42,7 +42,7 @@ struct InfiniteFetchView<Request: InfiniteFetchable, Content: View>: View {
     }
 
     @ViewBuilder
-    var thingy: some View {
+    var fetchStateView: some View {
         // Data!
         if data.count > 0 {
             content(data, loadNext, error)
@@ -53,10 +53,8 @@ struct InfiniteFetchView<Request: InfiniteFetchable, Content: View>: View {
             }
             // Loading...
         } else if let placeholder = Request.placeholder {
-            CenteredScrollView {
-                content([placeholder], {}, nil)
-                    .redacted(reason: .placeholder)
-            }
+            content([placeholder], {}, nil)
+                .redacted(reason: .placeholder)
         } else {
             CenteredScrollView {
                 ZStack {
@@ -67,8 +65,8 @@ struct InfiniteFetchView<Request: InfiniteFetchable, Content: View>: View {
     }
 
     var body: some View {
-        thingy
-            .onChange(of: request, initial: true) {
+        fetchStateView
+            .onAppear {
                 instance.onAppear()
             }
             .onDisappear {

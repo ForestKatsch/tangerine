@@ -101,7 +101,7 @@ struct ListingView: View {
             .listStyle(.inset)
             .scrollIndicators(.hidden)
             .onAppear {
-                if posts.isEmpty {
+                if posts.isEmpty || selection != nil {
                     return
                 }
 
@@ -110,6 +110,7 @@ struct ListingView: View {
                 if first.isPlaceholder {
                     return
                 }
+
                 #if os(macOS)
                     selection = first
                 #endif

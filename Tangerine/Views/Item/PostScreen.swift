@@ -37,14 +37,7 @@ struct PostScreen: View {
     @ViewBuilder
     var linkView: some View {
         if let url = post.link {
-            ExternalLink(url) {
-                HStack(alignment: .firstTextBaseline, spacing: .spacingSmall) {
-                    Label(Formatter.format(urlWithoutPrefix: url), systemImage: "link")
-                        .multilineTextAlignment(.leading)
-                        .lineLimit(4)
-                }
-            }
-            .font(.subheadline)
+            ProminentExternalLink(url)
         }
     }
 
@@ -70,6 +63,7 @@ struct PostScreen: View {
                 .font(.headline)
                 .multilineTextAlignment(.leading)
                 .lineLimit(3)
+                .fixedSize(horizontal: false, vertical: true)
         }
     }
 
@@ -144,7 +138,7 @@ struct PostScreen: View {
     }
 
     var body: some View {
-        CenteredScrollView {
+        ScrollView {
             VStack(alignment: .leading) {
                 headerView
                     .padding(.vertical)
@@ -158,10 +152,14 @@ struct PostScreen: View {
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         }
+        .id(post.id)
         .toolbar {
             ToolbarItem {
                 ShareLink("Share", item: post.hnUrl)
             }
+        }
+        .onAppear {
+            print(post.id)
         }
         .navigationTitle(nativeTitle ? title : "")
         #if os(iOS)

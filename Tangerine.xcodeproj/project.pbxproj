@@ -48,6 +48,7 @@
 		85954BC92AB42BC100680758 /* ExternalLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954BC82AB42BC100680758 /* ExternalLink.swift */; };
 		85D4F12A2ABE86AF00CF8498 /* WindowRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D4F1292ABE86AF00CF8498 /* WindowRoot.swift */; };
 		85D98D532B5CE15D00FFB600 /* TangerineError+view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D98D522B5CE15D00FFB600 /* TangerineError+view.swift */; };
+		85D98D552B5CE28700FFB600 /* ProminentExternalLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D98D542B5CE28700FFB600 /* ProminentExternalLink.swift */; };
 		85DF8D692B5BB16F00F9ADAC /* InfiniteFetchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DF8D682B5BB16F00F9ADAC /* InfiniteFetchView.swift */; };
 		85DF8D6B2B5C45C100F9ADAC /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DF8D6A2B5C45C100F9ADAC /* ErrorView.swift */; };
 		85DF8D6D2B5C4C1500F9ADAC /* FetchPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DF8D6C2B5C4C1500F9ADAC /* FetchPost.swift */; };
@@ -113,6 +114,7 @@
 		85954BC82AB42BC100680758 /* ExternalLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalLink.swift; sourceTree = "<group>"; };
 		85D4F1292ABE86AF00CF8498 /* WindowRoot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowRoot.swift; sourceTree = "<group>"; };
 		85D98D522B5CE15D00FFB600 /* TangerineError+view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TangerineError+view.swift"; sourceTree = "<group>"; };
+		85D98D542B5CE28700FFB600 /* ProminentExternalLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProminentExternalLink.swift; sourceTree = "<group>"; };
 		85DF8D682B5BB16F00F9ADAC /* InfiniteFetchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfiniteFetchView.swift; sourceTree = "<group>"; };
 		85DF8D6A2B5C45C100F9ADAC /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		85DF8D6C2B5C4C1500F9ADAC /* FetchPost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchPost.swift; sourceTree = "<group>"; };
@@ -151,6 +153,7 @@
 			isa = PBXGroup;
 			children = (
 				85954BC82AB42BC100680758 /* ExternalLink.swift */,
+				85D98D542B5CE28700FFB600 /* ProminentExternalLink.swift */,
 				853B506F2AB44CEA00C2B611 /* OpenLink.swift */,
 				85568B992B5B91A700EA2E20 /* ScoreView.swift */,
 				85DF8D6A2B5C45C100F9ADAC /* ErrorView.swift */,
@@ -492,6 +495,7 @@
 				85954BC92AB42BC100680758 /* ExternalLink.swift in Sources */,
 				85954BC32AB41ACE00680758 /* CGFloat+constants.swift in Sources */,
 				85DF8D6D2B5C4C1500F9ADAC /* FetchPost.swift in Sources */,
+				85D98D552B5CE28700FFB600 /* ProminentExternalLink.swift in Sources */,
 				85954BBC2AB409BD00680758 /* Logger+init.swift in Sources */,
 				85D98D532B5CE15D00FFB600 /* TangerineError+view.swift in Sources */,
 				85954BBE2AB40FF100680758 /* ListingColumns.swift in Sources */,

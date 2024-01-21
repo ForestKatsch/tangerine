@@ -15,12 +15,12 @@ import SwiftUI
     let supportsSafariView = false
 #endif
 
-struct ExternalLink<Content: View>: View {
-    @State
-    private var presentingSafariView = false
-
+struct PlainExternalLink<Content: View>: View {
     @Environment(\.isFocused)
     var isFocused
+
+    @State
+    private var presentingSafariView = false
 
     var url: URL
 
@@ -35,9 +35,7 @@ struct ExternalLink<Content: View>: View {
     #if os(iOS)
         var safariView: some View {
             Button(action: {
-                #if !os(macOS)
-                    self.presentingSafariView = true
-                #endif
+                presentingSafariView = true
             }) {
                 label()
             }
@@ -76,16 +74,32 @@ struct ExternalLink<Content: View>: View {
 
     var body: some View {
         wrapperView
+            .contextMenu {
+                OpenLink(destination: url)
+                CopyLink(destination: url)
+                ShareLink(item: url)
+            }
+    }
+}
+
+struct ExternalLink<Content: View>: View {
+    var url: URL
+
+    @ViewBuilder
+    var label: () -> Content
+
+    init(_ url: URL, @ViewBuilder label: @escaping () -> Content) {
+        self.url = url
+        self.label = label
+    }
+
+    var body: some View {
+        PlainExternalLink(url, label: label)
         #if os(visionOS)
-        .buttonStyle(.bordered)
+            .buttonStyle(.bordered)
         #elseif os(iOS)
-        .foregroundStyle(.accent)
-        .buttonStyle(.plain)
+            .foregroundStyle(.accent)
+            .buttonStyle(.plain)
         #endif
-        .contextMenu {
-            OpenLink(destination: url)
-            CopyLink(destination: url)
-            ShareLink(item: url)
-        }
     }
 }
