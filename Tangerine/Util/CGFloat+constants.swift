@@ -14,8 +14,8 @@ extension CGFloat {
     static let spacingHuge: CGFloat = 30
 
     #if os(visionOS)
-        static let spacingHorizontal: CGFloat = 25
+        static let spacingHorizontal: CGFloat = 20
     #else
-        static let spacingHorizontal: CGFloat = 15
+        static let spacingHorizontal: CGFloat = 20
     #endif
 }

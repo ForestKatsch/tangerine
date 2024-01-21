@@ -88,6 +88,12 @@ class Post: Identifiable, Hashable {
             link: URL(string: "https://forestkatsch.com/"), score: 128, authorId: "zlsa",
             commentCount: 32, kind: .normal
         )
+        let topComment = Comment(id: UUID().uuidString, text: "First", authorId: "zlsa")
+        let childComment = Comment(id: UUID().uuidString, text: "Hello, world!", authorId: "joseph")
+        topComment.children.append(childComment)
+        childComment.parent = topComment
+
+        post.comments.append(topComment)
         post.isPlaceholder = true
         return post
     }

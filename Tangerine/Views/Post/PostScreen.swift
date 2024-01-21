@@ -129,24 +129,23 @@ struct PostScreen: View {
     }
 
     var commentsView: some View {
-        LazyVStack {
+        LazyVStack(spacing: .spacingHuge) {
             ForEach(post.comments) { comment in
-                CommentTree(comment)
+                CommentTree(comment, post: post)
             }
         }
+        .padding(.bottom)
     }
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: .spacingLarge) {
                 headerView
-                    .padding(.vertical)
+                    .padding(.top)
                     .padding(.horizontal, .spacingHorizontal)
-                ZStack(alignment: .center) {
-                    commentsView
-                        .padding(.horizontal, .spacingHorizontal)
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                Divider()
+                commentsView
+                    .padding(.horizontal, .spacingHorizontal)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         }
@@ -155,9 +154,6 @@ struct PostScreen: View {
             ToolbarItem {
                 ShareLink("Share", item: post.hnUrl)
             }
-        }
-        .onAppear {
-            print(post.id)
         }
         .navigationTitle(nativeTitle ? title : "")
         #if os(iOS)

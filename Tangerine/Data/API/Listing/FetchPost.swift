@@ -46,13 +46,11 @@ private func parseText(element: Element) throws -> String {
             return [node.text()]
         } else if let element = node as? Element {
             let name = element.tagName()
-            print("hey")
             if name == "a" {
                 if let href = try? element.attr("href"), let text = try? element.text() {
                     return ["[\(text)](\(href))"]
                 }
             } else if name == "p" {
-                print("paragraph")
                 if let paragraph = try? parseText(element: element) {
                     return ["\n\n" + paragraph]
                 }
@@ -157,6 +155,22 @@ extension Post {
             commentBranch.append(comment)
 
             // OK, let's fill out the comment.
+            if let header = try? element.select("span.comhead").first() {
+                if let authorText = try? header.select(".hnuser").text() {
+                    comment.authorId = authorText
+                } else {
+                    l.warning("could not find header '.hnuser' for comment \(comment.id)")
+                }
+
+                if let age = try? header.select(".age").first() {
+                    if let postedDate = try? age.attr("title") {
+                        comment.postedDate = Parse.date(fromSubline: postedDate)
+                    }
+                } else {
+                    l.warning("could not find header '.age' for comment \(comment.id)")
+                }
+            }
+
             if let textElement = try? element.select("div.comment").first() {
                 comment.text = try? parseText(element: textElement)
             }
