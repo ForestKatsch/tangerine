@@ -15,11 +15,12 @@ import SwiftUI
 
 struct PostScreen: View {
     var post: Post
-    var comments: [Comment]
 
-    init(_ post: Post, comments: [Comment] = []) {
+    var fetchStatus: FetchStatus
+
+    init(_ post: Post, fetchStatus: FetchStatus) {
         self.post = post
-        self.comments = comments
+        self.fetchStatus = fetchStatus
     }
 
     var title: LocalizedStringKey {
@@ -133,6 +134,17 @@ struct PostScreen: View {
             ForEach(post.comments) { comment in
                 CommentTree(comment, post: post)
             }
+            if fetchStatus.isLoading {
+                HStack {
+                    Spacer()
+                    ProgressView()
+                    Spacer()
+                }
+                .padding(.vertical)
+            } else if post.comments.isEmpty {
+                ContentUnavailableView("No comments", systemImage: "bubble")
+                    .padding(.vertical)
+            }
         }
         .padding(.bottom)
     }
@@ -149,6 +161,7 @@ struct PostScreen: View {
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         }
+        .scrollIndicators((post.commentCount ?? 0) > 5 ? .hidden : .automatic)
         .id(post.id)
         .toolbar {
             ToolbarItem {
@@ -163,5 +176,5 @@ struct PostScreen: View {
 }
 
 #Preview {
-    PostScreen(.placeholder)
+    PostScreen(.placeholder, fetchStatus: .init(fetchState: .idle, isFetching: false, isLoading: false, error: nil))
 }

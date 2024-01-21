@@ -57,10 +57,11 @@ struct CommentView: View {
     }
 
     var body: some View {
-        VStack(spacing: .spacingMedium) {
+        LazyVStack(spacing: .spacingMedium) {
             header
             HNTextView(comment.text ?? "oh no")
                 .frame(maxWidth: .infinity, alignment: .leading)
+                .id(comment.id + "-text")
         }
         /*
          .overlay {
@@ -133,12 +134,13 @@ struct CommentTree: View {
                     CommentTree(reply, post: post)
                 }
             }
+            .id(comment.id + "-stack")
         }
         // .padding(.bottom)
     }
 
     var body: some View {
-        VStack(spacing: CommentTree.commentSpacing) {
+        LazyVStack(spacing: CommentTree.commentSpacing) {
             CommentView(comment, post: post)
             if !comment.children.isEmpty {
                 children

@@ -89,14 +89,14 @@ struct ListingView: View {
     }
 
     var body: some View {
-        InfiniteFetchView(FetchBrowseListing(type: type)) { pages, next, error in
+        InfiniteFetchView(FetchBrowseListing(type: type)) { pages, next, status in
             let posts = pages.flatMap { $0 }
             List(selection: $selection) {
                 ForEach(posts, id: \.id) { post in
                     PostRow(post: post)
                         .tag(post)
                 }
-                InfiniteEnd(next: next, error: error)
+                InfiniteEnd(next: next, error: status.error)
             }
             .listStyle(.inset)
             .scrollIndicators(.hidden)

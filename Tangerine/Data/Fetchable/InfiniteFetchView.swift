@@ -8,9 +8,16 @@
 import Foundation
 import SwiftUI
 
+struct FetchStatus {
+    var fetchState: FetchState
+    var isFetching: Bool
+    var isLoading: Bool
+    var error: Error?
+}
+
 struct InfiniteFetchView<Request: InfiniteFetchable, Content: View>: View {
     @ViewBuilder
-    var content: ([Request.T], @escaping () -> Void, Error?) -> Content
+    var content: ([Request.T], @escaping () -> Void, FetchStatus) -> Content
 
     var request: Request
     var instance: InfiniteFetchInstance<Request>
@@ -19,7 +26,16 @@ struct InfiniteFetchView<Request: InfiniteFetchable, Content: View>: View {
     var data: [Request.T] { instance.data }
     var error: Error? { instance.error }
 
-    init(_ request: Request, @ViewBuilder content: @escaping ([Request.T], @escaping () -> Void, Error?) -> Content) {
+    var status: FetchStatus {
+        .init(
+            fetchState: fetchState,
+            isFetching: fetchState == .fetching,
+            isLoading: data.isEmpty && fetchState == .fetching,
+            error: error
+        )
+    }
+
+    init(_ request: Request, @ViewBuilder content: @escaping ([Request.T], @escaping () -> Void, FetchStatus) -> Content) {
         self.request = request
         self.instance = FetchInstanceCache.shared.get(infinite: request)
         self.content = content
@@ -45,7 +61,7 @@ struct InfiniteFetchView<Request: InfiniteFetchable, Content: View>: View {
     var fetchStateView: some View {
         // Data!
         if data.count > 0 {
-            content(data, loadNext, error)
+            content(data, loadNext, status)
             // Error?
         } else if let error {
             CenteredScrollView {
@@ -53,7 +69,7 @@ struct InfiniteFetchView<Request: InfiniteFetchable, Content: View>: View {
             }
             // Loading...
         } else if let placeholder = Request.placeholder {
-            content([placeholder], {}, nil)
+            content([placeholder], {}, status)
                 .redacted(reason: .placeholder)
         } else {
             CenteredScrollView {
