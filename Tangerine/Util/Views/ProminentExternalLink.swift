@@ -45,10 +45,8 @@ struct ProminentExternalLink: View {
         var metadata: Metadata?
 
         defer {
-            withAnimation {
-                state = .done
-                self.metadata = metadata
-            }
+            state = .done
+            self.metadata = metadata
         }
 
         var request = URLRequest(url: url)
