@@ -129,10 +129,9 @@ struct PostScreen: View {
     }
 
     var commentsView: some View {
-        VStack {
-            ContentUnavailableView("Comments not implemented yet", systemImage: "exclamationmark.bubble")
-            ExternalLink(post.hnUrl) {
-                Label("Browse comments", systemImage: "globe")
+        LazyVStack {
+            ForEach(post.comments) { comment in
+                CommentTree(comment)
             }
         }
     }
@@ -145,7 +144,6 @@ struct PostScreen: View {
                     .padding(.horizontal, .spacingHorizontal)
                 ZStack(alignment: .center) {
                     commentsView
-                        .fixedSize(horizontal: false, vertical: /*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/)
                         .padding(.horizontal, .spacingHorizontal)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)

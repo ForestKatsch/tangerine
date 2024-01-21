@@ -39,7 +39,16 @@ class Comment: Identifiable, Hashable {
 
     var isPlaceholder = false
 
+    var parent: Comment?
     var children: [Comment] = []
+
+    var indent: Int {
+        if let parent {
+            return parent.indent + 1
+        }
+
+        return 0
+    }
 
     var hnUrl: URL {
         URL(string: "https://news.ycombinator.com/item?id=\(id)")!

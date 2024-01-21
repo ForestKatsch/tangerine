@@ -27,25 +27,46 @@ private func parseText(element: Element) throws -> String {
     // Weird "p" fuckery is needed because HN's formatting is insane:
     //
     // <div id="container">
-    // My first paragraph.
-    // <p>My second paragraph.</p>
-    // <p>My third paragraph.</p>
+    //   My first paragraph.
+    //   <p>My second paragraph.</p>
+    //   <p>My third paragraph.</p>
+    // </div>
+
+    // And for comments:
+    //
+    // <div class="comment">
+    //   <span class="commtext c00">My first paragraph.</span>
+    //   <p>My second paragraph.</p>
+    //   <p>My third paragraph.</p>
+    //   <div class="reply">...</div> <!-- wtf -->
     // </div>
 
     return element.getChildNodes().flatMap { node in
         if let node = node as? TextNode {
             return [node.text()]
         } else if let element = node as? Element {
-            switch element.tagName() {
-            case "a":
+            let name = element.tagName()
+            print("hey")
+            if name == "a" {
                 if let href = try? element.attr("href"), let text = try? element.text() {
                     return ["[\(text)](\(href))"]
                 }
-            case "p":
+            } else if name == "p" {
+                print("paragraph")
                 if let paragraph = try? parseText(element: element) {
                     return ["\n\n" + paragraph]
                 }
-            default:
+            } else if name == "span" && element.hasClass("commtext") {
+                if let paragraph = try? parseText(element: element) {
+                    return [paragraph]
+                }
+            } else if name == "div" && element.hasClass("reply") {
+                return []
+            } else if name == "i" {
+                if let contents = try? parseText(element: element) {
+                    return ["_", contents, "_"]
+                }
+            } else {
                 return ["**unknown tag '\(element.tagName())'**"]
 
                 /*
@@ -76,6 +97,69 @@ extension Post {
 
         if let textContainer = try? postContainer.select("div.toptext").first() {
             post.text = try? parseText(element: textContainer)
+        }
+
+        // Ugh, comment parsing lol.
+        guard let commentContainer = try? main.select("table.comment-tree > tbody").first() else {
+            return post
+        }
+
+        guard let commentElements = try? commentContainer.select("> tr.athing") else {
+            return post
+        }
+
+        var commentBranch: [Comment] = []
+
+        for element in commentElements {
+            guard let indentString = try? element.select("td.ind[indent]").first()?.attr("indent") else {
+                print("oh no - expected indent!")
+                continue
+            }
+
+            guard let indent = Int(indentString, radix: 10) else {
+                print("oh no - expected indent!")
+                continue
+            }
+
+            let id = element.id()
+            let comment = Comment(id: id)
+
+            if indent == commentBranch.count {
+                // One deeper!
+                // A <-- branch.count == 1
+                //   B <-- comment: indent = 1
+            } else if indent == commentBranch.count - 1 {
+                // Sibling of current
+                // A
+                //   B <-- branch.count == 2
+                //   C <-- comment: indent = 1
+                _ = commentBranch.popLast()
+            } else if indent < commentBranch.count {
+                // Back to a previous parent!
+                // A
+                //   B <-- branch.count == 2
+                // C <-- comment: indent = 0
+                commentBranch.removeLast(commentBranch.count - indent)
+            } else {
+                print("oh shiiiiiit we lost our spot")
+            }
+
+            let parent = commentBranch.last
+
+            parent?.children.append(comment)
+            comment.parent = parent
+
+            // Nothing on the branch - therefore we are a parent.
+            if commentBranch.count == 0 {
+                post.comments.append(comment)
+            }
+
+            commentBranch.append(comment)
+
+            // OK, let's fill out the comment.
+            if let textElement = try? element.select("div.comment").first() {
+                comment.text = try? parseText(element: textElement)
+            }
         }
 
         return post
