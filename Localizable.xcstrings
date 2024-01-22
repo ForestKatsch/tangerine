@@ -275,17 +275,6 @@
         }
       }
     },
-    "settings.title" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "asdf"
-          }
-        }
-      }
-    },
     "Share" : {
 
     },
@@ -301,17 +290,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sign in"
-          }
-        }
-      }
-    },
-    "sign-in.unavailable.label" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Not available yet"
           }
         }
       }
