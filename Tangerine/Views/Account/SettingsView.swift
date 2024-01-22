@@ -47,10 +47,10 @@ struct CommentSettings: View {
     var commentTreeMode
 
     var previewComment: Comment = {
-        let start = Comment(id: "a", text: "I saw your short demo at BarCamp and I must say Dropbox looks great!", authorId: "zlsa")
-        let reply = Comment(id: "b", text: "For a Linux user, you can already build such a system yourself quite trivially by getting an FTP account, mounting it locally with curlftpfs, and then using SVN or CVS on the mounted filesystem.", authorId: "RobertJ")
-        let reply2 = Comment(id: "c", text: "Many people want something plug and play.", authorId: "dhouston")
-        let reply3 = Comment(id: "d", text: "You are correct that this presents a very good, easy-to-install piece of functionality for Windows users.", authorId: "RobertJ")
+        let start = Comment(id: "a", text: "Blender's binary space partitioned UI layout is a game-changer. Streamlines the workflow tremendously. Anyone else tried it?", authorId: "zlsa")
+        let reply = Comment(id: "b", text: "Love how it optimizes screen space, especially on multiple monitors. The customizability is a big plus.", authorId: "RenderRaven")
+        let reply2 = Comment(id: "c", text: "Totally agree. Custom layouts make complex projects more manageable. Curious about how it handles custom screens?", authorId: "zlsa")
+        let reply3 = Comment(id: "d", text: "It integrates smoothly with custom scripts. The layout adapts dynamically, which is a huge workflow improvement.", authorId: "RenderRaven")
 
         start.append(comment: reply)
         reply.append(comment: reply2)
@@ -61,6 +61,7 @@ struct CommentSettings: View {
 
     var preview: some View {
         CommentTree([previewComment])
+            .foregroundStyle(.primary)
     }
 
     var body: some View {
@@ -79,13 +80,8 @@ struct CommentSettings: View {
              }
              }
              */
-        } header: {
-            Text("comment-settings.label")
-        } footer: {
-            preview
-                .listRowInsets(.init())
-                .padding(.vertical)
         }
+        preview
     }
 }
 
@@ -114,9 +110,7 @@ struct PreviewSettings: View {
                         .tag(mode)
                 }
             }
-        } header: {
-            Text("link-previews.label")
-        } footer: {
+        } header: {} footer: {
             ProminentExternalLink(URL(string: "https://producthunt.com/")!)
                 .listRowInsets(.init())
                 .padding(.vertical)

@@ -118,14 +118,6 @@ struct PostRow: View {
                 CopyLink(destination: post.hnUrl, label: "Copy HN link")
             #endif
             ShareLink(item: post.hnUrl)
-            if let url = post.link {
-                Section(Formatter.format(urlWithoutPrefix: url)) {
-                    OpenLink(destination: url)
-                    ShareLink(item: url) {
-                        Label("Share link", systemImage: "link")
-                    }
-                }
-            }
         }
     }
 }
