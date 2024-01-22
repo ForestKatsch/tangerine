@@ -5,9 +5,24 @@
 //  Created by Forest Katsch on 1/20/24.
 //
 
+import Defaults
 import SwiftUI
 
+extension LinkPreviewMode {
+    var showImage: Bool {
+        switch self {
+        case .textAndImage:
+            return true
+        default:
+            return false
+        }
+    }
+}
+
 struct ProminentExternalLink: View {
+    @Default(.linkPreviewMode)
+    var linkPreviewMode
+
     struct Metadata {
         var title: String
         var description: String?
@@ -59,8 +74,6 @@ struct ProminentExternalLink: View {
         guard let titleText = try? document.select("meta[property=og:title]").first()?.attr("content") else {
             if let titleText = try? document.select("title").first()?.text() {
                 metadata = Metadata(title: titleText)
-            } else {
-                metadata = Metadata(title: url.absoluteString)
             }
             return
         }
@@ -82,7 +95,9 @@ struct ProminentExternalLink: View {
 
     @ViewBuilder
     var image: some View {
-        if let imageUrl = metadata?.imageUrl {
+        if !linkPreviewMode.showImage {
+            EmptyView()
+        } else if let imageUrl = metadata?.imageUrl {
             ZStack(alignment: .center) {
                 Spacer()
                     .aspectRatio(1.91 / 1, contentMode: .fit)
@@ -121,17 +136,15 @@ struct ProminentExternalLink: View {
     var text: some View {
         HStack(spacing: .spacingSmall) {
             VStack(alignment: .leading, spacing: .spacingSmall) {
-                Text(metadata?.title ?? "")
+                Text(url.host() ?? "")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                Text(metadata?.title.trimmingCharacters(in: .whitespaces) ?? "")
                     .font(.headline)
                 if let description = metadata?.description {
-                    Text(description)
+                    Text(description.trimmingCharacters(in: .whitespaces))
                         .font(.subheadline)
                         .lineLimit(showAsLandscape ? 8 : 3)
-                } else if let host = url.host() {
-                    Text(host)
-                        .font(.subheadline)
-                        .lineLimit(1)
-                        .foregroundStyle(.accent)
                 }
             }
             .multilineTextAlignment(.leading)
@@ -181,20 +194,27 @@ struct ProminentExternalLink: View {
         #endif
     }
 
+    var previewUrl: some View {
+        HStack {
+            Text(url.absoluteString)
+                .font(.subheadline)
+                .lineLimit(1)
+                .fixedSize(horizontal: false, vertical: true)
+                .foregroundStyle(.accent)
+            Spacer()
+            chevron
+        }
+        .padding()
+    }
+
     @ViewBuilder
     var contents: some View {
-        if metadata != nil {
+        if linkPreviewMode == .linkOnly {
+            previewUrl
+        } else if metadata != nil {
             preview
         } else if state == .done {
-            HStack {
-                Text(url.absoluteString)
-                    .lineLimit(3)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .foregroundStyle(.accent)
-                Spacer()
-                chevron
-            }
-            .padding()
+            previewUrl
         } else {
             HStack {
                 ProgressView()

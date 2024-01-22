@@ -40,7 +40,7 @@ struct ListingColumns: View {
                 }
             }
             Section {
-                Label("account.title", systemImage: "person.crop.circle").tag(Page.account)
+                Label("account.label", systemImage: "person.crop.circle").tag(Page.account)
             }
         }
         .navigationTitle("Tangerine")

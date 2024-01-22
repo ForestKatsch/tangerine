@@ -53,4 +53,9 @@ class Comment: Identifiable, Hashable {
     var hnUrl: URL {
         URL(string: "https://news.ycombinator.com/item?id=\(id)")!
     }
+
+    func append(comment: Comment) {
+        children.append(comment)
+        comment.parent = self
+    }
 }

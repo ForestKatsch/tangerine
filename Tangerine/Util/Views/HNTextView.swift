@@ -32,11 +32,8 @@ struct HNTextView: View {
                         .font(.body.monospaced())
                 } else {
                     if paragraph.first == ">" {
-                        HStack(alignment: .firstTextBaseline) {
-                            Text(">")
-                            text
-                                .frame(maxWidth: .infinity)
-                        }
+                        Text(">")
+                        text
                     } else {
                         text
                     }
@@ -61,6 +58,7 @@ struct HNTextView: View {
                     .fixedSize(horizontal: false, vertical: true)
             }
         }
+        #if os(iOS)
         .safariView(isPresented: $presentingSafariView) {
             SafariView(
                 url: url,
@@ -72,6 +70,7 @@ struct HNTextView: View {
             .preferredControlAccentColor(.accent)
             .dismissButtonStyle(.done)
         }
+        #endif
         /*
          .environment(\.openURL, OpenURLAction { url in
              #if false
@@ -92,5 +91,5 @@ struct HNTextView: View {
 }
 
 #Preview {
-    HNTextView("Hello, world!\n\n[0] https://google.com")
+    HNTextView("Hello, world!\n\n[0] https://google.com\n\n> Hello!")
 }

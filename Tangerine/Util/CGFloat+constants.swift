@@ -20,7 +20,7 @@ extension CGFloat {
     #endif
 
     #if os(visionOS)
-        static let radius: CGFloat = 20
+        static let radius: CGFloat = 15
     #else
         static let radius: CGFloat = 10
     #endif
