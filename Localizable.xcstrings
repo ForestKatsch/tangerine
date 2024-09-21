@@ -143,6 +143,9 @@
     "Copy" : {
 
     },
+    "Copy HN link" : {
+
+    },
     "E%@ .%@" : {
       "localizations" : {
         "en" : {
@@ -254,9 +257,6 @@
 
     },
     "No more results" : {
-
-    },
-    "oh no" : {
 
     },
     "Open in browser" : {

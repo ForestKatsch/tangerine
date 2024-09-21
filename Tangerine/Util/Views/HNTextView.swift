@@ -57,6 +57,7 @@ struct HNTextView: View {
                 paragraph(String(par))
                     .fixedSize(horizontal: false, vertical: true)
             }
+            .textSelection(.enabled)
         }
         #if os(iOS)
         .safariView(isPresented: $presentingSafariView) {

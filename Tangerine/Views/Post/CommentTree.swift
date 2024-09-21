@@ -63,9 +63,9 @@ struct CommentView: View {
     var body: some View {
         LazyVStack(spacing: .spacingMedium) {
             header
-            HNTextView(comment.text ?? "oh no")
+            HNTextView(comment.text ?? "!")
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .id(comment.id + "-text")
+                .id(comment.id)
         }
         .id(comment.id)
     }

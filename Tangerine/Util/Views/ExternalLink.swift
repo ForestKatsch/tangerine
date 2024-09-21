@@ -53,7 +53,7 @@ struct PlainExternalLink<Content: View>: View {
         }
     #else
         var safariView: some View {
-            Text("oh no")
+            linkView
         }
     #endif
 
