@@ -29,7 +29,7 @@ struct PostScreen: View {
         }
 
         if let commentCount = post.commentCount {
-            return "\(commentCount, format: .number) comments"
+            return "\(commentCount) comments"
         }
 
         return "\(post.id)"
@@ -130,7 +130,7 @@ struct PostScreen: View {
     }
 
     var commentsView: some View {
-        LazyVStack(spacing: .spacingHuge) {
+        VStack(spacing: .spacingHuge) {
             CommentTree(post.comments, post: post)
             if fetchStatus.isLoading {
                 HStack {
@@ -140,7 +140,7 @@ struct PostScreen: View {
                 }
                 .padding(.vertical)
             } else if post.comments.isEmpty {
-                ContentUnavailableView("No comments", systemImage: "bubble")
+                ContentUnavailableView("post.comments.none", systemImage: "bubble")
                     .padding(.vertical)
             }
         }
@@ -163,7 +163,13 @@ struct PostScreen: View {
         .id(post.id)
         .toolbar {
             ToolbarItem {
-                ShareLink("Share", item: post.hnUrl)
+                ShareLink("share.post.hnUrl", item: post.hnUrl)
+            }
+            ToolbarItem {
+                Menu { PostMenu(post: post) } label: {
+                    Label("listing.post.more", systemImage: "ellipsis")
+                        .labelStyle(.iconOnly)
+                }
             }
         }
         .navigationTitle(nativeTitle ? title : "")

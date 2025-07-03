@@ -1,5 +1,5 @@
 //
-//  CommentView.swift
+//  CommentTree.swift
 //  Tangerine
 //
 //  Created by Forest Katsch on 1/20/24.
@@ -7,69 +7,6 @@
 
 import Defaults
 import SwiftUI
-
-struct CommentView: View {
-    var comment: Comment
-    var post: Post?
-
-    init(_ comment: Comment, post: Post? = nil) {
-        self.comment = comment
-        self.post = post
-    }
-
-    @ViewBuilder
-    var authorView: some View {
-        let isOp = comment.authorId == post?.authorId
-
-        if let authorId = comment.authorId {
-            HStack {
-                if isOp {
-                    Label(authorId, systemImage: "person.fill")
-                        .fixedSize()
-                } else {
-                    Text(authorId)
-                        .fixedSize()
-                }
-            }
-            .font(isOp ? .subheadline.bold() : .subheadline)
-        }
-    }
-
-    @ViewBuilder
-    var postedDate: some View {
-        if let date = comment.postedDate {
-            Text(date.formatted(.relative(presentation: .named)))
-                .help(date.formatted())
-        }
-    }
-
-    var header: some View {
-        HStack {
-            authorView
-            postedDate
-            Spacer()
-            /*
-             Button(action: {}) {
-                 Label("More", systemImage: "ellipsis")
-                     .labelStyle(.iconOnly)
-             }
-             .fixedSize()
-              */
-        }
-        .foregroundStyle(.secondary)
-        .font(.subheadline)
-    }
-
-    var body: some View {
-        LazyVStack(spacing: .spacingMedium) {
-            header
-            HNTextView(comment.text ?? "!")
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .id(comment.id)
-        }
-        .id(comment.id)
-    }
-}
 
 struct CommentTree: View {
     @Default(.commentPalette)
@@ -169,7 +106,7 @@ struct CommentTree: View {
     var paged: some View {
         ScrollView(.horizontal) {
             ForEach(comments) { comment in
-                LazyVStack {
+                VStack {
                     CommentView(comment, post: post)
                     if !comment.children.isEmpty {
                         CommentTree(comment.children, post: post)

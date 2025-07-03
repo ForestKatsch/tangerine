@@ -18,7 +18,7 @@ struct OpenLink: View {
 
     var body: some View {
         Link(destination: url) {
-            Label(label ?? "Open in browser", systemImage: "globe")
+            Label(label ?? "open.inBrowser", systemImage: "globe")
         }
     }
 }

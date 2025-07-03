@@ -11,26 +11,26 @@ extension API.ListingType {
     var name: LocalizedStringKey {
         switch self {
         case .news:
-            return "News"
+            return "listing.news"
         case .new:
-            return "New"
+            return "listing.new"
         case .ask:
-            return "Ask"
+            return "listing.ask"
         case .show:
-            return "Show"
+            return "listing.show"
         case .jobs:
-            return "Jobs"
+            return "listing.jobs"
         }
     }
 
     var title: LocalizedStringKey {
         switch self {
         case .news:
-            return "HN"
+            return "listing.news.compact"
         case .ask:
-            return "Ask HN"
+            return "listing.ask.compact"
         case .show:
-            return "Show HN"
+            return "listing.show.compact"
         default:
             return name
         }
@@ -61,7 +61,7 @@ struct ListingTypePicker: View {
     }
 
     var body: some View {
-        Picker("Feed", selection: $type) {
+        Picker("listing.pick", selection: $type) {
             ForEach(API.ListingType.allCases) { type in
                 Label(type.name, systemImage: type.systemImage).tag(type)
             }
@@ -98,7 +98,7 @@ struct ListingView: View {
                 }
                 InfiniteEnd(next: next, error: status.error)
             }
-            .listStyle(.inset)
+            .listStyle(.insetGrouped)
             .scrollIndicators(.hidden)
             .onChange(of: posts.count, initial: true) {
                 if posts.isEmpty || selection != nil {

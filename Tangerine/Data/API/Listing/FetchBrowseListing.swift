@@ -49,7 +49,7 @@ extension Post {
             throw TangerineError.generic(.cannotParseHtml, context: "#hnmain")
         }
 
-        guard let listingContainer = try? main.select("> tbody > tr#pagespace + tr table").first() else {
+        guard let listingContainer = try? main.select("tbody > tr#bigbox table tbody").first() else {
             throw TangerineError.generic(.cannotParseHtml, context: "listing container")
         }
 

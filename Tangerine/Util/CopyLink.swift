@@ -18,7 +18,7 @@ struct CopyLink: View {
 
     var body: some View {
         Button(action: copy) {
-            Label(label ?? "Copy", systemImage: "doc.on.doc")
+            Label(label ?? "copy.generic", systemImage: "doc.on.doc")
         }
     }
 

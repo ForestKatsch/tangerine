@@ -51,7 +51,7 @@ struct ProminentExternalLink: View {
     var state = FetchState.idle
 
     func fetch() async {
-        if state != .idle {
+        if state != .idle || self.metadata != nil {
             return
         }
 
@@ -60,8 +60,10 @@ struct ProminentExternalLink: View {
         var metadata: Metadata?
 
         defer {
-            state = .done
-            self.metadata = metadata
+            withAnimation {
+                state = .done
+                self.metadata = metadata
+            }
         }
 
         var request = URLRequest(url: url)
@@ -97,33 +99,40 @@ struct ProminentExternalLink: View {
     var image: some View {
         if !linkPreviewMode.showImage {
             EmptyView()
-        } else if let imageUrl = metadata?.imageUrl {
+        } else {
             ZStack(alignment: .center) {
-                Spacer()
-                    .aspectRatio(1.91 / 1, contentMode: .fit)
-
                 Rectangle()
                     .fill(.clear)
-                    .background {
-                        AsyncImage(url: imageUrl, content: { image in
-                            image
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .blur(radius: imageLoaded ? 0 : 20)
-                                .opacity(imageLoaded ? 1 : 0)
-                                .onAppear {
-                                    withAnimation(.easeInOut(duration: 0.5)) {
-                                        imageLoaded = true
+                    .aspectRatio(1.91 / 1, contentMode: .fit)
+
+                if let imageUrl = metadata?.imageUrl {
+                    Rectangle()
+                        .fill(.clear)
+                        .background {
+                            AsyncImage(url: imageUrl, content: { image in
+                                image
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .blur(radius: imageLoaded ? 0 : 20)
+                                    .opacity(imageLoaded ? 1 : 0)
+                                    .onAppear {
+                                        withAnimation(.easeInOut(duration: 0.5)) {
+                                            imageLoaded = true
+                                        }
                                     }
-                                }
-                        }, placeholder: {
-                            ProgressView()
-                        })
-                    }
+                            }, placeholder: {
+                                Image(systemName: "text.page.fill")
+                                    .imageScale(.large)
+                                    .foregroundStyle(.tertiary)
+                            })
+                        }
+                } else {
+                    Image(systemName: "text.page.fill")
+                        .imageScale(.large)
+                        .foregroundStyle(.tertiary)
+                }
             }
             .clipped()
-        } else {
-            EmptyView()
         }
     }
 
@@ -136,11 +145,13 @@ struct ProminentExternalLink: View {
     var text: some View {
         HStack(spacing: .spacingSmall) {
             VStack(alignment: .leading, spacing: .spacingSmall) {
-                Text(url.host() ?? "")
+                Text(url.host() ?? "https://example.com/long-url-path-here")
                     .font(.caption)
                     .foregroundStyle(.secondary)
-                Text(metadata?.title.trimmingCharacters(in: .whitespaces) ?? "")
+                    .lineLimit(1)
+                Text(metadata?.title.trimmingCharacters(in: .whitespaces) ?? "Show HN: Tangerine")
                     .font(.headline)
+                    .lineLimit(2)
                 if let description = metadata?.description {
                     Text(description.trimmingCharacters(in: .whitespaces))
                         .font(.subheadline)
@@ -148,8 +159,10 @@ struct ProminentExternalLink: View {
                 }
             }
             .multilineTextAlignment(.leading)
-            Spacer()
-            chevron
+            /*
+             Spacer()
+             chevron
+              */
         }
         .padding()
     }
@@ -211,16 +224,11 @@ struct ProminentExternalLink: View {
     var contents: some View {
         if linkPreviewMode == .linkOnly {
             previewUrl
-        } else if metadata != nil {
-            preview
-        } else if state == .done {
-            previewUrl
         } else {
-            HStack {
-                ProgressView()
-                Spacer()
-            }
-            .padding()
+            preview
+                .if(state != .done) { view in view
+                    .redacted(reason: .placeholder)
+                }
         }
     }
 

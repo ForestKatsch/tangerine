@@ -5,13 +5,56 @@
 
     },
     "%@" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@"
+          }
+        }
+      }
     },
     "%@ comments" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ comments"
+          }
+        }
+      }
+    },
+    "%lld comments" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld comment"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld comments"
+                }
+              }
+            }
+          }
+        }
+      }
     },
     ">" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ">"
+          }
+        }
+      }
     },
     "account-features.label" : {
       "localizations" : {
@@ -33,11 +76,15 @@
         }
       }
     },
-    "Ask" : {
-
-    },
-    "Ask HN" : {
-
+    "app.name" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tangerine"
+          }
+        }
+      }
     },
     "coming-soon.message" : {
       "localizations" : {
@@ -89,17 +136,6 @@
         }
       }
     },
-    "comment-tree-mode.label" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Display Mode"
-          }
-        }
-      }
-    },
     "comment-tree-mode.nested.description" : {
       "localizations" : {
         "en" : {
@@ -140,11 +176,35 @@
         }
       }
     },
-    "Copy" : {
-
+    "copy.generic" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copy…"
+          }
+        }
+      }
     },
-    "Copy HN link" : {
-
+    "copy.post.hnUrl" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copy discussion…"
+          }
+        }
+      }
+    },
+    "copy.post.link" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copy…"
+          }
+        }
+      }
     },
     "E%@ .%@" : {
       "localizations" : {
@@ -166,16 +226,57 @@
         }
       }
     },
-    "Feed" : {
-
+    "error.generic" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unexpected error"
+          }
+        }
+      }
     },
-    "HN" : {
-
+    "error.network" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Network error"
+          }
+        }
+      }
     },
-    "Job Posting" : {
-
+    "error.network.%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Network error %@"
+          }
+        }
+      }
     },
-    "Jobs" : {
+    "error.network.%lld.%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Network error %1$lld %2$@"
+          }
+        }
+      }
+    },
+    "error.noMoreResults" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No more results"
+          }
+        }
+      }
+    },
+    "Hello, world" : {
 
     },
     "link-preview-mode.label" : {
@@ -228,42 +329,165 @@
         }
       }
     },
-    "Loading..." : {
-
-    },
-    "Network Error %lld%@" : {
+    "listing.ask" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Network Error %1$lld%2$@"
+            "state" : "translated",
+            "value" : "Ask"
           }
         }
       }
     },
-    "Network Error%@" : {
-
+    "listing.ask.compact" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ask HN"
+          }
+        }
+      }
     },
-    "Network issue" : {
-
+    "listing.jobs" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jobs"
+          }
+        }
+      }
     },
-    "New" : {
-
+    "listing.new" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New"
+          }
+        }
+      }
     },
-    "News" : {
-
+    "listing.news" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "News"
+          }
+        }
+      }
     },
-    "No comments" : {
-
+    "listing.news.compact" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "HN"
+          }
+        }
+      }
     },
-    "No more results" : {
-
+    "listing.pick" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Feed"
+          }
+        }
+      }
     },
-    "Open in browser" : {
-
+    "listing.post.more" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "More..."
+          }
+        }
+      }
     },
-    "Post" : {
-
+    "listing.show" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show"
+          }
+        }
+      }
+    },
+    "listing.show.compact" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show HN"
+          }
+        }
+      }
+    },
+    "loading.generic" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading..."
+          }
+        }
+      }
+    },
+    "open.inBrowser" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open in browser"
+          }
+        }
+      }
+    },
+    "post.comment.more" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "More…"
+          }
+        }
+      }
+    },
+    "post.comments.none" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No comments"
+          }
+        }
+      }
+    },
+    "post.kind.job" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Job Posting"
+          }
+        }
+      }
+    },
+    "post.kind.normal" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Post"
+          }
+        }
+      }
     },
     "settings.label" : {
       "localizations" : {
@@ -275,14 +499,35 @@
         }
       }
     },
-    "Share" : {
-
+    "share.post.comment.hnUrl" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share comment…"
+          }
+        }
+      }
     },
-    "Show" : {
-
+    "share.post.hnUrl" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share discussion..."
+          }
+        }
+      }
     },
-    "Show HN" : {
-
+    "share.post.link" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share…"
+          }
+        }
+      }
     },
     "sign-in.label" : {
       "localizations" : {
@@ -293,15 +538,6 @@
           }
         }
       }
-    },
-    "Tangerine" : {
-
-    },
-    "Unexpected Error" : {
-
-    },
-    "Unexpected issue" : {
-
     }
   },
   "version" : "1.0"

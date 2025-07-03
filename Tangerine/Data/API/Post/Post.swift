@@ -73,9 +73,9 @@ class Post: Identifiable, Hashable {
         var name: LocalizedStringKey {
             switch self {
             case .normal:
-                return "Post"
+                return "post.kind.normal"
             case .job:
-                return "Job Posting"
+                return "post.kind.job"
             }
         }
 

@@ -16,7 +16,7 @@ struct ErrorView: View {
 
     var body: some View {
         guard let error = error as? TangerineError else {
-            return AnyView(ContentUnavailableView("Unexpected Error", systemImage: "exclamationmark.triangle"))
+            return AnyView(ContentUnavailableView("error.generic", systemImage: "exclamationmark.triangle"))
         }
 
         if let detail = error.detail {

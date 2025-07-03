@@ -43,7 +43,7 @@ struct InfiniteFetchView<Request: InfiniteFetchable, Content: View>: View {
 
     func errorView(_ error: Error) -> some View {
         guard let error = error as? TangerineError else {
-            return AnyView(ContentUnavailableView("Unexpected Error", systemImage: "exclamationmark.triangle", description: Text(error.localizedDescription)))
+            return AnyView(ContentUnavailableView("error.generic", systemImage: "exclamationmark.triangle", description: Text(error.localizedDescription)))
         }
 
         if let detail = error.detail {
@@ -104,7 +104,7 @@ struct InfiniteEnd: View {
                 ErrorView(error)
                 // TODO: "try again" button
             } else {
-                Text("Loading...")
+                Text("loading.generic")
                     .textCase(.uppercase)
                     .font(.caption)
                     .foregroundStyle(.secondary)

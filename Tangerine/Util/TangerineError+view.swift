@@ -12,11 +12,11 @@ extension TangerineError {
     var name: LocalizedStringKey {
         switch self {
         case .generic:
-            "Unexpected issue"
+            "error.generic"
         case .network:
-            "Network issue"
+            "error.network"
         case .noMoreResults:
-            "No more results"
+            "error.noMoreResults"
         }
     }
 
@@ -42,11 +42,11 @@ extension TangerineError {
             return "E\(String(code.rawValue)) .\(codeName)"
         case let .network(statusCode, context):
             guard let statusCode else {
-                return "Network Error\(context ?? "")"
+                return "error.network.\(context ?? "")"
             }
 
             let contextString = context == nil ? "" : " (\(context!))"
-            return "Network Error \(statusCode)\(contextString)"
+            return "error.network.\(statusCode).\(contextString)"
         default:
             return nil
         }

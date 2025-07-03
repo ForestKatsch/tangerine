@@ -1,5 +1,5 @@
 //
-//  TabRoot.swift
+//  VisionTabRoot.swift
 //  Tangerine
 //
 //  Created by Forest Katsch on 9/14/23.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct TabRoot: View {
+struct VisionTabRoot: View {
     @State
     var post: Post?
 
@@ -30,5 +30,5 @@ struct TabRoot: View {
 }
 
 #Preview {
-    TabRoot()
+    VisionTabRoot()
 }

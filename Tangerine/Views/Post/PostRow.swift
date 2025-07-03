@@ -102,22 +102,7 @@ struct PostRow: View {
                 .foregroundStyle(.secondary)
         }
         .contextMenu {
-            // TODO: implement these actions!
-            /*
-             Button(action: {}) {
-                 Label("Vote up", systemImage: "arrow.up")
-             }
-             Button(action: {}) {
-                 Label("Flag", systemImage: "flag")
-             }
-             Button(action: {}) {
-                 Label("Hide", systemImage: "eye.slash")
-             }
-              */
-            #if os(macOS)
-                CopyLink(destination: post.hnUrl, label: "Copy HN link")
-            #endif
-            ShareLink(item: post.hnUrl)
+            PostMenu(post: post)
         }
     }
 }

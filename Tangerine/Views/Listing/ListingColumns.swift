@@ -43,7 +43,8 @@ struct ListingColumns: View {
                 Label("account.label", systemImage: "person.crop.circle").tag(Page.account)
             }
         }
-        .navigationTitle("Tangerine")
+        .listStyle(.sidebar)
+        .navigationTitle("app.name")
     }
 
     @ViewBuilder
