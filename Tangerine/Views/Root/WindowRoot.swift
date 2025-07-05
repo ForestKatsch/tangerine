@@ -10,7 +10,7 @@ import SwiftUI
 struct WindowRoot: View {
     var body: some View {
         #if os(visionOS)
-            TabRoot()
+            VisionTabRoot()
         #else
             ListingColumns()
         #endif

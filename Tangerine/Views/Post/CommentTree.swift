@@ -106,7 +106,7 @@ struct CommentTree: View {
     var paged: some View {
         ScrollView(.horizontal) {
             ForEach(comments) { comment in
-                VStack {
+                LazyVStack {
                     CommentView(comment, post: post)
                     if !comment.children.isEmpty {
                         CommentTree(comment.children, post: post)
@@ -128,7 +128,7 @@ struct CommentTree: View {
          case .paged:
              paged
          }
-          */
+         */
     }
 
     var body: some View {

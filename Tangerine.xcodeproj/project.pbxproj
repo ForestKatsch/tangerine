@@ -52,6 +52,7 @@
 		85954BC52AB41DBA00680758 /* Parse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954BC42AB41DBA00680758 /* Parse.swift */; };
 		85954BC72AB421C100680758 /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954BC62AB421C100680758 /* Formatter.swift */; };
 		85954BC92AB42BC100680758 /* ExternalLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954BC82AB42BC100680758 /* ExternalLink.swift */; };
+		85D152F02E199F6A00ECEEF9 /* SettingsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D152EF2E199F6800ECEEF9 /* SettingsScreen.swift */; };
 		85D4F12A2ABE86AF00CF8498 /* WindowRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D4F1292ABE86AF00CF8498 /* WindowRoot.swift */; };
 		85D98D532B5CE15D00FFB600 /* TangerineError+view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D98D522B5CE15D00FFB600 /* TangerineError+view.swift */; };
 		85D98D552B5CE28700FFB600 /* ProminentExternalLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D98D542B5CE28700FFB600 /* ProminentExternalLink.swift */; };
@@ -126,6 +127,7 @@
 		85954BC42AB41DBA00680758 /* Parse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parse.swift; sourceTree = "<group>"; };
 		85954BC62AB421C100680758 /* Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
 		85954BC82AB42BC100680758 /* ExternalLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalLink.swift; sourceTree = "<group>"; };
+		85D152EF2E199F6800ECEEF9 /* SettingsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScreen.swift; sourceTree = "<group>"; };
 		85D4F1292ABE86AF00CF8498 /* WindowRoot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowRoot.swift; sourceTree = "<group>"; };
 		85D98D522B5CE15D00FFB600 /* TangerineError+view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TangerineError+view.swift"; sourceTree = "<group>"; };
 		85D98D542B5CE28700FFB600 /* ProminentExternalLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProminentExternalLink.swift; sourceTree = "<group>"; };
@@ -184,7 +186,6 @@
 			isa = PBXGroup;
 			children = (
 				857B3AD72B5DADE500CE90C7 /* AccountScreen.swift */,
-				857B3AE02B5DB67600CE90C7 /* SettingsView.swift */,
 			);
 			path = Account;
 			sourceTree = "<group>";
@@ -253,6 +254,7 @@
 		85954B952AB3F55500680758 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				85D152EE2E199F5800ECEEF9 /* Settings */,
 				857B3AD62B5DADDE00CE90C7 /* Account */,
 				85954BBF2AB4122D00680758 /* Post */,
 				85954B992AB3FF2E00680758 /* Listing */,
@@ -362,6 +364,15 @@
 				854860D12CD6AC1400D3062C /* CommentView.swift */,
 			);
 			path = Post;
+			sourceTree = "<group>";
+		};
+		85D152EE2E199F5800ECEEF9 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				85D152EF2E199F6800ECEEF9 /* SettingsScreen.swift */,
+				857B3AE02B5DB67600CE90C7 /* SettingsView.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -535,6 +546,7 @@
 				8501F0DD2AB4306C0046AA3C /* SelectableText.swift in Sources */,
 				85954BC92AB42BC100680758 /* ExternalLink.swift in Sources */,
 				85954BC32AB41ACE00680758 /* CGFloat+constants.swift in Sources */,
+				85D152F02E199F6A00ECEEF9 /* SettingsScreen.swift in Sources */,
 				85DF8D6D2B5C4C1500F9ADAC /* FetchPost.swift in Sources */,
 				85D98D552B5CE28700FFB600 /* ProminentExternalLink.swift in Sources */,
 				85E60A432B5D044100BE4DC1 /* CommentTree.swift in Sources */,
@@ -714,7 +726,7 @@
 				CODE_SIGN_ENTITLEMENTS = Tangerine/Tangerine.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"Tangerine/Preview Content\"";
 				DEVELOPMENT_TEAM = HRM88D6372;
 				ENABLE_PREVIEWS = YES;
@@ -753,7 +765,7 @@
 				CODE_SIGN_ENTITLEMENTS = Tangerine/Tangerine.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"Tangerine/Preview Content\"";
 				DEVELOPMENT_TEAM = HRM88D6372;
 				ENABLE_PREVIEWS = YES;

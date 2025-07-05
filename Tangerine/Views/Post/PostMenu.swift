@@ -27,12 +27,12 @@ struct PostMenu: View {
                 CopyLink(destination: post.hnUrl, label: "copy.post.hnUrl")
             #endif
             ShareLink(item: post.hnUrl) {
-                Label("share.post.hnUrl", image: "bubble.left.and.bubble.right")
+                Label("share.post.hnUrl", systemImage: "bubble.left.and.bubble.right")
             }
             if let link = post.link {
                 Section(link.host() ?? "share.post.link") {
                     ShareLink(item: link) {
-                        Label("share.post.link", image: "globe")
+                        Label("share.post.link", systemImage: "globe")
                     }
                     #if os(macOS)
                         CopyLink(destination: post.hnUrl, label: "copy.post.link")

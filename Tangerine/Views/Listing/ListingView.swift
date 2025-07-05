@@ -98,7 +98,11 @@ struct ListingView: View {
                 }
                 InfiniteEnd(next: next, error: status.error)
             }
+            #if os(macOS)
+            .listStyle(.inset)
+            #else
             .listStyle(.insetGrouped)
+            #endif
             .scrollIndicators(.hidden)
             .onChange(of: posts.count, initial: true) {
                 if posts.isEmpty || selection != nil {

@@ -15,15 +15,7 @@ extension CGFloat {
     
     static let icon: CGFloat = 28
 
-    #if os(visionOS)
-        static let spacingHorizontal: CGFloat = 20
-    #else
-        static let spacingHorizontal: CGFloat = 20
-    #endif
+    static let spacingHorizontal: CGFloat = 20
 
-    #if os(visionOS)
-        static let radius: CGFloat = 15
-    #else
-        static let radius: CGFloat = 20
-    #endif
+    static let radius: CGFloat = 15
 }

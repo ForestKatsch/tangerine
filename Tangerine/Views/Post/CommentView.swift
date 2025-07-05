@@ -55,7 +55,6 @@ struct CommentView: View {
                 Label("post.comment.more", systemImage: "ellipsis")
                     .labelStyle(.iconOnly)
                     .frame(width: .icon, height: .icon)
-                    .padding(.spacingSmall)
                     .background(Color.clear)
                     .contentShape(RoundedRectangle(cornerRadius: .radius))
             }
@@ -75,7 +74,7 @@ struct CommentView: View {
 
     var menu: some View {
         ShareLink(item: comment.hnUrl) {
-            Label("share.post.comment.hnUrl", image: "bubble.left.and.bubble.right")
+            Label("share.post.comment.hnUrl", systemImage: "bubble.left.and.bubble.right")
         }
     }
 

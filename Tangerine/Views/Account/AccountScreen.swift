@@ -8,49 +8,10 @@
 import Defaults
 import SwiftUI
 
-private enum Page: Int, CaseIterable, Identifiable {
-    var id: Self { self }
-    case signIn
-
-    case preview
-    case comment
-
-    var label: LocalizedStringKey {
-        switch self {
-        case .signIn:
-            "sign-in.label"
-        case .preview:
-            "link-previews.label"
-        case .comment:
-            "comment-settings.label"
-        }
-    }
-}
-
 struct SignInView: View {
     var body: some View {
         ContentUnavailableView("account-features.label", systemImage: "person.crop.circle", description: Text("coming-soon.message"))
             .frame(maxWidth: .infinity)
-    }
-}
-
-private struct PageScreen: View {
-    var page: Page?
-
-    var body: some View {
-        Form {
-            switch page {
-            case .signIn:
-                SignInView()
-            case .preview:
-                PreviewSettings()
-            case .comment:
-                CommentSettings()
-            default:
-                EmptyView()
-            }
-        }
-        .navigationTitle(page?.label ?? "")
     }
 }
 
@@ -61,20 +22,21 @@ struct AccountScreen: View {
                 SignInView()
             }
             Section("settings.label") {
-                NavigationLink(Page.preview.label, value: Page.preview)
-                NavigationLink(Page.comment.label, value: Page.comment)
+                ForEach(SettingsPage.Id.allCases) { page in
+                    NavigationLink(page.label, value: page)
+                }
             }
         }
         .navigationTitle("account.label")
-        .navigationDestination(for: Page.self) { page in
-            PageScreen(page: page)
+        .navigationDestination(for: SettingsPage.Id.self) { page in
+            SettingsPage(page: page)
         }
     }
 }
 
 struct AccountColumns: View {
     @State
-    private var page: Page? = .preview
+    private var page: SettingsPage.Id? = .preview
 
     var body: some View {
         NavigationSplitView {
@@ -83,15 +45,15 @@ struct AccountColumns: View {
                     SignInView()
                 }
                 Section("settings.label") {
-                    Text(Page.preview.label)
-                        .tag(Page.preview)
-                    Text(Page.comment.label)
-                        .tag(Page.comment)
+                    ForEach(SettingsPage.Id.allCases) { page in
+                        Text(page.label)
+                            .tag(page)
+                    }
                 }
             }
             .navigationTitle("account.label")
         } detail: {
-            PageScreen(page: page)
+            SettingsPage(page: page)
         }
     }
 }

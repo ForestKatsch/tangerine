@@ -530,6 +530,7 @@
       }
     },
     "sign-in.label" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

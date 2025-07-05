@@ -39,9 +39,11 @@ struct ListingColumns: View {
                     Label(type.name, systemImage: type.systemImage).tag(Page.listing(type))
                 }
             }
+            #if !os(macOS)
             Section {
                 Label("account.label", systemImage: "person.crop.circle").tag(Page.account)
             }
+            #endif
         }
         .listStyle(.sidebar)
         .navigationTitle("app.name")
@@ -56,7 +58,7 @@ struct ListingColumns: View {
             ListingView(type: type, selection: $post)
         default:
             // should never get here lol
-            EmptyView()
+            ErrorView()
         }
     }
 
