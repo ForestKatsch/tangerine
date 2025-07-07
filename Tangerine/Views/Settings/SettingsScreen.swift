@@ -41,7 +41,7 @@ struct SettingsPage: View {
     }
 }
 
-
+#if os(macOS)
 struct SettingsScreen: View {
     @State private var selected: SettingsPage.Id = .preview
 
@@ -56,3 +56,4 @@ struct SettingsScreen: View {
         .navigationTitle("settings.label")
     }
 }
+#endif
