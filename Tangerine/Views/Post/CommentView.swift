@@ -51,7 +51,9 @@ struct CommentView: View {
             authorView
             postedDate
             Spacer()
-            Menu { menu } label: {
+            Menu {
+                menu
+            } label: {
                 Label("post.comment.more", systemImage: "ellipsis")
                     .labelStyle(.iconOnly)
                     .frame(width: .icon, height: .icon)
@@ -67,6 +69,7 @@ struct CommentView: View {
         VStack(spacing: .spacingMedium) {
             header
             HNTextView(comment.text ?? "! (Error: no text for this comment)")
+                .opacity(comment.opacity)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .id(comment.id)
         }
@@ -78,6 +81,7 @@ struct CommentView: View {
         }
     }
 
+    /*
     var actionBar: some View {
         HStack {
             Text("Hello, world")
@@ -87,35 +91,36 @@ struct CommentView: View {
         .background(.thickMaterial)
         .padding()
     }
-
+    */
+    
     var body: some View {
+        contents
+            .id(comment.id)
+        /*
         ZStack(alignment: .bottom) {
             contents
-            /*
-                 .onTapGesture {
-                     withAnimation {
-                         showActionBar.toggle()
-                     }
-                 }
-             if showActionBar {
-                 actionBar
-             }
-              */
+                .onTapGesture {
+                    withAnimation {
+                        showActionBar.toggle()
+                    }
+                }
+            if showActionBar {
+                actionBar
+            }
         }
         .id(comment.id)
-        /*
-            .contextMenu {
-                menu
-                // TODO: - fix. (doesn't properly size the preview :( )
-                 } preview: {
-                     ZStack(alignment: .topLeading) {
-                         contents
-                     }
-                     .frame(idealWidth: 300, idealHeight: 450)
-                     .padding()
-                     .background(.background)
+        .contextMenu {
+            menu
+            // TODO: - fix. (doesn't properly size the preview :( )
+        } preview: {
+            ZStack(alignment: .topLeading) {
+                contents
             }
-         */
+            .frame(idealWidth: 300, idealHeight: 450)
+            .padding()
+            .background(.background)
+        }
+        */
     }
 }
 

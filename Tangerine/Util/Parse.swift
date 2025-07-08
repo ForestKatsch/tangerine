@@ -18,7 +18,8 @@ enum Parse {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
         dateFormatter.timeZone = .gmt
-        return dateFormatter.date(from: string)
+        let datePart = string.split(separator: " ").first.map(String.init) ?? string
+        return dateFormatter.date(from: datePart)
     }
 
     static func textToMarkdown(text: String) -> String {

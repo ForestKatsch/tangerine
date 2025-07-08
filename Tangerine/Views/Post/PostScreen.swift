@@ -163,11 +163,8 @@ struct PostScreen: View {
         .id(post.id)
         .toolbar {
             ToolbarItem {
-                ShareLink("share.post.hnUrl", item: post.hnUrl)
-            }
-            ToolbarItem {
                 Menu { PostMenu(post: post) } label: {
-                    Label("listing.post.more", systemImage: "ellipsis")
+                    Label("listing.post.more", systemImage: "square.and.arrow.up")
                         .labelStyle(.iconOnly)
                 }
             }

@@ -11,18 +11,6 @@ import SwiftSoup
 
 private let l = Logger(category: "API+Listing")
 
-extension API {
-    static func urlFor(postId: String, page _: Int? = nil) -> URL? {
-        var url = URL(string: "https://news.ycombinator.com/item")
-
-        url?.append(queryItems: [
-            .init(name: "id", value: postId),
-        ])
-
-        return url
-    }
-}
-
 extension Post {
     static func parse(fromPostPage document: Document, postId: String, url _: URL? = nil) throws -> Post {
         try? API.shared.parse(document)
@@ -54,12 +42,12 @@ extension Post {
 
         for element in commentElements {
             guard let indentString = try? element.select("td.ind[indent]").first()?.attr("indent") else {
-                print("oh no - expected indent!")
+                l.error("oh no - expected indent!")
                 continue
             }
 
             guard let indent = Int(indentString, radix: 10) else {
-                print("oh no - expected indent!")
+                l.error("oh no - expected indent 2.0!")
                 continue
             }
 
@@ -83,7 +71,7 @@ extension Post {
                 // C <-- comment: indent = 0
                 commentBranch.removeLast(commentBranch.count - indent)
             } else {
-                print("oh shiiiiiit we lost our spot")
+                l.error("oh shit we lost our spot")
             }
 
             let parent = commentBranch.last
@@ -116,40 +104,12 @@ extension Post {
             }
 
             if let textElement = try? element.select("div.comment > .commtext").first() {
+                comment.score = try? Comment.parseScore(fromComment: textElement)
+                print(comment.score)
                 comment.text = try? Parse.parseHNText(text: textElement).joined(separator: "\n\n")
             }
         }
 
         return post
-    }
-}
-
-struct FetchPost: InfiniteFetchable {
-    typealias T = Post
-    typealias P = Int
-
-    static var placeholder: Post? = Post.placeholder
-
-    var postId: String
-
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(postId)
-    }
-
-    init(postId: String) {
-        self.postId = postId
-    }
-
-    func fetch(page: Int?) async throws -> (Post, Int) {
-        guard let url = API.urlFor(postId: postId, page: page) else {
-            throw TangerineError.generic(.cannotCreateUrl)
-        }
-
-        let request = URLRequest(url: url)
-
-        return try (
-            Post.parse(fromPostPage: await API.shared.fetchHTML(for: request), postId: postId, url: url),
-            (page ?? 0) + 1
-        )
     }
 }

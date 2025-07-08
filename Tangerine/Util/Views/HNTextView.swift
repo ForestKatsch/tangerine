@@ -5,7 +5,7 @@
 //  Created by Forest Katsch on 1/20/24.
 //
 
-import BetterSafariView
+import WebKit
 import SwiftUI
 
 struct HNTextView: View {
@@ -26,31 +26,34 @@ struct HNTextView: View {
         if let attributedString = try? AttributedString(markdown: Parse.textToMarkdown(text: String(paragraph))) {
             let text = Text(attributedString)
 
-            return AnyView(HStack(alignment: .firstTextBaseline) {
-                if mono {
-                    text
-                        .font(.body.monospaced())
-                } else {
-                    if paragraph.first == ">" {
-                        Text(">")
+            return AnyView(
+                HStack(alignment: .firstTextBaseline) {
+                    if mono {
                         text
+                            .font(.body.monospaced())
                     } else {
-                        text
+                        if paragraph.first == ">" {
+                            Text(">")
+                            text
+                        } else {
+                            text
+                        }
                     }
                 }
-            })
+            )
         }
 
         return AnyView(EmptyView())
     }
 
     @State
-    var presentingSafariView = false
+    var presentingWebView = false
 
     @State
     var url: URL = .init(string: "https://apple.com/")!
-
-    var body: some View {
+    
+    @ViewBuilder
+    var copy: some View {
         let paragraphs = text.split(separator: "\n\n")
         VStack(alignment: .leading, spacing: .spacingMedium) {
             ForEach(paragraphs, id: \.self) { par in
@@ -59,35 +62,14 @@ struct HNTextView: View {
             }
             .textSelection(.enabled)
         }
-        #if os(iOS)
-        .safariView(isPresented: $presentingSafariView) {
-            SafariView(
-                url: url,
-                configuration: SafariView.Configuration(
-                    entersReaderIfAvailable: false,
-                    barCollapsingEnabled: true
-                )
-            )
-            .preferredControlAccentColor(.accent)
-            .dismissButtonStyle(.done)
-        }
-        #endif
-        /*
-         .environment(\.openURL, OpenURLAction { url in
-             #if false
-                 self.url = url
-                 withAnimation {
-                     presentingSafariView = true
-                 }
-                 return .handled
-             #else
-                 return .discarded
-             #endif
-         })
-          */
         .multilineTextAlignment(.leading)
         .font(.body)
         .lineSpacing(4)
+    }
+
+    var body: some View {
+        copy
+            .openLinksInSafari()
     }
 }
 

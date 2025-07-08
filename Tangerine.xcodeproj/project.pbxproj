@@ -16,7 +16,6 @@
 		854860D22CD6AC1400D3062C /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854860D12CD6AC1400D3062C /* CommentView.swift */; };
 		85568B932B5B880D00EA2E20 /* API+parse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85568B922B5B880D00EA2E20 /* API+parse.swift */; };
 		85568B952B5B898D00EA2E20 /* View+memorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85568B942B5B898D00EA2E20 /* View+memorial.swift */; };
-		85568B982B5B8EE600EA2E20 /* BetterSafariView in Frameworks */ = {isa = PBXBuildFile; productRef = 85568B972B5B8EE600EA2E20 /* BetterSafariView */; };
 		85568B9A2B5B91A700EA2E20 /* ScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85568B992B5B91A700EA2E20 /* ScoreView.swift */; };
 		85568B9D2B5B9B4200EA2E20 /* SwiftUIIntrospect in Frameworks */ = {isa = PBXBuildFile; productRef = 85568B9C2B5B9B4200EA2E20 /* SwiftUIIntrospect */; };
 		857B3AD82B5DADE500CE90C7 /* AccountScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857B3AD72B5DADE500CE90C7 /* AccountScreen.swift */; };
@@ -53,12 +52,18 @@
 		85954BC72AB421C100680758 /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954BC62AB421C100680758 /* Formatter.swift */; };
 		85954BC92AB42BC100680758 /* ExternalLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954BC82AB42BC100680758 /* ExternalLink.swift */; };
 		85D152F02E199F6A00ECEEF9 /* SettingsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D152EF2E199F6800ECEEF9 /* SettingsScreen.swift */; };
+		85D153272E1CE5D200ECEEF9 /* Comment+parseScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D153262E1CE5CF00ECEEF9 /* Comment+parseScore.swift */; };
+		85D153292E1CE5FD00ECEEF9 /* Post+parse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D153282E1CE5FD00ECEEF9 /* Post+parse.swift */; };
+		85D1532B2E1CE84800ECEEF9 /* Comment+ui.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D1532A2E1CE84400ECEEF9 /* Comment+ui.swift */; };
+		85D1532D2E1CEBEE00ECEEF9 /* SFSafariView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D1532C2E1CEBEA00ECEEF9 /* SFSafariView.swift */; };
+		85D1532F2E1CEC2C00ECEEF9 /* Binding+hasValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D1532E2E1CEC2400ECEEF9 /* Binding+hasValue.swift */; };
+		85D153342E1CEC6F00ECEEF9 /* View+handleOpenUrlInApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D153332E1CEC6600ECEEF9 /* View+handleOpenUrlInApp.swift */; };
 		85D4F12A2ABE86AF00CF8498 /* WindowRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D4F1292ABE86AF00CF8498 /* WindowRoot.swift */; };
 		85D98D532B5CE15D00FFB600 /* TangerineError+view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D98D522B5CE15D00FFB600 /* TangerineError+view.swift */; };
 		85D98D552B5CE28700FFB600 /* ProminentExternalLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D98D542B5CE28700FFB600 /* ProminentExternalLink.swift */; };
 		85DF8D692B5BB16F00F9ADAC /* InfiniteFetchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DF8D682B5BB16F00F9ADAC /* InfiniteFetchView.swift */; };
 		85DF8D6B2B5C45C100F9ADAC /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DF8D6A2B5C45C100F9ADAC /* ErrorView.swift */; };
-		85DF8D6D2B5C4C1500F9ADAC /* FetchPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DF8D6C2B5C4C1500F9ADAC /* FetchPost.swift */; };
+		85DF8D6D2B5C4C1500F9ADAC /* Post+fetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DF8D6C2B5C4C1500F9ADAC /* Post+fetch.swift */; };
 		85DF8D6F2B5C51DA00F9ADAC /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DF8D6E2B5C51DA00F9ADAC /* Comment.swift */; };
 		85E60A432B5D044100BE4DC1 /* CommentTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E60A422B5D044100BE4DC1 /* CommentTree.swift */; };
 		85F54A4F2E16E1FC00512CE6 /* PostMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F54A4E2E16E1FC00512CE6 /* PostMenu.swift */; };
@@ -128,12 +133,18 @@
 		85954BC62AB421C100680758 /* Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
 		85954BC82AB42BC100680758 /* ExternalLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalLink.swift; sourceTree = "<group>"; };
 		85D152EF2E199F6800ECEEF9 /* SettingsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScreen.swift; sourceTree = "<group>"; };
+		85D153262E1CE5CF00ECEEF9 /* Comment+parseScore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Comment+parseScore.swift"; sourceTree = "<group>"; };
+		85D153282E1CE5FD00ECEEF9 /* Post+parse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Post+parse.swift"; sourceTree = "<group>"; };
+		85D1532A2E1CE84400ECEEF9 /* Comment+ui.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Comment+ui.swift"; sourceTree = "<group>"; };
+		85D1532C2E1CEBEA00ECEEF9 /* SFSafariView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSafariView.swift; sourceTree = "<group>"; };
+		85D1532E2E1CEC2400ECEEF9 /* Binding+hasValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Binding+hasValue.swift"; sourceTree = "<group>"; };
+		85D153332E1CEC6600ECEEF9 /* View+handleOpenUrlInApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+handleOpenUrlInApp.swift"; sourceTree = "<group>"; };
 		85D4F1292ABE86AF00CF8498 /* WindowRoot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowRoot.swift; sourceTree = "<group>"; };
 		85D98D522B5CE15D00FFB600 /* TangerineError+view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TangerineError+view.swift"; sourceTree = "<group>"; };
 		85D98D542B5CE28700FFB600 /* ProminentExternalLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProminentExternalLink.swift; sourceTree = "<group>"; };
 		85DF8D682B5BB16F00F9ADAC /* InfiniteFetchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfiniteFetchView.swift; sourceTree = "<group>"; };
 		85DF8D6A2B5C45C100F9ADAC /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
-		85DF8D6C2B5C4C1500F9ADAC /* FetchPost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchPost.swift; sourceTree = "<group>"; };
+		85DF8D6C2B5C4C1500F9ADAC /* Post+fetch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Post+fetch.swift"; sourceTree = "<group>"; };
 		85DF8D6E2B5C51DA00F9ADAC /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		85E60A412B5CFB4000BE4DC1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		85E60A422B5D044100BE4DC1 /* CommentTree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTree.swift; sourceTree = "<group>"; };
@@ -148,7 +159,6 @@
 				857B3ADD2B5DAED400CE90C7 /* Defaults in Frameworks */,
 				85568B9D2B5B9B4200EA2E20 /* SwiftUIIntrospect in Frameworks */,
 				85954BAF2AB4070F00680758 /* SwiftSoup in Frameworks */,
-				85568B982B5B8EE600EA2E20 /* BetterSafariView in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,7 +307,6 @@
 			isa = PBXGroup;
 			children = (
 				85954BB02AB4074900680758 /* FetchBrowseListing.swift */,
-				85DF8D6C2B5C4C1500F9ADAC /* FetchPost.swift */,
 			);
 			path = Listing;
 			sourceTree = "<group>";
@@ -326,10 +335,12 @@
 		85954BAA2AB405AE00680758 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				85D153302E1CEC4800ECEEF9 /* Safari */,
 				85568B912B5B86ED00EA2E20 /* Views */,
 				85954BAB2AB405B600680758 /* TangerineError.swift */,
 				85D98D522B5CE15D00FFB600 /* TangerineError+view.swift */,
 				85954BB72AB408FC00680758 /* URLResponse+http.swift */,
+				85D1532E2E1CEC2400ECEEF9 /* Binding+hasValue.swift */,
 				85954BB92AB4091400680758 /* Bundle+appInfo.swift */,
 				85954BBB2AB409BD00680758 /* Logger+init.swift */,
 				85954BC22AB41ACE00680758 /* CGFloat+constants.swift */,
@@ -350,6 +361,10 @@
 			children = (
 				85954BB32AB407F700680758 /* Post.swift */,
 				85DF8D6E2B5C51DA00F9ADAC /* Comment.swift */,
+				85D153262E1CE5CF00ECEEF9 /* Comment+parseScore.swift */,
+				85D1532A2E1CE84400ECEEF9 /* Comment+ui.swift */,
+				85DF8D6C2B5C4C1500F9ADAC /* Post+fetch.swift */,
+				85D153282E1CE5FD00ECEEF9 /* Post+parse.swift */,
 			);
 			path = Post;
 			sourceTree = "<group>";
@@ -375,6 +390,15 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
+		85D153302E1CEC4800ECEEF9 /* Safari */ = {
+			isa = PBXGroup;
+			children = (
+				85D153332E1CEC6600ECEEF9 /* View+handleOpenUrlInApp.swift */,
+				85D1532C2E1CEBEA00ECEEF9 /* SFSafariView.swift */,
+			);
+			path = Safari;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -393,7 +417,6 @@
 			name = Tangerine;
 			packageProductDependencies = (
 				85954BAE2AB4070F00680758 /* SwiftSoup */,
-				85568B972B5B8EE600EA2E20 /* BetterSafariView */,
 				85568B9C2B5B9B4200EA2E20 /* SwiftUIIntrospect */,
 				857B3ADC2B5DAED400CE90C7 /* Defaults */,
 			);
@@ -471,7 +494,6 @@
 			mainGroup = 85954B5F2AB3EEBB00680758;
 			packageReferences = (
 				85954BAD2AB4070F00680758 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
-				85568B962B5B8EE600EA2E20 /* XCRemoteSwiftPackageReference "BetterSafariView" */,
 				85568B9B2B5B9B4200EA2E20 /* XCRemoteSwiftPackageReference "swiftui-introspect" */,
 				857B3ADB2B5DAED400CE90C7 /* XCRemoteSwiftPackageReference "Defaults" */,
 			);
@@ -529,12 +551,16 @@
 				85568B9A2B5B91A700EA2E20 /* ScoreView.swift in Sources */,
 				8501F0E12AB437A30046AA3C /* View+if.swift in Sources */,
 				85954B9F2AB3FF7300680758 /* API.swift in Sources */,
+				85D153342E1CEC6F00ECEEF9 /* View+handleOpenUrlInApp.swift in Sources */,
 				85954B9B2AB3FF3700680758 /* ListingView.swift in Sources */,
 				85DF8D6F2B5C51DA00F9ADAC /* Comment.swift in Sources */,
+				85D1532D2E1CEBEE00ECEEF9 /* SFSafariView.swift in Sources */,
+				85D153292E1CE5FD00ECEEF9 /* Post+parse.swift in Sources */,
 				85DF8D6B2B5C45C100F9ADAC /* ErrorView.swift in Sources */,
 				85954BA52AB404F600680758 /* FetchInstance.swift in Sources */,
 				853B50722AB52E9700C2B611 /* Haptics.swift in Sources */,
 				85954BB62AB408CB00680758 /* API+fetch.swift in Sources */,
+				85D1532F2E1CEC2C00ECEEF9 /* Binding+hasValue.swift in Sources */,
 				85DF8D692B5BB16F00F9ADAC /* InfiniteFetchView.swift in Sources */,
 				85954BB82AB408FC00680758 /* URLResponse+http.swift in Sources */,
 				857B3ADA2B5DAE8200CE90C7 /* Defaults.swift in Sources */,
@@ -547,7 +573,7 @@
 				85954BC92AB42BC100680758 /* ExternalLink.swift in Sources */,
 				85954BC32AB41ACE00680758 /* CGFloat+constants.swift in Sources */,
 				85D152F02E199F6A00ECEEF9 /* SettingsScreen.swift in Sources */,
-				85DF8D6D2B5C4C1500F9ADAC /* FetchPost.swift in Sources */,
+				85DF8D6D2B5C4C1500F9ADAC /* Post+fetch.swift in Sources */,
 				85D98D552B5CE28700FFB600 /* ProminentExternalLink.swift in Sources */,
 				85E60A432B5D044100BE4DC1 /* CommentTree.swift in Sources */,
 				85954BBC2AB409BD00680758 /* Logger+init.swift in Sources */,
@@ -556,10 +582,12 @@
 				85568B952B5B898D00EA2E20 /* View+memorial.swift in Sources */,
 				85568B932B5B880D00EA2E20 /* API+parse.swift in Sources */,
 				85F54A4F2E16E1FC00512CE6 /* PostMenu.swift in Sources */,
+				85D1532B2E1CE84800ECEEF9 /* Comment+ui.swift in Sources */,
 				85954BBA2AB4091400680758 /* Bundle+appInfo.swift in Sources */,
 				8501F0DF2AB431650046AA3C /* PostScreen.swift in Sources */,
 				8501F0E32AB44C740046AA3C /* CopyLink.swift in Sources */,
 				853B50702AB44CEA00C2B611 /* OpenLink.swift in Sources */,
+				85D153272E1CE5D200ECEEF9 /* Comment+parseScore.swift in Sources */,
 				85954B6C2AB3EEBC00680758 /* TangerineApp.swift in Sources */,
 				85954BB12AB4074900680758 /* FetchBrowseListing.swift in Sources */,
 				854860D22CD6AC1400D3062C /* CommentView.swift in Sources */,
@@ -738,6 +766,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -777,6 +806,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -914,14 +944,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		85568B962B5B8EE600EA2E20 /* XCRemoteSwiftPackageReference "BetterSafariView" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/stleamist/BetterSafariView.git";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
 		85568B9B2B5B9B4200EA2E20 /* XCRemoteSwiftPackageReference "swiftui-introspect" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/siteline/swiftui-introspect";
@@ -949,11 +971,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		85568B972B5B8EE600EA2E20 /* BetterSafariView */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 85568B962B5B8EE600EA2E20 /* XCRemoteSwiftPackageReference "BetterSafariView" */;
-			productName = BetterSafariView;
-		};
 		85568B9C2B5B9B4200EA2E20 /* SwiftUIIntrospect */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 85568B9B2B5B9B4200EA2E20 /* XCRemoteSwiftPackageReference "swiftui-introspect" */;

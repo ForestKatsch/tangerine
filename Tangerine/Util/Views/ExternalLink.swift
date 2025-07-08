@@ -5,15 +5,8 @@
 //  Created by Forest Katsch on 9/14/23.
 //
 
-import BetterSafariView
 import Foundation
 import SwiftUI
-
-#if os(iOS)
-    let supportsSafariView = true
-#else
-    let supportsSafariView = false
-#endif
 
 struct PlainExternalLink<Content: View>: View {
     @Environment(\.isFocused)
@@ -34,22 +27,10 @@ struct PlainExternalLink<Content: View>: View {
 
     #if os(iOS)
         var safariView: some View {
-            Button(action: {
-                presentingSafariView = true
-            }) {
+            Link(destination: url) {
                 label()
             }
-            .safariView(isPresented: $presentingSafariView) {
-                SafariView(
-                    url: url,
-                    configuration: SafariView.Configuration(
-                        entersReaderIfAvailable: false,
-                        barCollapsingEnabled: true
-                    )
-                )
-                .preferredControlAccentColor(.accent)
-                .dismissButtonStyle(.done)
-            }
+            .openLinksInSafari()
         }
     #else
         var safariView: some View {
@@ -63,17 +44,8 @@ struct PlainExternalLink<Content: View>: View {
         }
     }
 
-    @ViewBuilder
-    var wrapperView: some View {
-        if supportsSafariView {
-            safariView
-        } else {
-            linkView
-        }
-    }
-
     var body: some View {
-        wrapperView
+        safariView
             .contextMenu {
                 OpenLink(destination: url)
                 CopyLink(destination: url)
