@@ -42,7 +42,8 @@ struct FetchPost: InfiniteFetchable {
             throw TangerineError.generic(.cannotCreateUrl)
         }
 
-        let request = URLRequest(url: url)
+        var request = URLRequest(url: url)
+        request.cachePolicy = .reloadIgnoringCacheData
 
         return try (
             Post.parse(fromPostPage: await API.shared.fetchHTML(for: request), postId: postId, url: url),

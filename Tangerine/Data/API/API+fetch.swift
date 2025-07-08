@@ -39,7 +39,6 @@ extension API {
         var request = inRequest
 
         request.setValue(API.userAgent, forHTTPHeaderField: "User-Agent")
-        request.cachePolicy = .reloadIgnoringCacheData
 
         l.trace("\(request.httpMethod ?? "??") \(request.url?.absoluteString ?? "??")")
 

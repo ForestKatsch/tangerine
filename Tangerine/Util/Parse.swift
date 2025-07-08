@@ -139,9 +139,6 @@ enum Parse {
 
         appendParagraph()
 
-        print("")
-        print(paragraphs)
-
         return paragraphs
     }
 }

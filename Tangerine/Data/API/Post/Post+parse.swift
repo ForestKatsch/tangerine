@@ -105,7 +105,6 @@ extension Post {
 
             if let textElement = try? element.select("div.comment > .commtext").first() {
                 comment.score = try? Comment.parseScore(fromComment: textElement)
-                print(comment.score)
                 comment.text = try? Parse.parseHNText(text: textElement).joined(separator: "\n\n")
             }
         }

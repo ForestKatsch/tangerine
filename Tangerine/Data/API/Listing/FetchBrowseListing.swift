@@ -156,7 +156,8 @@ struct FetchBrowseListing: InfiniteFetchable {
             throw TangerineError.generic(.cannotCreateUrl)
         }
 
-        let request = URLRequest(url: url)
+        var request = URLRequest(url: url)
+        request.cachePolicy = .reloadIgnoringCacheData
 
         return try (
             Post.parse(fromListingPage: await API.shared.fetchHTML(for: request), url: url, listingType: type),
