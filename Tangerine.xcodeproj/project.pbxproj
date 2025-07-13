@@ -23,6 +23,7 @@
 		857B3ADD2B5DAED400CE90C7 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 857B3ADC2B5DAED400CE90C7 /* Defaults */; };
 		857B3ADF2B5DB54F00CE90C7 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 857B3ADE2B5DB54F00CE90C7 /* Localizable.xcstrings */; };
 		857B3AE12B5DB67600CE90C7 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857B3AE02B5DB67600CE90C7 /* SettingsView.swift */; };
+		858614AA2E24298C0031F2FC /* ReadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858614A92E2429830031F2FC /* ReadManager.swift */; };
 		858CA7EC2B5CBAFD00FF49D0 /* HNTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858CA7EB2B5CBAFD00FF49D0 /* HNTextView.swift */; };
 		85954B6C2AB3EEBC00680758 /* TangerineApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954B6B2AB3EEBC00680758 /* TangerineApp.swift */; };
 		85954B702AB3EEBD00680758 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85954B6F2AB3EEBD00680758 /* Assets.xcassets */; };
@@ -102,6 +103,7 @@
 		857B3AD92B5DAE8200CE90C7 /* Defaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Defaults.swift; sourceTree = "<group>"; };
 		857B3ADE2B5DB54F00CE90C7 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		857B3AE02B5DB67600CE90C7 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		858614A92E2429830031F2FC /* ReadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadManager.swift; sourceTree = "<group>"; };
 		858CA7EB2B5CBAFD00FF49D0 /* HNTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HNTextView.swift; sourceTree = "<group>"; };
 		85954B682AB3EEBC00680758 /* Tangerine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tangerine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		85954B6B2AB3EEBC00680758 /* TangerineApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TangerineApp.swift; sourceTree = "<group>"; };
@@ -335,6 +337,7 @@
 		85954BAA2AB405AE00680758 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				858614A92E2429830031F2FC /* ReadManager.swift */,
 				85D153302E1CEC4800ECEEF9 /* Safari */,
 				85568B912B5B86ED00EA2E20 /* Views */,
 				85954BAB2AB405B600680758 /* TangerineError.swift */,
@@ -576,6 +579,7 @@
 				85DF8D6D2B5C4C1500F9ADAC /* Post+fetch.swift in Sources */,
 				85D98D552B5CE28700FFB600 /* ProminentExternalLink.swift in Sources */,
 				85E60A432B5D044100BE4DC1 /* CommentTree.swift in Sources */,
+				858614AA2E24298C0031F2FC /* ReadManager.swift in Sources */,
 				85954BBC2AB409BD00680758 /* Logger+init.swift in Sources */,
 				85D98D532B5CE15D00FFB600 /* TangerineError+view.swift in Sources */,
 				85954BBE2AB40FF100680758 /* ListingColumns.swift in Sources */,
@@ -754,7 +758,7 @@
 				CODE_SIGN_ENTITLEMENTS = Tangerine/Tangerine.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "\"Tangerine/Preview Content\"";
 				DEVELOPMENT_TEAM = HRM88D6372;
 				ENABLE_PREVIEWS = YES;
@@ -794,7 +798,7 @@
 				CODE_SIGN_ENTITLEMENTS = Tangerine/Tangerine.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "\"Tangerine/Preview Content\"";
 				DEVELOPMENT_TEAM = HRM88D6372;
 				ENABLE_PREVIEWS = YES;

@@ -29,10 +29,12 @@ struct CommentTree: View {
 
     var comments: [Comment]
     var post: Post?
+    var depth: Int = 0
 
-    init(_ comments: [Comment], post: Post? = nil) {
+    init(_ comments: [Comment], depth: Int = 0, post: Post? = nil) {
         self.comments = comments
         self.post = post
+        self.depth = depth
     }
 
     @Environment(\.horizontalSizeClass)
@@ -94,9 +96,12 @@ struct CommentTree: View {
                 if !comment.children.isEmpty {
                     HStack {
                         nestedDepth
-                        CommentTree(comment.children, post: post)
+                        CommentTree(comment.children, depth: depth + 1, post: post)
                     }
                     .frame(maxWidth: .infinity)
+                }
+                if depth == 0 {
+                    Divider()
                 }
             }
         }
@@ -109,7 +114,7 @@ struct CommentTree: View {
                 LazyVStack {
                     CommentView(comment, post: post)
                     if !comment.children.isEmpty {
-                        CommentTree(comment.children, post: post)
+                        CommentTree(comment.children, depth: depth + 1, post: post)
                     }
                 }
             }

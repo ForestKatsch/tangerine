@@ -165,8 +165,12 @@ struct PostScreen: View {
             ToolbarItem {
                 Menu { PostMenu(post: post) } label: {
                     Label("listing.post.more", systemImage: "square.and.arrow.up")
-                        .labelStyle(.iconOnly)
                 }
+            }
+        }
+        .onAppear {
+            withAnimation {
+                ReadManager.shared.markVisited(post)
             }
         }
         .navigationTitle(nativeTitle ? title : "")

@@ -65,23 +65,27 @@ struct CommentSettings: View {
     }
 
     var body: some View {
-        Section {
-            Picker("comment-palette.label", selection: $commentPalette) {
-                ForEach(CommentTree.IndentPalette.allCases) { palette in
-                    Text(palette.label)
-                        .tag(palette)
+        List {
+            Section {
+                Picker("comment-palette.label", selection: $commentPalette) {
+                    ForEach(CommentTree.IndentPalette.allCases) { palette in
+                        Text(palette.label)
+                            .tag(palette)
+                    }
                 }
+                preview
+                    .allowsHitTesting(false)
+                    .listRowSeparator(.hidden)
             }
-            /*
-             Picker("comment-tree-mode.label", selection: $commentTreeMode) {
-             ForEach(CommentTree.Mode.allCases) { mode in
-             Text(mode.label)
-             .tag(mode)
-             }
-             }
-             */
         }
-        preview
+        /*
+         Picker("comment-tree-mode.label", selection: $commentTreeMode) {
+         ForEach(CommentTree.Mode.allCases) { mode in
+         Text(mode.label)
+         .tag(mode)
+         }
+         }
+         */
     }
 }
 
@@ -103,18 +107,18 @@ struct PreviewSettings: View {
     var linkPreviewMode
 
     var body: some View {
-        Section {
-            Picker("link-preview-mode.label", selection: $linkPreviewMode) {
-                ForEach(LinkPreviewMode.allCases) { mode in
-                    Text(mode.label)
-                        .tag(mode)
+        List {
+            Section {
+                Picker("link-preview-mode.label", selection: $linkPreviewMode) {
+                    ForEach(LinkPreviewMode.allCases) { mode in
+                        Text(mode.label)
+                            .tag(mode)
+                    }
                 }
+                ProminentExternalLink(URL(string: "https://producthunt.com/")!)
+                    .allowsHitTesting(false)
+                    .listRowSeparator(.hidden)
             }
-        } header: {} footer: {
-            ProminentExternalLink(URL(string: "https://producthunt.com/")!)
-                .listRowInsets(.init())
-                .padding(.vertical)
-            // Text(commentTreeMode.description)
         }
     }
 }

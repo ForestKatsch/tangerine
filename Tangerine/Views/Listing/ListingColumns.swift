@@ -40,9 +40,9 @@ struct ListingColumns: View {
                 }
             }
             #if !os(macOS)
-            Section {
-                Label("account.label", systemImage: "person.crop.circle").tag(Page.account)
-            }
+                Section {
+                    Label("account.label", systemImage: "person.crop.circle").tag(Page.account)
+                }
             #endif
         }
         .listStyle(.sidebar)
@@ -81,9 +81,7 @@ struct ListingColumns: View {
             sidebar
         } content: {
             listing
-            #if os(macOS)
-            .navigationSplitViewColumnWidth(min: 300, ideal: 500)
-            #endif
+                .navigationSplitViewColumnWidth(min: 300, ideal: 500)
         } detail: {
             detail
         }

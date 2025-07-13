@@ -36,7 +36,7 @@ struct AccountScreen: View {
 
 struct AccountColumns: View {
     @State
-    private var page: SettingsPage.Id? = .preview
+    private var page: SettingsPage.Id? = .linkPreviews
 
     var body: some View {
         NavigationSplitView {
@@ -53,7 +53,9 @@ struct AccountColumns: View {
             }
             .navigationTitle("account.label")
         } detail: {
-            SettingsPage(page: page)
+            if let page {
+                SettingsPage(page: page)
+            }
         }
     }
 }

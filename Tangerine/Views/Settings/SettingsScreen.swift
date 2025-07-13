@@ -10,50 +10,55 @@ import SwiftUI
 struct SettingsPage: View {
     enum Id: Int, CaseIterable, Identifiable {
         var id: Self { self }
-        
-        case preview
+
+        case linkPreviews
         case comment
-        
+
         var label: LocalizedStringKey {
             switch self {
-            case .preview:
+            case .linkPreviews:
                 "link-previews.label"
             case .comment:
                 "comment-settings.label"
             }
         }
+
+        var systemImage: String {
+            switch self {
+            case .linkPreviews:
+                "arrow.up.forward.square"
+            case .comment:
+                "bubble.left.and.text.bubble.right"
+            }
+        }
     }
 
-    var page: Id?
-    
+    var page: Id
+
     var body: some View {
-        Form {
+        VStack {
             switch page {
-            case .preview:
+            case .linkPreviews:
                 PreviewSettings()
             case .comment:
                 CommentSettings()
-            default:
-                EmptyView()
             }
         }
-        .navigationTitle(page?.label ?? "")
+        .navigationTitle(page.label)
     }
 }
 
 #if os(macOS)
-struct SettingsScreen: View {
-    @State private var selected: SettingsPage.Id = .preview
-
-    var body: some View {
-        NavigationSplitView {
-            List(SettingsPage.Id.allCases, selection: $selected) { page in
-                Text(page.label)
+    struct SettingsScreen: View {
+        var body: some View {
+            TabView {
+                ForEach(SettingsPage.Id.allCases) { page in
+                    Tab(page.label, systemImage: page.systemImage) {
+                        SettingsPage(page: page)
+                    }
+                }
             }
-        } detail: {
-            SettingsPage(page: selected)
+            .frame(maxWidth: 550, minHeight: 350)
         }
-        .navigationTitle("settings.label")
     }
-}
 #endif

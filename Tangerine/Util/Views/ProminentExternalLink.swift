@@ -181,8 +181,9 @@ struct ProminentExternalLink: View {
     var landscape: some View {
         HStack(alignment: .center, spacing: 0) {
             image
-                .frame(maxWidth: 400)
+                .frame(maxWidth: 320)
             text
+                .frame(maxWidth: .infinity)
         }
         .fixedSize(horizontal: false, vertical: true)
     }
@@ -240,7 +241,7 @@ struct ProminentExternalLink: View {
                     RoundedRectangle(cornerRadius: .radius)
                         .fill(.background)
                 }
-            #if os(iOS)
+            #if os(iOS) || os(macOS)
                 .overlay {
                     RoundedRectangle(cornerRadius: .radius)
                         .stroke(.fill)

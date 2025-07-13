@@ -101,6 +101,9 @@ struct PostRow: View {
                 .font(.footnote)
                 .foregroundStyle(.secondary)
         }
+        .if(ReadManager.shared.hasVisited(post)) { view in
+            view.foregroundStyle(.secondary)
+        }
         .contextMenu {
             PostMenu(post: post)
         }

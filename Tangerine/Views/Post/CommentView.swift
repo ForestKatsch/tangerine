@@ -60,6 +60,7 @@ struct CommentView: View {
                     .background(Color.clear)
                     .contentShape(RoundedRectangle(cornerRadius: .radius))
             }
+            .menuIndicator(.hidden)
         }
         .foregroundStyle(.secondary)
         .font(.subheadline)
@@ -82,45 +83,45 @@ struct CommentView: View {
     }
 
     /*
-    var actionBar: some View {
-        HStack {
-            Text("Hello, world")
-        }
-        .padding()
-        .clipShape(Capsule())
-        .background(.thickMaterial)
-        .padding()
-    }
-    */
-    
+     var actionBar: some View {
+         HStack {
+             Text("Hello, world")
+         }
+         .padding()
+         .clipShape(Capsule())
+         .background(.thickMaterial)
+         .padding()
+     }
+     */
+
     var body: some View {
         contents
             .id(comment.id)
         /*
-        ZStack(alignment: .bottom) {
-            contents
-                .onTapGesture {
-                    withAnimation {
-                        showActionBar.toggle()
-                    }
-                }
-            if showActionBar {
-                actionBar
-            }
-        }
-        .id(comment.id)
-        .contextMenu {
-            menu
-            // TODO: - fix. (doesn't properly size the preview :( )
-        } preview: {
-            ZStack(alignment: .topLeading) {
-                contents
-            }
-            .frame(idealWidth: 300, idealHeight: 450)
-            .padding()
-            .background(.background)
-        }
-        */
+         ZStack(alignment: .bottom) {
+             contents
+                 .onTapGesture {
+                     withAnimation {
+                         showActionBar.toggle()
+                     }
+                 }
+             if showActionBar {
+                 actionBar
+             }
+         }
+         .id(comment.id)
+         .contextMenu {
+             menu
+             // TODO: - fix. (doesn't properly size the preview :( )
+         } preview: {
+             ZStack(alignment: .topLeading) {
+                 contents
+             }
+             .frame(idealWidth: 300, idealHeight: 450)
+             .padding()
+             .background(.background)
+         }
+         */
     }
 }
 
