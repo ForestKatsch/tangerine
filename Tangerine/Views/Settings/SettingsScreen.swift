@@ -36,7 +36,7 @@ struct SettingsPage: View {
     var page: Id
 
     var body: some View {
-        VStack {
+        List {
             switch page {
             case .linkPreviews:
                 PreviewSettings()
@@ -59,6 +59,15 @@ struct SettingsPage: View {
                 }
             }
             .frame(maxWidth: 550, minHeight: 350)
+        }
+    }
+#else
+    struct SettingsScreen: View {
+        var body: some View {
+            List {
+                PreviewSettings()
+                CommentSettings()
+            }
         }
     }
 #endif

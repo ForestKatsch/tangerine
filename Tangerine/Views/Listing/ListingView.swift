@@ -122,3 +122,16 @@ struct ListingView: View {
         .navigationTitle(type.title)
     }
 }
+
+// Navigation-pushing wrapper for ListingView
+struct ListingScreen: View {
+    let type: API.ListingType
+    @State private var selection: Post?
+
+    var body: some View {
+        ListingView(type: type, selection: $selection)
+            .navigationDestination(item: $selection) { post in
+                PostScreen(post)
+            }
+    }
+}

@@ -11,8 +11,10 @@ struct WindowRoot: View {
     var body: some View {
         #if os(visionOS)
             VisionTabRoot()
-        #else
+        #elseif os(macOS)
             ListingColumns()
+        #else
+            TabRoot()
         #endif
     }
 }

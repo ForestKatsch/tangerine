@@ -18,7 +18,7 @@ struct PostScreen: View {
 
     var fetchStatus: FetchStatus
 
-    init(_ post: Post, fetchStatus: FetchStatus) {
+    init(_ post: Post, fetchStatus: FetchStatus = .init(fetchState: .idle, isFetching: false, isLoading: false, error: nil)) {
         self.post = post
         self.fetchStatus = fetchStatus
     }

@@ -65,18 +65,16 @@ struct CommentSettings: View {
     }
 
     var body: some View {
-        List {
-            Section {
-                Picker("comment-palette.label", selection: $commentPalette) {
-                    ForEach(CommentTree.IndentPalette.allCases) { palette in
-                        Text(palette.label)
-                            .tag(palette)
-                    }
+        Section {
+            Picker("comment-palette.label", selection: $commentPalette) {
+                ForEach(CommentTree.IndentPalette.allCases) { palette in
+                    Text(palette.label)
+                        .tag(palette)
                 }
-                preview
-                    .allowsHitTesting(false)
-                    .listRowSeparator(.hidden)
             }
+            preview
+                .allowsHitTesting(false)
+                .listRowSeparator(.hidden)
         }
         /*
          Picker("comment-tree-mode.label", selection: $commentTreeMode) {
@@ -107,18 +105,16 @@ struct PreviewSettings: View {
     var linkPreviewMode
 
     var body: some View {
-        List {
-            Section {
-                Picker("link-preview-mode.label", selection: $linkPreviewMode) {
-                    ForEach(LinkPreviewMode.allCases) { mode in
-                        Text(mode.label)
-                            .tag(mode)
-                    }
+        Section {
+            Picker("link-preview-mode.label", selection: $linkPreviewMode) {
+                ForEach(LinkPreviewMode.allCases) { mode in
+                    Text(mode.label)
+                        .tag(mode)
                 }
-                ProminentExternalLink(URL(string: "https://producthunt.com/")!)
-                    .allowsHitTesting(false)
-                    .listRowSeparator(.hidden)
             }
+            ProminentExternalLink(URL(string: "https://producthunt.com/")!)
+                .allowsHitTesting(false)
+                .listRowSeparator(.hidden)
         }
     }
 }

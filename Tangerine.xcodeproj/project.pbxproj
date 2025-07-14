@@ -24,6 +24,7 @@
 		857B3ADF2B5DB54F00CE90C7 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 857B3ADE2B5DB54F00CE90C7 /* Localizable.xcstrings */; };
 		857B3AE12B5DB67600CE90C7 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857B3AE02B5DB67600CE90C7 /* SettingsView.swift */; };
 		858614AA2E24298C0031F2FC /* ReadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858614A92E2429830031F2FC /* ReadManager.swift */; };
+		858614AC2E247F910031F2FC /* TabRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858614AB2E247F910031F2FC /* TabRoot.swift */; };
 		858CA7EC2B5CBAFD00FF49D0 /* HNTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858CA7EB2B5CBAFD00FF49D0 /* HNTextView.swift */; };
 		85954B6C2AB3EEBC00680758 /* TangerineApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954B6B2AB3EEBC00680758 /* TangerineApp.swift */; };
 		85954B702AB3EEBD00680758 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85954B6F2AB3EEBD00680758 /* Assets.xcassets */; };
@@ -104,6 +105,7 @@
 		857B3ADE2B5DB54F00CE90C7 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		857B3AE02B5DB67600CE90C7 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		858614A92E2429830031F2FC /* ReadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadManager.swift; sourceTree = "<group>"; };
+		858614AB2E247F910031F2FC /* TabRoot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabRoot.swift; sourceTree = "<group>"; };
 		858CA7EB2B5CBAFD00FF49D0 /* HNTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HNTextView.swift; sourceTree = "<group>"; };
 		85954B682AB3EEBC00680758 /* Tangerine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tangerine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		85954B6B2AB3EEBC00680758 /* TangerineApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TangerineApp.swift; sourceTree = "<group>"; };
@@ -279,6 +281,7 @@
 			isa = PBXGroup;
 			children = (
 				85954B972AB3F56600680758 /* VisionTabRoot.swift */,
+				858614AB2E247F910031F2FC /* TabRoot.swift */,
 				85D4F1292ABE86AF00CF8498 /* WindowRoot.swift */,
 			);
 			path = Root;
@@ -557,6 +560,7 @@
 				85D153342E1CEC6F00ECEEF9 /* View+handleOpenUrlInApp.swift in Sources */,
 				85954B9B2AB3FF3700680758 /* ListingView.swift in Sources */,
 				85DF8D6F2B5C51DA00F9ADAC /* Comment.swift in Sources */,
+				858614AC2E247F910031F2FC /* TabRoot.swift in Sources */,
 				85D1532D2E1CEBEE00ECEEF9 /* SFSafariView.swift in Sources */,
 				85D153292E1CE5FD00ECEEF9 /* Post+parse.swift in Sources */,
 				85DF8D6B2B5C45C100F9ADAC /* ErrorView.swift in Sources */,

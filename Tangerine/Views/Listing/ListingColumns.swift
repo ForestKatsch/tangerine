@@ -108,10 +108,10 @@ struct ListingColumns: View {
     }
 
     var body: some View {
-        #if os(visionOS)
-            doubleColumn
-        #else
+        #if os(macOS)
             tripleColumn
+        #else
+            doubleColumn
         #endif
     }
 }

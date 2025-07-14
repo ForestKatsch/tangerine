@@ -276,6 +276,26 @@
         }
       }
     },
+    "explore.label" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Explore"
+          }
+        }
+      }
+    },
+    "explore.options" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Listing"
+          }
+        }
+      }
+    },
     "link-preview-mode.label" : {
       "localizations" : {
         "en" : {
