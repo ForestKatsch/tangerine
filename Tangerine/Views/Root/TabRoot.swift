@@ -60,14 +60,13 @@ struct ExploreScreen: View {
     var body: some View {
         ListingScreen(type: type)
             .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
+                ToolbarItem {
                     Picker("explore.options", selection: $type) {
                         ForEach(API.ListingType.allCases.filter { $0 != .news }) { type in
                             Label(type.name, systemImage: type.systemImage)
                         }
                     }
                     .fixedSize()
-                    .labelStyle(.titleAndIcon)
                 }
             }
     }

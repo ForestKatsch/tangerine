@@ -131,7 +131,12 @@ struct ListingScreen: View {
     var body: some View {
         ListingView(type: type, selection: $selection)
             .navigationDestination(item: $selection) { post in
-                PostScreen(post)
+                InfiniteFetchView(FetchPost(postId: post.id)) { commentPages, _, fetchStatus in
+                    NavigationStack {
+                        PostScreen(post.merge(from: commentPages[0]), fetchStatus: fetchStatus)
+                            .unredacted()
+                    }
+                }
             }
     }
 }
