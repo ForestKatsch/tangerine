@@ -56,18 +56,23 @@ struct TabRoot: View {
 struct ExploreScreen: View {
     @State
     var type: API.ListingType
-
+    
+    @ViewBuilder
+    var picker: some View {
+        Picker("explore.options", selection: $type) {
+            ForEach(API.ListingType.allCases.filter { $0 != .news }) { type in
+                Label(type.name, systemImage: type.systemImage)
+            }
+        }
+    }
+    
     var body: some View {
         ListingScreen(type: type)
             .toolbar {
-                ToolbarItem {
-                    Picker("explore.options", selection: $type) {
-                        ForEach(API.ListingType.allCases.filter { $0 != .news }) { type in
-                            Label(type.name, systemImage: type.systemImage)
-                        }
-                    }
-                    .fixedSize()
+                ToolbarTitleMenu {
+                    picker
                 }
             }
+            .navigationBarTitleDisplayMode(.inline)
     }
 }
