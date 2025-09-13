@@ -7,10 +7,11 @@
 
 import Foundation
 
-class FetchInstanceCache {
-    static var shared = FetchInstanceCache()
+@MainActor
+final class FetchInstanceCache {
+    static let shared = FetchInstanceCache()
 
-    var instances = [AnyHashable: Any]()
+    private var instances = [AnyHashable: Any]()
 
     private init() {}
 

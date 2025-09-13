@@ -14,22 +14,32 @@ struct TabRoot: View {
     @Environment(\.horizontalSizeClass)
     var horizontalSizeClass
 
+    @State
+    var accountOpen = false
+
+    @ViewBuilder
+    var toolbar: some View {
+        Button("account.label", systemImage: "person.crop.circle") {
+            accountOpen.toggle()
+        }
+        .sheet(isPresented: $accountOpen) {
+            NavigationStack {
+                AccountScreen()
+            }
+        }
+    }
+
     @ViewBuilder
     var tabs: some View {
         TabView {
-            Tab(API.ListingType.news.name, systemImage: API.ListingType.news.systemImage) {
-                NavigationStack {
-                    ListingScreen(type: API.ListingType.news)
-                }
-            }
-            Tab("explore.label", systemImage: "book.pages") {
-                NavigationStack {
-                    ExploreScreen(type: .show)
-                }
-            }
-            Tab("settings.label", systemImage: "gear") {
-                NavigationStack {
-                    SettingsScreen()
+            ForEach(API.ListingType.allCases.filter { $0 != .new }) { type in
+                Tab(type.name, systemImage: type.systemImage) {
+                    NavigationStack {
+                        ListingScreen(type: type)
+                            .toolbar {
+                                toolbar
+                            }
+                    }
                 }
             }
         }
@@ -56,23 +66,8 @@ struct TabRoot: View {
 struct ExploreScreen: View {
     @State
     var type: API.ListingType
-    
-    @ViewBuilder
-    var picker: some View {
-        Picker("explore.options", selection: $type) {
-            ForEach(API.ListingType.allCases.filter { $0 != .news }) { type in
-                Label(type.name, systemImage: type.systemImage)
-            }
-        }
-    }
-    
+
     var body: some View {
         ListingScreen(type: type)
-            .toolbar {
-                ToolbarTitleMenu {
-                    picker
-                }
-            }
-            .navigationBarTitleDisplayMode(.inline)
     }
 }

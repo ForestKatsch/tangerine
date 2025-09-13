@@ -276,26 +276,6 @@
         }
       }
     },
-    "explore.label" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Explore"
-          }
-        }
-      }
-    },
-    "explore.options" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Listing"
-          }
-        }
-      }
-    },
     "link-preview-mode.label" : {
       "localizations" : {
         "en" : {
@@ -542,17 +522,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Share…"
-          }
-        }
-      }
-    },
-    "sign-in.label" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sign in"
           }
         }
       }

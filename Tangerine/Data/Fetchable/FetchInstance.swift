@@ -15,8 +15,9 @@ enum FetchState {
 
 actor Background {}
 
+@MainActor
 @Observable
-class FetchInstance<F: Fetchable> {
+final class FetchInstance<F: Fetchable> {
     let fetchable: F
 
     var data: F.T?
@@ -61,8 +62,9 @@ extension FetchInstance {
     func onDisappear() {}
 }
 
+@MainActor
 @Observable
-class InfiniteFetchInstance<F: InfiniteFetchable> {
+final class InfiniteFetchInstance<F: InfiniteFetchable> {
     let fetchable: F
 
     var data: [F.T] = []
