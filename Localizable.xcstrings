@@ -296,7 +296,7 @@
         }
       }
     },
-    "link-preview-mode.text-and-image.label" : {
+    "link-preview-mode.title-and-image.label" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -306,12 +306,12 @@
         }
       }
     },
-    "link-preview-mode.text-only.label" : {
+    "link-preview-mode.title.label" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Title only"
+            "value" : "Title"
           }
         }
       }

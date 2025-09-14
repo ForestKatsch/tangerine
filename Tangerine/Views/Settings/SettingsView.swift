@@ -90,10 +90,10 @@ struct CommentSettings: View {
 extension LinkPreviewMode {
     var label: LocalizedStringKey {
         switch self {
-        case .textAndImage:
-            "link-preview-mode.text-and-image.label"
-        case .textOnly:
-            "link-preview-mode.text-only.label"
+        case .titleAndImage:
+            "link-preview-mode.title-and-image.label"
+        case .title:
+            "link-preview-mode.title.label"
         case .linkOnly:
             "link-preview-mode.link-only.label"
         }

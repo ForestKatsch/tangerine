@@ -29,30 +29,25 @@ struct ScoreButton<Content: View>: View {
             label()
                 .fixedSize()
             #if os(iOS)
-                .frame(minHeight: 25)
+                .padding(.horizontal, .spacingSmall)
+                .frame(minHeight: 32)
             #endif
         }
-        #if os(iOS)
-        .buttonBorderShape(.roundedRectangle(radius: .radius))
-        #endif
     }
 
     @ViewBuilder
     var contentView: some View {
         if isVoted {
             labelView
-                .buttonStyle(.borderedProminent)
                 .tint(.accent)
-                .foregroundStyle(.white)
         } else {
             labelView
-                .foregroundStyle(.primary)
-                .buttonStyle(.bordered)
         }
     }
 
     var body: some View {
         contentView
+            .buttonStyle(.glass)
     }
 }
 
@@ -71,18 +66,22 @@ struct ScoreView: View {
 
     var canDown: Bool = false
 
+    @Namespace private var namespace
     var body: some View {
-        HStack(spacing: 2) {
-            ScoreButton(isVoted: $votedUp, action: voteUp) {
-                Label(score.formatted(), systemImage: "arrowtriangle.up")
-            }
-            if canDown {
-                ScoreButton(isVoted: $votedDown, action: voteDown) {
-                    Label(score.formatted(), systemImage: "arrowtriangle.down")
-                        .labelStyle(.iconOnly)
+        GlassEffectContainer {
+            HStack(spacing: 10) {
+                ScoreButton(isVoted: $votedUp, action: voteUp) {
+                    Label(score.formatted(), systemImage: "arrowtriangle.up")
+                }
+                if canDown {
+                    ScoreButton(isVoted: $votedDown, action: voteDown) {
+                        Label(score.formatted(), systemImage: "arrowtriangle.down")
+                            .labelStyle(.iconOnly)
+                    }
                 }
             }
         }
+        // .glassEffectUnion(id: "x", namespace: namespace)
     }
 }
 
@@ -95,12 +94,12 @@ struct PostScoreView: View {
     @State
     var votedDown: Bool = false
 
+    var voteDiff: Int {
+        votedUp ? 1 : votedDown ? -1 : 0
+    }
+
     var body: some View {
-        ScoreView(score: post.score ?? 0, votedUp: $votedUp, votedDown: $votedDown) {
-            votedUp = !votedUp
-        } voteDown: {
-            votedDown = !votedDown
-        }
-        .disabled(true)
+        ScoreView(score: (post.score ?? 0) + voteDiff, votedUp: $votedUp, votedDown: $votedDown) {} voteDown: {}
+            .disabled(true)
     }
 }

@@ -15,7 +15,6 @@ import SwiftUI
 
 struct PostScreen: View {
     var post: Post
-
     var fetchStatus: FetchStatus
 
     init(_ post: Post, fetchStatus: FetchStatus = .init(fetchState: .idle, isFetching: false, isLoading: false, error: nil)) {

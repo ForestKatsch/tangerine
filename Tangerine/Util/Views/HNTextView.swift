@@ -5,8 +5,8 @@
 //  Created by Forest Katsch on 1/20/24.
 //
 
-import WebKit
 import SwiftUI
+import WebKit
 
 struct HNTextView: View {
     var text: String
@@ -51,7 +51,7 @@ struct HNTextView: View {
 
     @State
     var url: URL = .init(string: "https://apple.com/")!
-    
+
     @ViewBuilder
     var copy: some View {
         let paragraphs = text.split(separator: "\n\n")
@@ -68,8 +68,10 @@ struct HNTextView: View {
     }
 
     var body: some View {
-        copy
-            .openLinksInSafari()
+        if !text.isEmpty {
+            copy
+                .openLinksInSafari()
+        }
     }
 }
 

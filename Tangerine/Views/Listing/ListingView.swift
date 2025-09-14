@@ -135,6 +135,7 @@ struct ListingScreen: View {
                     NavigationStack {
                         PostScreen(post.merge(from: commentPages[0]), fetchStatus: fetchStatus)
                             .unredacted()
+                            .id(post.id)
                     }
                 }
             }

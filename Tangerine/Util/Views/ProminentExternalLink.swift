@@ -11,7 +11,7 @@ import SwiftUI
 extension LinkPreviewMode {
     var showImage: Bool {
         switch self {
-        case .textAndImage:
+        case .titleAndImage:
             return true
         default:
             return false
@@ -50,6 +50,9 @@ struct ProminentExternalLink: View {
     @State
     var state = FetchState.idle
 
+    // Add a static cache to prevent duplicate fetches across view recreations
+    private static var fetchCache: [URL: (state: FetchState, metadata: Metadata?)] = [:]
+
     func fetch() async {
         if state != .idle || self.metadata != nil {
             return
@@ -64,6 +67,8 @@ struct ProminentExternalLink: View {
                 state = .done
                 self.metadata = metadata
             }
+            // Update static cache
+            Self.fetchCache[url] = (state: .done, metadata: metadata)
         }
 
         var request = URLRequest(url: url)
@@ -121,13 +126,12 @@ struct ProminentExternalLink: View {
                                         }
                                     }
                             }, placeholder: {
-                                Image(systemName: "text.page.fill")
-                                    .imageScale(.large)
-                                    .foregroundStyle(.tertiary)
+                                EmptyView()
                             })
                         }
-                } else {
+                } else if state == .done {
                     Image(systemName: "text.page.fill")
+                        .font(.largeTitle)
                         .imageScale(.large)
                         .foregroundStyle(.tertiary)
                 }
@@ -145,11 +149,11 @@ struct ProminentExternalLink: View {
     var text: some View {
         HStack(spacing: .spacingSmall) {
             VStack(alignment: .leading, spacing: .spacingSmall) {
-                Text(url.host() ?? "https://example.com/long-url-path-here")
+                Text(url.host() ?? "")
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .lineLimit(1)
-                Text(metadata?.title.trimmingCharacters(in: .whitespaces) ?? "Show HN: Tangerine")
+                Text(metadata?.title.trimmingCharacters(in: .whitespaces) ?? url.host() ?? "")
                     .font(.headline)
                     .lineLimit(2)
                 if let description = metadata?.description {
@@ -251,10 +255,20 @@ struct ProminentExternalLink: View {
         .buttonStyle(.plain)
         .buttonBorderShape(.roundedRectangle(radius: .radius))
         .onAppear {
+            // Check static cache first
+            if let cached = Self.fetchCache[url] {
+                state = cached.state
+                metadata = cached.metadata
+                if state == .done {
+                    return
+                }
+            }
+
             Task {
                 await fetch()
             }
         }
+        .id(url)
     }
 }
 
