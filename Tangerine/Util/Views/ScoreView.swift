@@ -66,22 +66,29 @@ struct ScoreView: View {
 
     var canDown: Bool = false
 
-    @Namespace private var namespace
-    var body: some View {
-        GlassEffectContainer {
-            HStack(spacing: 10) {
-                ScoreButton(isVoted: $votedUp, action: voteUp) {
-                    Label(score.formatted(), systemImage: "arrowtriangle.up")
-                }
-                if canDown {
-                    ScoreButton(isVoted: $votedDown, action: voteDown) {
-                        Label(score.formatted(), systemImage: "arrowtriangle.down")
-                            .labelStyle(.iconOnly)
-                    }
+    @ViewBuilder
+    var contents: some View {
+        HStack(spacing: 10) {
+            ScoreButton(isVoted: $votedUp, action: voteUp) {
+                Label(score.formatted(), systemImage: "arrowtriangle.up")
+            }
+            if canDown {
+                ScoreButton(isVoted: $votedDown, action: voteDown) {
+                    Label(score.formatted(), systemImage: "arrowtriangle.down")
+                        .labelStyle(.iconOnly)
                 }
             }
         }
-        // .glassEffectUnion(id: "x", namespace: namespace)
+    }
+
+    var body: some View {
+        #if os(iOS) || os(macOS)
+            GlassEffectContainer {
+                contents
+            }
+        #else
+            contents
+        #endif
     }
 }
 
