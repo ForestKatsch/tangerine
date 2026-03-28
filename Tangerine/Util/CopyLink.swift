@@ -23,7 +23,7 @@ struct CopyLink: View {
     }
 
     func copy() {
-        #if canImport(UIKit)
+        #if canImport(UIKit) && !os(tvOS)
             UIPasteboard.general.url = url
         #endif
     }

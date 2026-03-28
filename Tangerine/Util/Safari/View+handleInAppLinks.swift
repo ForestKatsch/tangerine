@@ -10,7 +10,7 @@ import SwiftUI
 #if os(iOS)
     /// Monitors the `openURL` environment variable and handles them in-app instead of via
     /// the external web browser.
-    private struct SafariViewControllerViewModifier: ViewModifier {
+    private struct InAppLinksModifier: ViewModifier {
         @State
         private var urlToOpen: URL?
 
@@ -29,19 +29,24 @@ import SwiftUI
                 })
         }
     }
+#else
+    private struct InAppLinksModifier: ViewModifier {
+        @Environment(\.openURL) var openURL
+        func body(content: Content) -> some View {
+            content
+                .environment(\.openURL, OpenURLAction { url in
+                    openURL(url)
+                    return .handled
+                })
+        }
+    }
 #endif
 
 extension View {
     /// Monitor the `openURL` environment variable and handle them in-app instead of via
     /// the external web browser.
     /// Uses the `SafariViewWrapper` which will present the URL in a `SFSafariViewController`.
-    #if os(iOS)
-        func openLinksInSafari() -> some View {
-            modifier(SafariViewControllerViewModifier())
-        }
-    #else
-        func openLinksInSafari() -> some View {
-            self
-        }
-    #endif
+    func handleInAppLinks() -> some View {
+        modifier(InAppLinksModifier())
+    }
 }

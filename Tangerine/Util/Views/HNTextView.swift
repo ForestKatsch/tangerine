@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import WebKit
+// import WebKit
 
 struct HNTextView: View {
     var text: String
@@ -60,7 +60,9 @@ struct HNTextView: View {
                 paragraph(String(par))
                     .fixedSize(horizontal: false, vertical: true)
             }
+            #if !os(tvOS)
             .textSelection(.enabled)
+            #endif
         }
         .multilineTextAlignment(.leading)
         .font(.body)
@@ -70,7 +72,7 @@ struct HNTextView: View {
     var body: some View {
         if !text.isEmpty {
             copy
-                .openLinksInSafari()
+                .handleInAppLinks()
         }
     }
 }

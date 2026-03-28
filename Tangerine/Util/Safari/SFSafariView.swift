@@ -5,16 +5,15 @@
 //  Created by Forest Katsch on 7/7/25.
 //
 
-import SafariServices
-import SwiftUI
-
 #if os(iOS)
+    import SafariServices
+    import SwiftUI
+
     struct SFSafariView: UIViewControllerRepresentable {
         let url: URL
 
         func makeUIViewController(context _: UIViewControllerRepresentableContext<Self>) -> SFSafariViewController {
             let viewController = SFSafariViewController(url: url)
-            viewController.preferredControlTintColor = .accent
             return viewController
         }
 

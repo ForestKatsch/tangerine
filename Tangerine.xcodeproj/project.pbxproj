@@ -18,6 +18,7 @@
 		85568B952B5B898D00EA2E20 /* View+memorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85568B942B5B898D00EA2E20 /* View+memorial.swift */; };
 		85568B9A2B5B91A700EA2E20 /* ScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85568B992B5B91A700EA2E20 /* ScoreView.swift */; };
 		85568B9D2B5B9B4200EA2E20 /* SwiftUIIntrospect in Frameworks */ = {isa = PBXBuildFile; productRef = 85568B9C2B5B9B4200EA2E20 /* SwiftUIIntrospect */; };
+		856288FE2F77984B00BBFD88 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 856288FD2F77984B00BBFD88 /* AppIcon.icon */; };
 		857B3AD82B5DADE500CE90C7 /* AccountScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857B3AD72B5DADE500CE90C7 /* AccountScreen.swift */; };
 		857B3ADA2B5DAE8200CE90C7 /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857B3AD92B5DAE8200CE90C7 /* Defaults.swift */; };
 		857B3ADD2B5DAED400CE90C7 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 857B3ADC2B5DAED400CE90C7 /* Defaults */; };
@@ -59,7 +60,7 @@
 		85D1532B2E1CE84800ECEEF9 /* Comment+ui.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D1532A2E1CE84400ECEEF9 /* Comment+ui.swift */; };
 		85D1532D2E1CEBEE00ECEEF9 /* SFSafariView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D1532C2E1CEBEA00ECEEF9 /* SFSafariView.swift */; };
 		85D1532F2E1CEC2C00ECEEF9 /* Binding+hasValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D1532E2E1CEC2400ECEEF9 /* Binding+hasValue.swift */; };
-		85D153342E1CEC6F00ECEEF9 /* View+handleOpenUrlInApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D153332E1CEC6600ECEEF9 /* View+handleOpenUrlInApp.swift */; };
+		85D153342E1CEC6F00ECEEF9 /* View+handleInAppLinks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D153332E1CEC6600ECEEF9 /* View+handleInAppLinks.swift */; };
 		85D4F12A2ABE86AF00CF8498 /* WindowRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D4F1292ABE86AF00CF8498 /* WindowRoot.swift */; };
 		85D98D532B5CE15D00FFB600 /* TangerineError+view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D98D522B5CE15D00FFB600 /* TangerineError+view.swift */; };
 		85D98D552B5CE28700FFB600 /* ProminentExternalLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D98D542B5CE28700FFB600 /* ProminentExternalLink.swift */; };
@@ -99,6 +100,7 @@
 		85568B922B5B880D00EA2E20 /* API+parse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "API+parse.swift"; sourceTree = "<group>"; };
 		85568B942B5B898D00EA2E20 /* View+memorial.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "View+memorial.swift"; sourceTree = "<group>"; };
 		85568B992B5B91A700EA2E20 /* ScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreView.swift; sourceTree = "<group>"; };
+		856288FD2F77984B00BBFD88 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
 		857B3AD52B5D23AD00CE90C7 /* Tangerine.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Tangerine.entitlements; sourceTree = "<group>"; };
 		857B3AD72B5DADE500CE90C7 /* AccountScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountScreen.swift; sourceTree = "<group>"; };
 		857B3AD92B5DAE8200CE90C7 /* Defaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Defaults.swift; sourceTree = "<group>"; };
@@ -142,7 +144,7 @@
 		85D1532A2E1CE84400ECEEF9 /* Comment+ui.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Comment+ui.swift"; sourceTree = "<group>"; };
 		85D1532C2E1CEBEA00ECEEF9 /* SFSafariView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSafariView.swift; sourceTree = "<group>"; };
 		85D1532E2E1CEC2400ECEEF9 /* Binding+hasValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Binding+hasValue.swift"; sourceTree = "<group>"; };
-		85D153332E1CEC6600ECEEF9 /* View+handleOpenUrlInApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+handleOpenUrlInApp.swift"; sourceTree = "<group>"; };
+		85D153332E1CEC6600ECEEF9 /* View+handleInAppLinks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+handleInAppLinks.swift"; sourceTree = "<group>"; };
 		85D4F1292ABE86AF00CF8498 /* WindowRoot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowRoot.swift; sourceTree = "<group>"; };
 		85D98D522B5CE15D00FFB600 /* TangerineError+view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TangerineError+view.swift"; sourceTree = "<group>"; };
 		85D98D542B5CE28700FFB600 /* ProminentExternalLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProminentExternalLink.swift; sourceTree = "<group>"; };
@@ -196,6 +198,15 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		856288FC2F77982800BBFD88 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				856288FD2F77984B00BBFD88 /* AppIcon.icon */,
+				85954B6F2AB3EEBD00680758 /* Assets.xcassets */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
 		857B3AD62B5DADDE00CE90C7 /* Account */ = {
 			isa = PBXGroup;
 			children = (
@@ -228,13 +239,13 @@
 		85954B6A2AB3EEBC00680758 /* Tangerine */ = {
 			isa = PBXGroup;
 			children = (
+				856288FC2F77982800BBFD88 /* Assets */,
 				857B3AD52B5D23AD00CE90C7 /* Tangerine.entitlements */,
 				85E60A412B5CFB4000BE4DC1 /* Info.plist */,
 				85954BAA2AB405AE00680758 /* Util */,
 				85954BA12AB404D500680758 /* Data */,
 				85954B952AB3F55500680758 /* Views */,
 				85954B6B2AB3EEBC00680758 /* TangerineApp.swift */,
-				85954B6F2AB3EEBD00680758 /* Assets.xcassets */,
 				85954B712AB3EEBD00680758 /* Preview Content */,
 			);
 			path = Tangerine;
@@ -399,7 +410,7 @@
 		85D153302E1CEC4800ECEEF9 /* Safari */ = {
 			isa = PBXGroup;
 			children = (
-				85D153332E1CEC6600ECEEF9 /* View+handleOpenUrlInApp.swift */,
+				85D153332E1CEC6600ECEEF9 /* View+handleInAppLinks.swift */,
 				85D1532C2E1CEBEA00ECEEF9 /* SFSafariView.swift */,
 			);
 			path = Safari;
@@ -521,6 +532,7 @@
 			files = (
 				85954B732AB3EEBD00680758 /* Preview Assets.xcassets in Resources */,
 				85954B702AB3EEBD00680758 /* Assets.xcassets in Resources */,
+				856288FE2F77984B00BBFD88 /* AppIcon.icon in Resources */,
 				857B3ADF2B5DB54F00CE90C7 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -557,7 +569,7 @@
 				85568B9A2B5B91A700EA2E20 /* ScoreView.swift in Sources */,
 				8501F0E12AB437A30046AA3C /* View+if.swift in Sources */,
 				85954B9F2AB3FF7300680758 /* API.swift in Sources */,
-				85D153342E1CEC6F00ECEEF9 /* View+handleOpenUrlInApp.swift in Sources */,
+				85D153342E1CEC6F00ECEEF9 /* View+handleInAppLinks.swift in Sources */,
 				85954B9B2AB3FF3700680758 /* ListingView.swift in Sources */,
 				85DF8D6F2B5C51DA00F9ADAC /* Comment.swift in Sources */,
 				858614AC2E247F910031F2FC /* TabRoot.swift in Sources */,

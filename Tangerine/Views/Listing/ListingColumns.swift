@@ -21,7 +21,7 @@ struct ListingColumns: View {
     private var post: Post?
 
     init(type: API.ListingType = .news) {
-        self.page = .listing(type)
+        self._page = State(initialValue: .listing(type))
     }
 
     #if os(visionOS)
@@ -117,5 +117,5 @@ struct ListingColumns: View {
 }
 
 #Preview {
-    ListingColumns()
+    ListingColumns(type: .jobs)
 }

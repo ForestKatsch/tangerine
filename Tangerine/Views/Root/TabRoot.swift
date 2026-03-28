@@ -32,7 +32,7 @@ struct TabRoot: View {
     @ViewBuilder
     var tabs: some View {
         TabView {
-            ForEach(API.ListingType.allCases.filter { $0 != .new }) { type in
+            ForEach(API.ListingType.allCases) { type in
                 Tab(type.name, systemImage: type.systemImage) {
                     NavigationStack {
                         ListingScreen(type: type)

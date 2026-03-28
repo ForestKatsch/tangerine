@@ -30,7 +30,7 @@ struct PlainExternalLink<Content: View>: View {
             Link(destination: url) {
                 label()
             }
-            .openLinksInSafari()
+            .handleInAppLinks()
         }
     #else
         var safariView: some View {
@@ -49,7 +49,9 @@ struct PlainExternalLink<Content: View>: View {
             .contextMenu {
                 OpenLink(destination: url)
                 CopyLink(destination: url)
-                ShareLink(item: url)
+                #if !os(tvOS)
+                    ShareLink(item: url)
+                #endif
             }
     }
 }

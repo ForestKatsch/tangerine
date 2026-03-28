@@ -13,13 +13,14 @@ struct TangerineApp: App {
         WindowGroup {
             WindowRoot()
         }
+        #if !os(tvOS)
         .windowResizability(.contentSize)
-        
-#if os(macOS)
-        Settings {
-            SettingsScreen()
-        }
-#endif
+        #endif
 
+        #if os(macOS)
+            Settings {
+                SettingsScreen()
+            }
+        #endif
     }
 }

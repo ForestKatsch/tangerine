@@ -11,21 +11,22 @@ struct PostMenu: View {
     var post: Post
 
     var body: some View {
-            // TODO: implement these actions!
-            /*
-             Button(action: {}) {
-             Label("Vote up", systemImage: "arrow.up")
-             }
-             Button(action: {}) {
-             Label("Flag", systemImage: "flag")
-             }
-             Button(action: {}) {
-             Label("Hide", systemImage: "eye.slash")
-             }
-             */
-            #if os(macOS)
-                CopyLink(destination: post.hnUrl, label: "copy.post.hnUrl")
-            #endif
+        // TODO: implement these actions!
+        /*
+         Button(action: {}) {
+         Label("Vote up", systemImage: "arrow.up")
+         }
+         Button(action: {}) {
+         Label("Flag", systemImage: "flag")
+         }
+         Button(action: {}) {
+         Label("Hide", systemImage: "eye.slash")
+         }
+         */
+        #if os(macOS)
+            CopyLink(destination: post.hnUrl, label: "copy.post.hnUrl")
+        #endif
+        #if !os(tvOS)
             ShareLink(item: post.hnUrl) {
                 Label("share.post.hnUrl", systemImage: "bubble.left.and.bubble.right")
             }
@@ -39,6 +40,7 @@ struct PostMenu: View {
                     #endif
                 }
             }
+        #endif
     }
 }
 

@@ -47,7 +47,9 @@ struct ScoreButton<Content: View>: View {
 
     var body: some View {
         contentView
-            .buttonStyle(.glass)
+        #if !os(visionOS)
+        .buttonStyle(.glass)
+        #endif
     }
 }
 
