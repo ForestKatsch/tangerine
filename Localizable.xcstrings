@@ -386,6 +386,16 @@
         }
       }
     },
+    "listing.other" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Explore"
+          }
+        }
+      }
+    },
     "listing.pick" : {
       "localizations" : {
         "en" : {
@@ -422,6 +432,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Show HN"
+          }
+        }
+      }
+    },
+    "listing.type" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Category"
           }
         }
       }

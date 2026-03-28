@@ -32,14 +32,17 @@ struct TabRoot: View {
     @ViewBuilder
     var tabs: some View {
         TabView {
-            ForEach(API.ListingType.allCases) { type in
-                Tab(type.name, systemImage: type.systemImage) {
-                    NavigationStack {
-                        ListingScreen(type: type)
-                            .toolbar {
-                                toolbar
-                            }
-                    }
+            Tab(API.ListingType.news.name, systemImage: API.ListingType.news.systemImage) {
+                NavigationStack {
+                    ListingScreen(type: API.ListingType.news)
+                        .toolbar {
+                            toolbar
+                        }
+                }
+            }
+            Tab("listing.other", systemImage: "star.hexagon.fill") {
+                NavigationStack {
+                    ExploreScreen()
                 }
             }
         }
@@ -65,9 +68,26 @@ struct TabRoot: View {
 
 struct ExploreScreen: View {
     @State
-    var type: API.ListingType
+    var type: API.ListingType = .show
+
+    var picker: some View {
+        Picker("listing.type", selection: $type) {
+            ForEach(API.ListingType.allCases.filter { $0 != .news }) { type in
+                Label(type.name, systemImage: type.systemImage)
+                    .tag(type)
+            }
+        }
+    }
 
     var body: some View {
         ListingScreen(type: type)
+            .toolbar {
+                Menu(content: {
+                    picker
+                        .pickerStyle(.inline)
+                }, label: {
+                    Image(systemName: type.systemImage)
+                })
+            }
     }
 }
