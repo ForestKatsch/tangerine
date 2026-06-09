@@ -15,11 +15,11 @@ import SwiftUI
 
 struct PostScreen: View {
     var post: Post
-    var fetchStatus: FetchStatus
+    var isLoading: Bool
 
-    init(_ post: Post, fetchStatus: FetchStatus = .init(fetchState: .idle, isFetching: false, isLoading: false, error: nil)) {
+    init(_ post: Post, isLoading: Bool = false) {
         self.post = post
-        self.fetchStatus = fetchStatus
+        self.isLoading = isLoading
     }
 
     var title: LocalizedStringKey {
@@ -41,9 +41,6 @@ struct PostScreen: View {
         }
     }
 
-    var isLoading: Bool {
-        fetchStatus.isLoading
-    }
 
     @ViewBuilder
     var contentView: some View {
@@ -131,7 +128,7 @@ struct PostScreen: View {
     var commentsView: some View {
         VStack(spacing: .spacingHuge) {
             CommentTree(post.comments, post: post)
-            if fetchStatus.isLoading {
+            if isLoading {
                 HStack {
                     Spacer()
                     ProgressView()
@@ -180,5 +177,5 @@ struct PostScreen: View {
 }
 
 #Preview {
-    PostScreen(.placeholder, fetchStatus: .init(fetchState: .idle, isFetching: false, isLoading: false, error: nil))
+    PostScreen(.placeholder, isLoading: false)
 }

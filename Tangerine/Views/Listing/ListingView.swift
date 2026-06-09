@@ -160,22 +160,65 @@ struct PostDetail: View {
 
     var body: some View {
         QueryView(FetchPost(postId: post.id)) { fetched in
-            screen(post.merge(from: fetched), isLoading: false, error: nil)
-        } error: { error in
-            screen(post, isLoading: false, error: error)
+            screen(post.merge(from: fetched), isLoading: false)
+        } error: { _ in
+            screen(post, isLoading: false)
         } loading: {
-            screen(post, isLoading: true, error: nil)
+            screen(post, isLoading: true)
         }
     }
 
-    private func screen(_ post: Post, isLoading: Bool, error: Error?) -> some View {
-        PostScreen(post, fetchStatus: FetchStatus(
-            fetchState: isLoading ? .fetching : .idle,
-            isFetching: isLoading,
-            isLoading: isLoading,
-            error: error
-        ))
-        .unredacted()
-        .id(post.id)
+    private func screen(_ post: Post, isLoading: Bool) -> some View {
+        PostScreen(post, isLoading: isLoading)
+            .unredacted()
+            .id(post.id)
+    }
+}
+
+/// Vertically centers its content inside a full-height scroll view — used for the listing's empty
+/// and error states.
+struct CenteredScrollView<Content: View>: View {
+    @ViewBuilder
+    var content: () -> Content
+
+    init(@ViewBuilder content: @escaping () -> Content) {
+        self.content = content
+    }
+
+    var body: some View {
+        GeometryReader { geom in
+            ScrollView {
+                content()
+                    .frame(maxWidth: .infinity, minHeight: geom.size.height)
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+}
+
+/// The listing's last row: triggers the next page on appear and shows a loading hint or the
+/// pagination error.
+struct InfiniteEnd: View {
+    var next: () -> Void
+    var error: Error?
+
+    var body: some View {
+        ZStack(alignment: .center) {
+            if error != nil {
+                ErrorView(error)
+                // TODO: "try again" button
+            } else {
+                Text("loading.generic")
+                    .textCase(.uppercase)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .padding()
+        .listRowSeparator(.hidden)
+        .frame(maxWidth: .infinity)
+        .onAppear {
+            next()
+        }
     }
 }
