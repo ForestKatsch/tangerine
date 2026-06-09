@@ -82,22 +82,37 @@ struct ListingView: View {
     @Binding
     var selection: Post?
 
-    var api = API.shared
+    @InfiniteFetch
+    private var listing: InfiniteQueryHandle<FetchBrowseListing>
 
     init(type: API.ListingType, selection: Binding<Post?>) {
         self.type = type
         self._selection = selection
+        self._listing = InfiniteFetch(FetchBrowseListing(type: type))
     }
 
-    var body: some View {
-        InfiniteFetchView(FetchBrowseListing(type: type)) { pages, next, status in
-            let posts = pages.flatMap { $0 }
+    @ViewBuilder
+    var content: some View {
+        let posts = listing.pages.flatMap { $0 }
+
+        if posts.isEmpty {
+            CenteredScrollView {
+                if let error = listing.error {
+                    ErrorView(error)
+                } else {
+                    ProgressView()
+                }
+            }
+        } else {
             List(selection: $selection) {
                 ForEach(posts, id: \.id) { post in
                     PostRow(post: post)
                         .tag(post)
                 }
-                InfiniteEnd(next: next, error: status.error)
+                InfiniteEnd(
+                    next: { Task { await listing.fetchNextPage() } },
+                    error: listing.error
+                )
             }
             .scrollIndicators(.hidden)
             .onChange(of: posts.count, initial: true) {
@@ -115,7 +130,11 @@ struct ListingView: View {
                 }
             }
         }
-        .navigationTitle(type.title)
+    }
+
+    var body: some View {
+        content
+            .navigationTitle(type.title)
     }
 }
 

@@ -5,6 +5,7 @@
 //  Created by Forest Katsch on 9/14/23.
 //
 
+import Aquifer
 import Foundation
 import OSLog
 import SwiftSoup
@@ -144,33 +145,30 @@ extension Post {
     }
 }
 
-struct FetchBrowseListing: InfiniteFetchable {
-    typealias T = [Post]
-    typealias P = Int
+struct FetchBrowseListing: InfiniteQuery {
+    typealias Page = [Post]
+    typealias PageParam = Int
 
-    static var placeholder: [Post]?
+    let type: API.ListingType
 
-    var type: API.ListingType
+    var initialPageParam: Int { 0 }
 
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(type.id)
-    }
-
-    init(type: API.ListingType) {
-        self.type = type
-    }
-
-    func fetch(page: Int?) async throws -> ([Post], Int) {
-        guard let url = API.urlFor(listingType: type, page: page) else {
+    func fetch(page param: Int) async throws -> [Post] {
+        guard let url = API.urlFor(listingType: type, page: param) else {
             throw TangerineError.generic(.cannotCreateUrl)
         }
 
         var request = URLRequest(url: url)
         request.cachePolicy = .reloadIgnoringCacheData
 
-        return try (
-            Post.parse(fromListingPage: await API.shared.fetchHTML(for: request), url: url, listingType: type),
-            (page ?? 0) + 1
+        return try Post.parse(
+            fromListingPage: await API.shared.fetchHTML(for: request), url: url, listingType: type
         )
+    }
+
+    // Forward-only: as long as the last page returned posts, assume there's another. A page that
+    // comes back empty (HN throws `noMoreResults` first, surfaced as the footer error) ends it.
+    func nextPageParam(after last: [Post], pages _: [[Post]], params: [Int]) -> Int? {
+        last.isEmpty ? nil : (params.last ?? 0) + 1
     }
 }
