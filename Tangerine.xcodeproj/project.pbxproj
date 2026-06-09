@@ -42,6 +42,7 @@
 		85954BA92AB4054800680758 /* FetchInstanceCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954BA82AB4054800680758 /* FetchInstanceCache.swift */; };
 		85954BAC2AB405B600680758 /* TangerineError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954BAB2AB405B600680758 /* TangerineError.swift */; };
 		85954BAF2AB4070F00680758 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 85954BAE2AB4070F00680758 /* SwiftSoup */; };
+		AFAFAFAF000000000000AA01 /* Aquifer in Frameworks */ = {isa = PBXBuildFile; productRef = AFAFAFAF000000000000AA02 /* Aquifer */; };
 		85954BB12AB4074900680758 /* FetchBrowseListing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954BB02AB4074900680758 /* FetchBrowseListing.swift */; };
 		85954BB42AB407F700680758 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954BB32AB407F700680758 /* Post.swift */; };
 		85954BB62AB408CB00680758 /* API+fetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954BB52AB408CB00680758 /* API+fetch.swift */; };
@@ -165,6 +166,7 @@
 				857B3ADD2B5DAED400CE90C7 /* Defaults in Frameworks */,
 				85568B9D2B5B9B4200EA2E20 /* SwiftUIIntrospect in Frameworks */,
 				85954BAF2AB4070F00680758 /* SwiftSoup in Frameworks */,
+				AFAFAFAF000000000000AA01 /* Aquifer in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -436,6 +438,7 @@
 				85954BAE2AB4070F00680758 /* SwiftSoup */,
 				85568B9C2B5B9B4200EA2E20 /* SwiftUIIntrospect */,
 				857B3ADC2B5DAED400CE90C7 /* Defaults */,
+				AFAFAFAF000000000000AA02 /* Aquifer */,
 			);
 			productName = Tangerine;
 			productReference = 85954B682AB3EEBC00680758 /* Tangerine.app */;
@@ -513,6 +516,7 @@
 				85954BAD2AB4070F00680758 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
 				85568B9B2B5B9B4200EA2E20 /* XCRemoteSwiftPackageReference "swiftui-introspect" */,
 				857B3ADB2B5DAED400CE90C7 /* XCRemoteSwiftPackageReference "Defaults" */,
+				AFAFAFAF000000000000AA03 /* XCLocalSwiftPackageReference "Aquifer" */,
 			);
 			productRefGroup = 85954B692AB3EEBC00680758 /* Products */;
 			projectDirPath = "";
@@ -963,6 +967,13 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		AFAFAFAF000000000000AA03 /* XCLocalSwiftPackageReference "Aquifer" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../Aquifer;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
 		85568B9B2B5B9B4200EA2E20 /* XCRemoteSwiftPackageReference "swiftui-introspect" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -991,6 +1002,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		AFAFAFAF000000000000AA02 /* Aquifer */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AFAFAFAF000000000000AA03 /* XCLocalSwiftPackageReference "Aquifer" */;
+			productName = Aquifer;
+		};
 		85568B9C2B5B9B4200EA2E20 /* SwiftUIIntrospect */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 85568B9B2B5B9B4200EA2E20 /* XCRemoteSwiftPackageReference "swiftui-introspect" */;

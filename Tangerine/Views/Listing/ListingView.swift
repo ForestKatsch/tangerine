@@ -5,6 +5,7 @@
 //  Created by Forest Katsch on 9/14/23.
 //
 
+import Aquifer
 import SwiftUI
 
 extension API.ListingType {
@@ -126,13 +127,36 @@ struct ListingScreen: View {
     var body: some View {
         ListingView(type: type, selection: $selection)
             .navigationDestination(item: $selection) { post in
-                InfiniteFetchView(FetchPost(postId: post.id)) { commentPages, _, fetchStatus in
-                    NavigationStack {
-                        PostScreen(post.merge(from: commentPages[0]), fetchStatus: fetchStatus)
-                            .unredacted()
-                            .id(post.id)
-                    }
+                NavigationStack {
+                    PostDetail(post: post)
                 }
             }
+    }
+}
+
+/// Loads a post's full body and comments via Aquifer, showing the listing post immediately while
+/// the detail loads and merging in the fetched comments when they arrive.
+struct PostDetail: View {
+    let post: Post
+
+    var body: some View {
+        QueryView(FetchPost(postId: post.id)) { fetched in
+            screen(post.merge(from: fetched), isLoading: false, error: nil)
+        } error: { error in
+            screen(post, isLoading: false, error: error)
+        } loading: {
+            screen(post, isLoading: true, error: nil)
+        }
+    }
+
+    private func screen(_ post: Post, isLoading: Bool, error: Error?) -> some View {
+        PostScreen(post, fetchStatus: FetchStatus(
+            fetchState: isLoading ? .fetching : .idle,
+            isFetching: isLoading,
+            isLoading: isLoading,
+            error: error
+        ))
+        .unredacted()
+        .id(post.id)
     }
 }

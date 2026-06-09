@@ -65,11 +65,8 @@ struct ListingColumns: View {
     @ViewBuilder
     var detail: some View {
         if let post {
-            InfiniteFetchView(FetchPost(postId: post.id)) { commentPages, _, fetchStatus in
-                NavigationStack {
-                    PostScreen(post.merge(from: commentPages[0]), fetchStatus: fetchStatus)
-                        .unredacted()
-                }
+            NavigationStack {
+                PostDetail(post: post)
             }
         } else {
             ProgressView()

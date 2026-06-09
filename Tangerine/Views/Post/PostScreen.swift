@@ -42,7 +42,7 @@ struct PostScreen: View {
     }
 
     var isLoading: Bool {
-        FetchInstanceCache.shared.get(infinite: FetchPost(postId: post.id)).isLoading
+        fetchStatus.isLoading
     }
 
     @ViewBuilder

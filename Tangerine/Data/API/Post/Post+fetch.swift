@@ -5,6 +5,7 @@
 //  Created by Forest Katsch on 9/14/23.
 //
 
+import Aquifer
 import Foundation
 import OSLog
 import SwiftSoup
@@ -21,33 +22,17 @@ extension API {
     }
 }
 
-struct FetchPost: InfiniteFetchable {
-    typealias T = Post
-    typealias P = Int
+struct FetchPost: Query {
+    let postId: String
 
-    static var placeholder: Post? = Post.placeholder
-
-    var postId: String
-
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(postId)
-    }
-
-    init(postId: String) {
-        self.postId = postId
-    }
-
-    func fetch(page: Int?) async throws -> (Post, Int) {
-        guard let url = API.urlFor(postId: postId, page: page) else {
+    func fetch() async throws -> Post {
+        guard let url = API.urlFor(postId: postId) else {
             throw TangerineError.generic(.cannotCreateUrl)
         }
 
         var request = URLRequest(url: url)
         request.cachePolicy = .reloadIgnoringCacheData
 
-        return try (
-            Post.parse(fromPostPage: await API.shared.fetchHTML(for: request), postId: postId, url: url),
-            (page ?? 0) + 1
-        )
+        return try Post.parse(fromPostPage: await API.shared.fetchHTML(for: request), postId: postId, url: url)
     }
 }
