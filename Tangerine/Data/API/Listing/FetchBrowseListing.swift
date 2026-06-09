@@ -60,71 +60,80 @@ extension Post {
         var posts: [Post] = []
 
         for element in itemElements.array() {
-            let post = Post(id: element.id())
+            let id = element.id()
 
-            post.kind = type == .jobs ? .job : .normal
+            var kind: Post.Kind = type == .jobs ? .job : .normal
+            var link: URL?
+            var title: String?
+            var score: Int?
+            var authorId: String?
+            var postedDate: Date?
+            var commentCount: Int?
 
             if let titleLine = try? element.select(".titleline").first() {
-                if let link = try? titleLine.select("a").first() {
-                    if let linkUrl = try? link.attr("href") {
-                        post.link = URL(string: linkUrl, relativeTo: url)
+                if let linkElement = try? titleLine.select("a").first() {
+                    if let linkUrl = try? linkElement.attr("href") {
+                        link = URL(string: linkUrl, relativeTo: url)
                     }
                 }
 
-                if let title = try? titleLine.select("a").first()?.text() {
-                    post.title = title
+                if let titleText = try? titleLine.select("a").first()?.text() {
+                    title = titleText
                 }
             }
 
             if let footer = try? element.nextElementSibling()?.select(".subtext").first() {
                 if let scoreText = try? footer.select(".score").text() {
-                    post.score = Parse.int(scoreText)
+                    score = Parse.int(scoreText)
                 } else {
-                    l.warning("could not find footer '.score' for post \(post.id)")
+                    l.warning("could not find footer '.score' for post \(id)")
                 }
 
                 if let authorText = try? footer.select(".hnuser").text() {
-                    post.authorId = authorText
+                    authorId = authorText
                 } else {
-                    l.warning("could not find footer '.hnuser' for post \(post.id)")
+                    l.warning("could not find footer '.hnuser' for post \(id)")
                 }
 
                 if let age = try? footer.select(".age").first() {
-                    if let postedDate = try? age.attr("title") {
-                        post.postedDate = Parse.date(fromSubline: postedDate)
+                    if let postedDateText = try? age.attr("title") {
+                        postedDate = Parse.date(fromSubline: postedDateText)
                     }
                 } else {
-                    l.warning("could not find footer '.age' for post \(post.id)")
+                    l.warning("could not find footer '.age' for post \(id)")
                 }
 
                 // If the comment URL and link URL go to the same URL, it's a text post!
                 if let commentUrl = try? footer.select("a[href^=item]").last()?.attr("href") {
                     if let commentUrl = URL(string: commentUrl, relativeTo: url) {
-                        if commentUrl == post.link {
-                            post.link = nil
+                        if commentUrl == link {
+                            link = nil
                         }
                     }
                 }
                 if let commentCountText = try? footer.select("a[href^=item]").last()?.text() {
                     if commentCountText.hasSuffix("discuss") {
-                        post.commentCount = 0
+                        commentCount = 0
                     } else if commentCountText.hasSuffix("comment") || commentCountText.hasSuffix("comments") {
-                        post.commentCount = Parse.int(commentCountText)
+                        commentCount = Parse.int(commentCountText)
                     }
                 } else {
-                    l.warning("could not find footer '.score' for post \(post.id)")
+                    l.warning("could not find footer '.score' for post \(id)")
                 }
 
                 if let hideElement = try? footer.select("a[href^=hide]").first() {
                     if (try? hideElement.nextElementSibling()) == nil {
-                        post.kind = .job
+                        kind = .job
                     }
                 }
             } else {
-                l.warning("could not find sibling '.subtext' for post \(post.id) - most fields will be nil")
+                l.warning("could not find sibling '.subtext' for post \(id) - most fields will be nil")
             }
 
-            posts.append(post)
+            posts.append(Post(
+                id: id, title: title, link: link, score: score, authorId: authorId,
+                postedDate: postedDate, commentCount: commentCount, kind: kind
+            ))
         }
 
         if posts.isEmpty {

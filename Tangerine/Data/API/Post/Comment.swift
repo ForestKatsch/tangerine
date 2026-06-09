@@ -7,17 +7,20 @@
 
 import Foundation
 
-@Observable
-class Comment: Identifiable, Hashable {
+final class Comment: Identifiable, Hashable, Sendable {
     init(
         id: String, text: String? = nil, score: Int? = nil,
-        authorId: String? = nil, postedDate: Date? = nil
+        authorId: String? = nil, postedDate: Date? = nil,
+        indent: Int = 0, isPlaceholder: Bool = false, children: [Comment] = []
     ) {
         self.id = id
         self.text = text
         self.score = score
         self.authorId = authorId
         self.postedDate = postedDate
+        self.indent = indent
+        self.isPlaceholder = isPlaceholder
+        self.children = children
     }
 
     func hash(into hasher: inout Hasher) {
@@ -28,34 +31,22 @@ class Comment: Identifiable, Hashable {
         a.id == b.id
     }
 
-    var id: String
+    let id: String
 
-    var text: String?
+    let text: String?
 
-    var score: Int?
+    let score: Int?
 
-    var authorId: String?
-    var postedDate: Date?
+    let authorId: String?
+    let postedDate: Date?
 
-    var isPlaceholder = false
+    let isPlaceholder: Bool
 
-    var parent: Comment?
-    var children: [Comment] = []
-
-    var indent: Int {
-        if let parent {
-            return parent.indent + 1
-        }
-
-        return 0
-    }
+    /// Nesting depth, taken straight from the parsed HTML (`td.ind[indent]`).
+    let indent: Int
+    let children: [Comment]
 
     var hnUrl: URL {
         URL(string: "https://news.ycombinator.com/item?id=\(id)")!
-    }
-
-    func append(comment: Comment) {
-        children.append(comment)
-        comment.parent = self
     }
 }

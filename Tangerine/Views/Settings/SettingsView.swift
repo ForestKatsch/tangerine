@@ -47,16 +47,10 @@ struct CommentSettings: View {
     var commentTreeMode
 
     var previewComment: Comment = {
-        let start = Comment(id: "a", text: "Blender's binary space partitioned UI layout is a game-changer. Streamlines the workflow tremendously. Anyone else tried it?", authorId: "zlsa")
-        let reply = Comment(id: "b", text: "Love how it optimizes screen space, especially on multiple monitors. The customizability is a big plus.", authorId: "RenderRaven")
-        let reply2 = Comment(id: "c", text: "Totally agree. Custom layouts make complex projects more manageable. Curious about how it handles custom screens?", authorId: "zlsa")
-        let reply3 = Comment(id: "d", text: "It integrates smoothly with custom scripts. The layout adapts dynamically, which is a huge workflow improvement.", authorId: "RenderRaven")
-
-        start.append(comment: reply)
-        reply.append(comment: reply2)
-        reply2.append(comment: reply3)
-
-        return start
+        let reply3 = Comment(id: "d", text: "It integrates smoothly with custom scripts. The layout adapts dynamically, which is a huge workflow improvement.", authorId: "RenderRaven", indent: 3)
+        let reply2 = Comment(id: "c", text: "Totally agree. Custom layouts make complex projects more manageable. Curious about how it handles custom screens?", authorId: "zlsa", indent: 2, children: [reply3])
+        let reply = Comment(id: "b", text: "Love how it optimizes screen space, especially on multiple monitors. The customizability is a big plus.", authorId: "RenderRaven", indent: 1, children: [reply2])
+        return Comment(id: "a", text: "Blender's binary space partitioned UI layout is a game-changer. Streamlines the workflow tremendously. Anyone else tried it?", authorId: "zlsa", indent: 0, children: [reply])
     }()
 
     var preview: some View {

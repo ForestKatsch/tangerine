@@ -13,12 +13,11 @@ enum Vote {
     case down
 }
 
-@Observable
-class Post: Identifiable, Hashable {
+final class Post: Identifiable, Hashable, Sendable {
     init(
         id: String, title: String? = nil, link: URL? = nil, text: String? = nil, score: Int? = nil,
         authorId: String? = nil, postedDate: Date? = nil, commentCount: Int? = nil,
-        kind: Post.Kind? = nil
+        kind: Post.Kind? = nil, comments: [Comment] = []
     ) {
         self.id = id
         self.title = title
@@ -29,6 +28,7 @@ class Post: Identifiable, Hashable {
         self.postedDate = postedDate
         self.commentCount = commentCount
         self.kind = kind
+        self.comments = comments
     }
 
     func hash(into hasher: inout Hasher) {
@@ -39,22 +39,22 @@ class Post: Identifiable, Hashable {
         a.id == b.id
     }
 
-    var id: String
-    var title: String?
+    let id: String
+    let title: String?
 
-    var link: URL?
-    var text: String?
+    let link: URL?
+    let text: String?
 
-    var score: Int?
+    let score: Int?
 
-    var authorId: String?
-    var postedDate: Date?
+    let authorId: String?
+    let postedDate: Date?
 
-    var commentCount: Int?
+    let commentCount: Int?
 
-    var kind: Kind?
+    let kind: Kind?
 
-    var comments: [Comment] = []
+    let comments: [Comment]
 
     var hnUrl: URL {
         URL(string: "https://news.ycombinator.com/item?id=\(id)")!
@@ -90,38 +90,31 @@ class Post: Identifiable, Hashable {
     }
 
     static var placeholder: Post {
-        let post = Post(
+        let childComment = Comment(
+            id: UUID().uuidString, text: "Hello, world!", authorId: "joseph", indent: 1
+        )
+        let topComment = Comment(
+            id: UUID().uuidString, text: "First", authorId: "zlsa", indent: 0,
+            children: [childComment]
+        )
+        return Post(
             id: UUID().uuidString, title: "Show HN: Tangerine for Hacker News open-source iOS app",
             link: URL(string: "https://forestkatsch.com/"), score: 128, authorId: "zlsa",
-            commentCount: 32, kind: .normal
+            commentCount: 32, kind: .normal, comments: [topComment]
         )
-        let topComment = Comment(id: UUID().uuidString, text: "First", authorId: "zlsa")
-        let childComment = Comment(id: UUID().uuidString, text: "Hello, world!", authorId: "joseph")
-        topComment.children.append(childComment)
-        childComment.parent = topComment
-
-        post.comments.append(topComment)
-        return post
     }
 
-    func canVote(_: Vote) {}
-
-    func vote(_ vote: Vote) {
-        if vote == .up {
-            score? += 1
-        } else {
-            score? -= 1
-        }
-        // TODO: upvote/downvote event
-    }
-
+    /// Combine the listing post (identity, title, score) with a freshly fetched post's body and
+    /// comments. Returns a new immutable `Post`; `self` is returned unchanged if the ids differ.
     func merge(from: Post) -> Post {
-        if from != self {
+        guard from == self else {
             return self
         }
 
-        text = from.text
-        comments = from.comments
-        return self
+        return Post(
+            id: id, title: title, link: link, text: from.text, score: score,
+            authorId: authorId, postedDate: postedDate, commentCount: commentCount,
+            kind: kind, comments: from.comments
+        )
     }
 }

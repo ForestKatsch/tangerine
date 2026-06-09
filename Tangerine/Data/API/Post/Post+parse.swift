@@ -11,11 +11,34 @@ import SwiftSoup
 
 private let l = Logger(category: "API+Listing")
 
+/// Mutable scratch node used while reconstructing the comment tree from HN's flat, indent-tagged
+/// comment list. Frozen into an immutable ``Comment`` once its whole subtree is parsed.
+private final class CommentNode {
+    let id: String
+    let indent: Int
+
+    var authorId: String?
+    var postedDate: Date?
+    var score: Int?
+    var text: String?
+    var children: [CommentNode] = []
+
+    init(id: String, indent: Int) {
+        self.id = id
+        self.indent = indent
+    }
+
+    func freeze() -> Comment {
+        Comment(
+            id: id, text: text, score: score, authorId: authorId, postedDate: postedDate,
+            indent: indent, children: children.map { $0.freeze() }
+        )
+    }
+}
+
 extension Post {
     static func parse(fromPostPage document: Document, postId: String, url _: URL? = nil) throws -> Post {
         try? API.shared.parse(document)
-
-        let post = Post(id: postId)
 
         guard let main = try? document.select("#hnmain").first() else {
             throw TangerineError.generic(.cannotParseHtml, context: "#hnmain")
@@ -25,20 +48,22 @@ extension Post {
             throw TangerineError.generic(.cannotParseHtml, context: ".fatitem")
         }
 
+        var postText: String?
         if let textContainer = try? postContainer.select("div.toptext").first() {
-            post.text = try? Parse.parseHNText(text: textContainer).joined(separator: "\n\n")
+            postText = try? Parse.parseHNText(text: textContainer).joined(separator: "\n\n")
         }
 
         // Ugh, comment parsing lol.
         guard let commentContainer = try? main.select("table.comment-tree > tbody").first() else {
-            return post
+            return Post(id: postId, text: postText)
         }
 
         guard let commentElements = try? commentContainer.select("> tr.athing") else {
-            return post
+            return Post(id: postId, text: postText)
         }
 
-        var commentBranch: [Comment] = []
+        var topLevel: [CommentNode] = []
+        var commentBranch: [CommentNode] = []
 
         for element in commentElements {
             guard let indentString = try? element.select("td.ind[indent]").first()?.attr("indent") else {
@@ -51,8 +76,7 @@ extension Post {
                 continue
             }
 
-            let id = element.id()
-            let comment = Comment(id: id)
+            let comment = CommentNode(id: element.id(), indent: indent)
 
             if indent == commentBranch.count {
                 // One deeper!
@@ -74,14 +98,11 @@ extension Post {
                 l.error("oh shit we lost our spot")
             }
 
-            let parent = commentBranch.last
-
-            parent?.children.append(comment)
-            comment.parent = parent
-
             // Nothing on the branch - therefore we are a parent.
-            if commentBranch.count == 0 {
-                post.comments.append(comment)
+            if let parent = commentBranch.last {
+                parent.children.append(comment)
+            } else {
+                topLevel.append(comment)
             }
 
             commentBranch.append(comment)
@@ -109,6 +130,6 @@ extension Post {
             }
         }
 
-        return post
+        return Post(id: postId, text: postText, comments: topLevel.map { $0.freeze() })
     }
 }
