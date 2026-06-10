@@ -1,6 +1,15 @@
 {
-  "originHash" : "5e43d9ad41001c3cc92a76872985321242ed49a65145f2f72c2840b8dfa3cc40",
+  "originHash" : "7369d6d5468fffd0fd8c579263b0aaf4ae16dd4facdbf074a5a44a02a04f6bba",
   "pins" : [
+    {
+      "identity" : "aquifer",
+      "kind" : "remoteSourceControl",
+      "location" : "git@github.com:ForestKatsch/Aquifer.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "e70a58858458d826361935fd0e6d64959387b716"
+      }
+    },
     {
       "identity" : "defaults",
       "kind" : "remoteSourceControl",

@@ -31,6 +31,7 @@ struct AccountScreen: View {
         .navigationDestination(for: SettingsPage.Id.self) { page in
             SettingsPage(page: page)
         }
+        .scrollEdgeEffectStyle(.soft, for: .all)
     }
 }
 

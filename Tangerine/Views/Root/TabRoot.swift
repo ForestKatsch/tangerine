@@ -29,15 +29,21 @@ struct TabRoot: View {
         }
     }
 
-    @ViewBuilder
     var tabs: some View {
         TabView {
             Tab(API.ListingType.news.name, systemImage: API.ListingType.news.systemImage) {
                 NavigationStack {
-                    ListingScreen(type: API.ListingType.news)
-                        .toolbar {
-                            toolbar
-                        }
+                    ListingScreen(type: .news)
+                }
+            }
+            Tab(API.ListingType.show.name, systemImage: API.ListingType.show.systemImage) {
+                NavigationStack {
+                    ListingScreen(type: .show)
+                }
+            }
+            Tab(API.ListingType.ask.name, systemImage: API.ListingType.ask.systemImage) {
+                NavigationStack {
+                    ListingScreen(type: .ask)
                 }
             }
             Tab("listing.other", systemImage: "star.hexagon.fill") {
@@ -72,7 +78,7 @@ struct ExploreScreen: View {
 
     var picker: some View {
         Picker("listing.type", selection: $type) {
-            ForEach(API.ListingType.allCases.filter { $0 != .news }) { type in
+            ForEach(API.ListingType.allCases.filter { ![.news, .show, .ask].contains($0) }) { type in
                 Label(type.name, systemImage: type.systemImage)
                     .tag(type)
             }

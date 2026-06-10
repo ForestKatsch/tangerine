@@ -115,6 +115,7 @@ struct ListingView: View {
                 )
             }
             .scrollIndicators(.hidden)
+            .refreshable { await listing.refetch() }
             .onChange(of: posts.count, initial: true) {
                 if posts.isEmpty || selection != nil {
                     return
@@ -150,28 +151,43 @@ struct ListingScreen: View {
                     PostDetail(post: post)
                 }
             }
+            .scrollEdgeEffectStyle(.soft, for: .all)
     }
 }
 
 /// Loads a post's full body and comments via Aquifer, showing the listing post immediately while
-/// the detail loads and merging in the fetched comments when they arrive.
+/// the detail loads and merging in the fetched comments when they arrive. Pull-to-refresh refetches.
 struct PostDetail: View {
     let post: Post
 
     var body: some View {
-        QueryView(FetchPost(postId: post.id)) { fetched in
-            screen(post.merge(from: fetched), isLoading: false)
-        } error: { _ in
-            screen(post, isLoading: false)
-        } loading: {
-            screen(post, isLoading: true)
-        }
+        // Generic over the query so `@Fetch` can infer its type from the init argument (it can't be
+        // inferred from a `QueryState<Post>` annotation alone) — giving us a `refetch()` handle.
+        PostDetailLoader(FetchPost(postId: post.id), listing: post)
+    }
+}
+
+private struct PostDetailLoader<Q: Query>: View where Q.Value == Post {
+    private let listing: Post
+    // Plain `Fetch` member (not the `@Fetch` attribute) so `Q` is inferred from the init argument;
+    // SwiftUI still drives it as a DynamicProperty. Same pattern Aquifer's own QueryView uses.
+    private var fetch: Fetch<Q>
+
+    init(_ query: Q, listing: Post) {
+        self.listing = listing
+        self.fetch = Fetch(query)
     }
 
-    private func screen(_ post: Post, isLoading: Bool) -> some View {
-        PostScreen(post, isLoading: isLoading)
-            .unredacted()
-            .id(post.id)
+    var body: some View {
+        let state = fetch.wrappedValue
+        PostScreen(
+            listing.merge(from: state.value ?? listing),
+            isLoading: state.value == nil && state.isFetching
+        )
+        .unredacted()
+        .id(listing.id)
+        .refreshable { await fetch.projectedValue.refetch() }
+        .scrollEdgeEffectStyle(.soft, for: .all)
     }
 }
 
