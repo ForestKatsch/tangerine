@@ -74,6 +74,9 @@ struct ListingTypePicker: View {
 }
 
 struct ListingView: View {
+    /// A binding, not a value: the picker that switches listings lives in this view's own top
+    /// bar, so it writes back to whoever owns the selection.
+    @Binding
     var type: API.ListingType
 
     @Binding
@@ -85,17 +88,14 @@ struct ListingView: View {
     /// here would always say "collapsed".
     var selectsFirstPost: Bool
 
-    @State
-    private var accountOpen = false
-
     @InfiniteFetch
     private var listing: InfiniteQueryHandle<FetchBrowseListing>
 
-    init(type: API.ListingType, selection: Binding<Post?>, selectsFirstPost: Bool) {
-        self.type = type
+    init(type: Binding<API.ListingType>, selection: Binding<Post?>, selectsFirstPost: Bool) {
+        self._type = type
         self._selection = selection
         self.selectsFirstPost = selectsFirstPost
-        self._listing = InfiniteFetch(FetchBrowseListing(type: type))
+        self._listing = InfiniteFetch(FetchBrowseListing(type: type.wrappedValue))
     }
 
     @ViewBuilder
@@ -136,29 +136,19 @@ struct ListingView: View {
     var body: some View {
         content
             .navigationTitle(type.title)
-            #if !os(visionOS)
-            .scrollEdgeEffectStyle(.soft, for: .all)
-            #endif
-            #if !os(macOS)
-            // macOS puts these in the `Settings` scene instead.
-            .toolbar {
-                ToolbarItem {
-                    Button("account.label", systemImage: "person.crop.circle") {
-                        accountOpen = true
-                    }
-                }
+            // The five HN listings are a filter on this one screen, not five destinations, so
+            // they sit in a picker under the title rather than taking up the tab bar.
+            //
+            // `safeAreaBar`, not `safeAreaInset`: the bar version comes with the system's own
+            // backdrop and scroll edge effect, so the listing scrolling underneath stays legible
+            // without hand-rolling a material behind it.
+            .safeAreaBar(edge: .top) {
+                ListingTypePicker($type)
+                    .pickerStyle(.segmented)
+                    .labelStyle(.titleOnly)
+                    .padding(.horizontal, .spacingHorizontal)
+                    .padding(.bottom, .spacingMedium)
             }
-            .sheet(isPresented: $accountOpen) {
-                NavigationStack {
-                    AccountScreen()
-                        .toolbar {
-                            ToolbarItem(placement: .confirmationAction) {
-                                Button(role: .close) { accountOpen = false }
-                            }
-                        }
-                }
-            }
-            #endif
     }
 }
 

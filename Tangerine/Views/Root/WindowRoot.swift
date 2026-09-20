@@ -7,39 +7,44 @@
 
 import SwiftUI
 
+/// Which tab is showing. `RawRepresentable` so it survives in `@SceneStorage`.
+enum AppTab: String {
+    case news
+    case account
+}
+
 /// The app's only navigation container, on every platform and at every size.
 ///
-/// A sidebar-adaptable `TabView` draws itself as a tab bar in compact widths and as a sidebar
-/// everywhere else, and each tab holds one `NavigationSplitView`. The structure itself never
-/// changes shape, so resizing the window — rotating an iPad, unfolding a Duo, dragging a Mac
-/// window — rearranges the chrome without rebuilding the view tree: the selected tab, the selected
-/// post and the cached query all survive.
+/// The tabs are the app's distinct destinations — reading and your account — not HN's five
+/// listings, which are one screen with a filter on it and live in the picker under its title.
+///
+/// Deliberately not `.sidebarAdaptable`: two destinations don't need a sidebar, and that style
+/// brings its own sidebar toggle, which lands next to the one the `NavigationSplitView` inside
+/// each tab already draws.
 struct WindowRoot: View {
-    // `API.ListingType` is `String`-backed, so the selected tab round-trips through scene
-    // storage and the app reopens where it was left.
     @SceneStorage("selectedTab")
-    private var tab: API.ListingType = .news
+    private var tab: AppTab = .news
 
     var body: some View {
         TabView(selection: $tab) {
-            ForEach(API.ListingType.allCases) { type in
-                Tab(type.name, systemImage: type.systemImage, value: type) {
-                    ListingScreen(type: type)
-                }
+            Tab("listing.news", systemImage: "newspaper", value: AppTab.news) {
+                ListingScreen()
+            }
+            Tab("account.label", systemImage: "person.crop.circle", value: AppTab.account) {
+                AccountTab()
             }
         }
-        .tabViewStyle(.sidebarAdaptable)
     }
 }
 
-/// One tab: the listing, and the post selected within it.
+/// Reading: a listing, and the post selected within it.
 ///
 /// How the columns are laid out is the system's call, from size class, width and aspect ratio:
 /// side by side where there's room, collapsed to a `NavigationStack` at compact widths, and the
-/// sidebar overlaid on the detail in between — an unfolded Duo in portrait is `.regular` at 669pt
-/// and lands there. SwiftUI exposes no way to ask for a particular one (`NavigationSplitViewStyle`
-/// has no equivalent of UIKit's `.tile`), so the only lever is which columns show, below.
-/// Selection drives navigation in every one of those layouts, so there's one code path for all.
+/// sidebar overlaid on the detail in between. SwiftUI exposes no way to ask for a particular one
+/// (`NavigationSplitViewStyle` has no equivalent of UIKit's `.tile`, and setting that through the
+/// underlying `UISplitViewController` is ignored on this OS), so the only lever is which columns
+/// show, below. Selection drives navigation in every one of those layouts.
 struct ListingScreen: View {
     // Read here rather than inside `ListingView`: a split view's sidebar column reports a compact
     // horizontal size class even in a wide window, so asking from in there would always say
@@ -48,7 +53,10 @@ struct ListingScreen: View {
     @Environment(\.horizontalSizeClass)
     private var horizontalSizeClass
 
-    let type: API.ListingType
+    /// Which listing is showing. `API.ListingType` is `String`-backed, so it round-trips through
+    /// scene storage and the app reopens on the feed it was left on.
+    @SceneStorage("listingType")
+    private var type: API.ListingType = .news
 
     @State
     private var post: Post?
@@ -63,7 +71,7 @@ struct ListingScreen: View {
     var body: some View {
         NavigationSplitView(columnVisibility: $columnVisibility) {
             ListingView(
-                type: type,
+                type: $type,
                 selection: $post,
                 selectsFirstPost: horizontalSizeClass != .compact
             )
@@ -78,11 +86,24 @@ struct ListingScreen: View {
                 ContentUnavailableView("listing.post.none", systemImage: "newspaper")
             }
         }
+        // The selected post belongs to the listing it came from.
+        .onChange(of: type) {
+            post = nil
+        }
         // A `NavigationSplitView` nested in a `Tab` doesn't extend its columns under the status
         // bar the way it does on its own — it gets clipped below, leaving a bare strip across the
         // top. Letting it own that edge puts the column backgrounds back under the status bar;
         // the split view still insets its own bars and content normally.
         .ignoresSafeArea(.container, edges: .top)
+    }
+}
+
+/// Your account, and the settings reachable from it.
+private struct AccountTab: View {
+    var body: some View {
+        NavigationStack {
+            AccountScreen()
+        }
     }
 }
 
