@@ -31,9 +31,6 @@ struct AccountScreen: View {
         .navigationDestination(for: SettingsPage.Id.self) { page in
             SettingsPage(page: page)
         }
-        #if !os(visionOS)
-        .scrollEdgeEffectStyle(.soft, for: .all)
-        #endif
     }
 }
 

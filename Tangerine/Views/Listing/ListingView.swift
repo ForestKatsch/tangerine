@@ -185,9 +185,6 @@ private struct PostDetailLoader<Q: Query>: View where Q.Value == Post {
         .unredacted()
         .id(listing.id)
         .refreshable { await fetch.projectedValue.refetch() }
-        #if !os(visionOS)
-        .scrollEdgeEffectStyle(.soft, for: .all)
-        #endif
     }
 }
 
