@@ -7,15 +7,82 @@
 
 import SwiftUI
 
+/// The app's only navigation container, on every platform and at every size.
+///
+/// A sidebar-adaptable `TabView` draws itself as a tab bar in compact widths and as a sidebar
+/// everywhere else, and each tab holds one `NavigationSplitView`. The structure itself never
+/// changes shape, so resizing the window — rotating an iPad, unfolding a Duo, dragging a Mac
+/// window — rearranges the chrome without rebuilding the view tree: the selected tab, the selected
+/// post and the cached query all survive.
 struct WindowRoot: View {
+    // `API.ListingType` is `String`-backed, so the selected tab round-trips through scene
+    // storage and the app reopens where it was left.
+    @SceneStorage("selectedTab")
+    private var tab: API.ListingType = .news
+
     var body: some View {
-        #if os(visionOS)
-            VisionTabRoot()
-        #elseif os(macOS)
-            ListingColumns()
-        #else
-            TabRoot()
-        #endif
+        TabView(selection: $tab) {
+            ForEach(API.ListingType.allCases) { type in
+                Tab(type.name, systemImage: type.systemImage, value: type) {
+                    ListingScreen(type: type)
+                }
+            }
+        }
+        .tabViewStyle(.sidebarAdaptable)
+    }
+}
+
+/// One tab: the listing, and the post selected within it.
+///
+/// How the columns are laid out is the system's call, from size class, width and aspect ratio:
+/// side by side where there's room, collapsed to a `NavigationStack` at compact widths, and the
+/// sidebar overlaid on the detail in between — an unfolded Duo in portrait is `.regular` at 669pt
+/// and lands there. SwiftUI exposes no way to ask for a particular one (`NavigationSplitViewStyle`
+/// has no equivalent of UIKit's `.tile`), so the only lever is which columns show, below.
+/// Selection drives navigation in every one of those layouts, so there's one code path for all.
+struct ListingScreen: View {
+    // Read here rather than inside `ListingView`: a split view's sidebar column reports a compact
+    // horizontal size class even in a wide window, so asking from in there would always say
+    // "collapsed". Out here it describes the window, which is what decides whether the split view
+    // collapses in the first place.
+    @Environment(\.horizontalSizeClass)
+    private var horizontalSizeClass
+
+    let type: API.ListingType
+
+    @State
+    private var post: Post?
+
+    /// Start with the listing showing. Where the split view lays the columns out side by side this
+    /// is what it would do anyway; where it slides the sidebar over the detail instead — a phone
+    /// wide enough to count as `.regular`, like an unfolded Duo — the default is a *closed*
+    /// overlay, which launches the app onto an empty detail with the listing nowhere in sight.
+    @State
+    private var columnVisibility: NavigationSplitViewVisibility = .all
+
+    var body: some View {
+        NavigationSplitView(columnVisibility: $columnVisibility) {
+            ListingView(
+                type: type,
+                selection: $post,
+                selectsFirstPost: horizontalSizeClass != .compact
+            )
+            .navigationSplitViewColumnWidth(min: 280, ideal: 360, max: 480)
+        } detail: {
+            if let post {
+                NavigationStack {
+                    PostDetail(post: post)
+                        .handleInAppLinks()
+                }
+            } else {
+                ContentUnavailableView("listing.post.none", systemImage: "newspaper")
+            }
+        }
+        // A `NavigationSplitView` nested in a `Tab` doesn't extend its columns under the status
+        // bar the way it does on its own — it gets clipped below, leaving a bare strip across the
+        // top. Letting it own that edge puts the column backgrounds back under the status bar;
+        // the split view still insets its own bars and content normally.
+        .ignoresSafeArea(.container, edges: .top)
     }
 }
 

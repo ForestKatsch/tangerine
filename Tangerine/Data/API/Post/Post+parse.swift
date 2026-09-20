@@ -54,13 +54,19 @@ extension Post {
         }
 
         // Ugh, comment parsing lol.
-        guard let commentContainer = try? main.select("table.comment-tree > tbody").first() else {
-            return Post(id: postId, text: postText)
+        //
+        // HN emits the comment tree on every item page, empty ones included — a post with no
+        // replies still gets a bare `<table class="comment-tree"></table>`. So a missing table
+        // means we were handed a page we don't understand, and that's an error: returning an empty
+        // post instead would be indistinguishable from a post nobody has replied to.
+        guard let commentContainer = try? main.select("table.comment-tree").first() else {
+            throw TangerineError.generic(.cannotParseHtml, context: ".comment-tree")
         }
 
-        guard let commentElements = try? commentContainer.select("> tr.athing") else {
-            return Post(id: postId, text: postText)
-        }
+        // Rows are direct children of the table's implied `tbody`, which the HTML parser only
+        // synthesizes once there's at least one row — hence matching the table, not its `tbody`,
+        // above. No rows is a legitimately empty result, not a failure.
+        let commentElements = try commentContainer.select("> tbody > tr.athing")
 
         var topLevel: [CommentNode] = []
         var commentBranch: [CommentNode] = []

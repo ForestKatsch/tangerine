@@ -17,7 +17,8 @@ class API {
         case listing(ofType: ListingType)
     }
 
-    enum ListingType: Hashable, Identifiable, CaseIterable {
+    // `String`-backed so a selected tab can round-trip through `@SceneStorage`.
+    enum ListingType: String, Hashable, Identifiable, CaseIterable {
         var id: Self { self }
         case news
         case new

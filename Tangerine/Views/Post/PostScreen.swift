@@ -17,9 +17,14 @@ struct PostScreen: View {
     var post: Post
     var isLoading: Bool
 
-    init(_ post: Post, isLoading: Bool = false) {
+    /// Why the post failed to load, if it did. Without this a failed fetch is indistinguishable
+    /// from a post that genuinely has no comments — both arrive here as an empty `comments`.
+    var error: Error?
+
+    init(_ post: Post, isLoading: Bool = false, error: Error? = nil) {
         self.post = post
         self.isLoading = isLoading
+        self.error = error
     }
 
     var title: LocalizedStringKey {
@@ -136,8 +141,15 @@ struct PostScreen: View {
                 }
                 .padding(.vertical)
             } else if post.comments.isEmpty {
-                ContentUnavailableView("post.comments.none", systemImage: "bubble")
-                    .padding(.vertical)
+                // An error only replaces the comments when it actually cost us them; a failed
+                // refresh that still has comments to show stays quiet.
+                if let error {
+                    ErrorView(error)
+                        .padding(.vertical)
+                } else {
+                    ContentUnavailableView("post.comments.none", systemImage: "bubble")
+                        .padding(.vertical)
+                }
             }
         }
         .padding(.bottom)
@@ -165,9 +177,7 @@ struct PostScreen: View {
             }
         }
         .onAppear {
-            withAnimation {
-                ReadManager.shared.markVisited(post)
-            }
+            ReadManager.shared.markVisited(post)
         }
         .navigationTitle(nativeTitle ? title : "")
         #if os(iOS)

@@ -74,20 +74,27 @@ struct ListingTypePicker: View {
 }
 
 struct ListingView: View {
-    @Environment(\.horizontalSizeClass)
-    var horizontalSizeClass
-
     var type: API.ListingType
 
     @Binding
     var selection: Post?
 
+    /// Select the first post as soon as the listing loads, so a detail column isn't empty on
+    /// launch. Decided by `ListingScreen`, which can read the window's size class honestly — a
+    /// split view's sidebar column reports `.compact` even in a wide window, so asking from in
+    /// here would always say "collapsed".
+    var selectsFirstPost: Bool
+
+    @State
+    private var accountOpen = false
+
     @InfiniteFetch
     private var listing: InfiniteQueryHandle<FetchBrowseListing>
 
-    init(type: API.ListingType, selection: Binding<Post?>) {
+    init(type: API.ListingType, selection: Binding<Post?>, selectsFirstPost: Bool) {
         self.type = type
         self._selection = selection
+        self.selectsFirstPost = selectsFirstPost
         self._listing = InfiniteFetch(FetchBrowseListing(type: type))
     }
 
@@ -117,18 +124,11 @@ struct ListingView: View {
             .scrollIndicators(.hidden)
             .refreshable { await listing.refetch() }
             .onChange(of: posts.count, initial: true) {
-                if posts.isEmpty || selection != nil {
+                guard selectsFirstPost, selection == nil, let first = posts.first else {
                     return
                 }
 
-                let first = posts[0]
-
-                #if os(macOS) || os(visionOS)
-                    selection = first
-                #endif
-                if horizontalSizeClass != .compact {
-                    selection = first
-                }
+                selection = first
             }
         }
     }
@@ -136,22 +136,29 @@ struct ListingView: View {
     var body: some View {
         content
             .navigationTitle(type.title)
-    }
-}
-
-// Navigation-pushing wrapper for ListingView
-struct ListingScreen: View {
-    let type: API.ListingType
-    @State private var selection: Post?
-
-    var body: some View {
-        ListingView(type: type, selection: $selection)
-            .navigationDestination(item: $selection) { post in
-                NavigationStack {
-                    PostDetail(post: post)
+            #if !os(visionOS)
+            .scrollEdgeEffectStyle(.soft, for: .all)
+            #endif
+            #if !os(macOS)
+            // macOS puts these in the `Settings` scene instead.
+            .toolbar {
+                ToolbarItem {
+                    Button("account.label", systemImage: "person.crop.circle") {
+                        accountOpen = true
+                    }
                 }
             }
-            .scrollEdgeEffectStyle(.soft, for: .all)
+            .sheet(isPresented: $accountOpen) {
+                NavigationStack {
+                    AccountScreen()
+                        .toolbar {
+                            ToolbarItem(placement: .confirmationAction) {
+                                Button(role: .close) { accountOpen = false }
+                            }
+                        }
+                }
+            }
+            #endif
     }
 }
 
@@ -182,12 +189,15 @@ private struct PostDetailLoader<Q: Query>: View where Q.Value == Post {
         let state = fetch.wrappedValue
         PostScreen(
             listing.merge(from: state.value ?? listing),
-            isLoading: state.value == nil && state.isFetching
+            isLoading: state.value == nil && state.isFetching,
+            error: state.error
         )
         .unredacted()
         .id(listing.id)
         .refreshable { await fetch.projectedValue.refetch() }
+        #if !os(visionOS)
         .scrollEdgeEffectStyle(.soft, for: .all)
+        #endif
     }
 }
 

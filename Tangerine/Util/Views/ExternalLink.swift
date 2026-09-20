@@ -30,7 +30,6 @@ struct PlainExternalLink<Content: View>: View {
             Link(destination: url) {
                 label()
             }
-            .handleInAppLinks()
         }
     #else
         var safariView: some View {

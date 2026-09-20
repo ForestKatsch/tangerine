@@ -31,33 +31,9 @@ struct AccountScreen: View {
         .navigationDestination(for: SettingsPage.Id.self) { page in
             SettingsPage(page: page)
         }
+        #if !os(visionOS)
         .scrollEdgeEffectStyle(.soft, for: .all)
-    }
-}
-
-struct AccountColumns: View {
-    @State
-    private var page: SettingsPage.Id? = .linkPreviews
-
-    var body: some View {
-        NavigationSplitView {
-            List(selection: $page) {
-                Section {
-                    SignInView()
-                }
-                Section("settings.label") {
-                    ForEach(SettingsPage.Id.allCases) { page in
-                        Text(page.label)
-                            .tag(page)
-                    }
-                }
-            }
-            .navigationTitle("account.label")
-        } detail: {
-            if let page {
-                SettingsPage(page: page)
-            }
-        }
+        #endif
     }
 }
 

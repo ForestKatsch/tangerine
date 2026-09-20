@@ -10,8 +10,11 @@ import SwiftUI
 
 @main
 struct TangerineApp: App {
+    // A five-second stale time meant almost every tab switch, back-navigation and resume counted as
+    // stale and re-fetched. HN's front page doesn't move that fast, and the listing is an
+    // `InfiniteQuery`, so a revalidation still reloads page one — just not several times a minute.
     @State private var queryClient = QueryClient(
-        options: QueryOptions(staleTime: .seconds(5), refetchOnForeground: true)
+        options: QueryOptions(staleTime: .seconds(60), refetchOnForeground: true)
     )
 
     var body: some Scene {

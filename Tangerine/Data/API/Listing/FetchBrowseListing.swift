@@ -171,4 +171,16 @@ struct FetchBrowseListing: InfiniteQuery {
     func nextPageParam(after last: [Post], pages _: [[Post]], params: [Int]) -> Int? {
         last.isEmpty ? nil : (params.last ?? 0) + 1
     }
+
+    // HN paginates by position in a feed that keeps moving, so a post can slide off page N onto
+    // page N+1 between two requests and arrive on both. `ForEach(posts, id: \.id)` renders that as
+    // two rows with one identity, which SwiftUI resolves by jumping the scroll position around.
+    // Keep the first occurrence of each post and drop the rest.
+    func reconcile(_ value: PagedValue<[Post], Int>) -> PagedValue<[Post], Int> {
+        var seen = Set<Post.ID>()
+        return PagedValue(
+            pages: value.pages.map { page in page.filter { seen.insert($0.id).inserted } },
+            params: value.params
+        )
+    }
 }

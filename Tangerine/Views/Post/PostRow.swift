@@ -101,9 +101,11 @@ struct PostRow: View {
                 .font(.footnote)
                 .foregroundStyle(.secondary)
         }
-        .if(ReadManager.shared.hasVisited(post)) { view in
-            view.foregroundStyle(.secondary)
-        }
+        // Dim visited posts with opacity rather than a conditional `.foregroundStyle`: a
+        // conditional modifier changes the row's identity (so SwiftUI replaces the row instead of
+        // restyling it), and an explicit foreground style would stop the list from recoloring the
+        // row's text when it's selected.
+        .opacity(ReadManager.shared.hasVisited(post) ? 0.55 : 1)
         .contextMenu {
             PostMenu(post: post)
         }

@@ -17,7 +17,6 @@
 		85568B932B5B880D00EA2E20 /* API+parse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85568B922B5B880D00EA2E20 /* API+parse.swift */; };
 		85568B952B5B898D00EA2E20 /* View+memorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85568B942B5B898D00EA2E20 /* View+memorial.swift */; };
 		85568B9A2B5B91A700EA2E20 /* ScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85568B992B5B91A700EA2E20 /* ScoreView.swift */; };
-		85568B9D2B5B9B4200EA2E20 /* SwiftUIIntrospect in Frameworks */ = {isa = PBXBuildFile; productRef = 85568B9C2B5B9B4200EA2E20 /* SwiftUIIntrospect */; };
 		856288FE2F77984B00BBFD88 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 856288FD2F77984B00BBFD88 /* AppIcon.icon */; };
 		857B3AD82B5DADE500CE90C7 /* AccountScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857B3AD72B5DADE500CE90C7 /* AccountScreen.swift */; };
 		857B3ADA2B5DAE8200CE90C7 /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857B3AD92B5DAE8200CE90C7 /* Defaults.swift */; };
@@ -25,7 +24,6 @@
 		857B3ADF2B5DB54F00CE90C7 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 857B3ADE2B5DB54F00CE90C7 /* Localizable.xcstrings */; };
 		857B3AE12B5DB67600CE90C7 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857B3AE02B5DB67600CE90C7 /* SettingsView.swift */; };
 		858614AA2E24298C0031F2FC /* ReadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858614A92E2429830031F2FC /* ReadManager.swift */; };
-		858614AC2E247F910031F2FC /* TabRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858614AB2E247F910031F2FC /* TabRoot.swift */; };
 		858CA7EC2B5CBAFD00FF49D0 /* HNTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858CA7EB2B5CBAFD00FF49D0 /* HNTextView.swift */; };
 		85954B6C2AB3EEBC00680758 /* TangerineApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954B6B2AB3EEBC00680758 /* TangerineApp.swift */; };
 		85954B702AB3EEBD00680758 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85954B6F2AB3EEBD00680758 /* Assets.xcassets */; };
@@ -33,7 +31,6 @@
 		85954B7D2AB3EEBD00680758 /* TangerineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954B7C2AB3EEBD00680758 /* TangerineTests.swift */; };
 		85954B872AB3EEBD00680758 /* TangerineUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954B862AB3EEBD00680758 /* TangerineUITests.swift */; };
 		85954B892AB3EEBD00680758 /* TangerineUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954B882AB3EEBD00680758 /* TangerineUITestsLaunchTests.swift */; };
-		85954B982AB3F56600680758 /* VisionTabRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954B972AB3F56600680758 /* VisionTabRoot.swift */; };
 		85954B9B2AB3FF3700680758 /* ListingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954B9A2AB3FF3700680758 /* ListingView.swift */; };
 		85954B9F2AB3FF7300680758 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954B9E2AB3FF7300680758 /* API.swift */; };
 		85954BAC2AB405B600680758 /* TangerineError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954BAB2AB405B600680758 /* TangerineError.swift */; };
@@ -44,7 +41,6 @@
 		85954BB82AB408FC00680758 /* URLResponse+http.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954BB72AB408FC00680758 /* URLResponse+http.swift */; };
 		85954BBA2AB4091400680758 /* Bundle+appInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954BB92AB4091400680758 /* Bundle+appInfo.swift */; };
 		85954BBC2AB409BD00680758 /* Logger+init.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954BBB2AB409BD00680758 /* Logger+init.swift */; };
-		85954BBE2AB40FF100680758 /* ListingColumns.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954BBD2AB40FF100680758 /* ListingColumns.swift */; };
 		85954BC12AB4178000680758 /* PostRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954BC02AB4178000680758 /* PostRow.swift */; };
 		85954BC32AB41ACE00680758 /* CGFloat+constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954BC22AB41ACE00680758 /* CGFloat+constants.swift */; };
 		85954BC52AB41DBA00680758 /* Parse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85954BC42AB41DBA00680758 /* Parse.swift */; };
@@ -54,7 +50,6 @@
 		85D153272E1CE5D200ECEEF9 /* Comment+parseScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D153262E1CE5CF00ECEEF9 /* Comment+parseScore.swift */; };
 		85D153292E1CE5FD00ECEEF9 /* Post+parse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D153282E1CE5FD00ECEEF9 /* Post+parse.swift */; };
 		85D1532B2E1CE84800ECEEF9 /* Comment+ui.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D1532A2E1CE84400ECEEF9 /* Comment+ui.swift */; };
-		85D1532D2E1CEBEE00ECEEF9 /* SFSafariView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D1532C2E1CEBEA00ECEEF9 /* SFSafariView.swift */; };
 		85D1532F2E1CEC2C00ECEEF9 /* Binding+hasValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D1532E2E1CEC2400ECEEF9 /* Binding+hasValue.swift */; };
 		85D153342E1CEC6F00ECEEF9 /* View+handleInAppLinks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D153332E1CEC6600ECEEF9 /* View+handleInAppLinks.swift */; };
 		85D4F12A2ABE86AF00CF8498 /* WindowRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D4F1292ABE86AF00CF8498 /* WindowRoot.swift */; };
@@ -103,7 +98,6 @@
 		857B3ADE2B5DB54F00CE90C7 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		857B3AE02B5DB67600CE90C7 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		858614A92E2429830031F2FC /* ReadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadManager.swift; sourceTree = "<group>"; };
-		858614AB2E247F910031F2FC /* TabRoot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabRoot.swift; sourceTree = "<group>"; };
 		858CA7EB2B5CBAFD00FF49D0 /* HNTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HNTextView.swift; sourceTree = "<group>"; };
 		85954B682AB3EEBC00680758 /* Tangerine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tangerine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		85954B6B2AB3EEBC00680758 /* TangerineApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TangerineApp.swift; sourceTree = "<group>"; };
@@ -114,7 +108,6 @@
 		85954B822AB3EEBD00680758 /* TangerineUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TangerineUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		85954B862AB3EEBD00680758 /* TangerineUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TangerineUITests.swift; sourceTree = "<group>"; };
 		85954B882AB3EEBD00680758 /* TangerineUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TangerineUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		85954B972AB3F56600680758 /* VisionTabRoot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionTabRoot.swift; sourceTree = "<group>"; };
 		85954B9A2AB3FF3700680758 /* ListingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingView.swift; sourceTree = "<group>"; };
 		85954B9E2AB3FF7300680758 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		85954BAB2AB405B600680758 /* TangerineError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TangerineError.swift; sourceTree = "<group>"; };
@@ -124,7 +117,6 @@
 		85954BB72AB408FC00680758 /* URLResponse+http.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLResponse+http.swift"; sourceTree = "<group>"; };
 		85954BB92AB4091400680758 /* Bundle+appInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+appInfo.swift"; sourceTree = "<group>"; };
 		85954BBB2AB409BD00680758 /* Logger+init.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Logger+init.swift"; sourceTree = "<group>"; };
-		85954BBD2AB40FF100680758 /* ListingColumns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingColumns.swift; sourceTree = "<group>"; };
 		85954BC02AB4178000680758 /* PostRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRow.swift; sourceTree = "<group>"; };
 		85954BC22AB41ACE00680758 /* CGFloat+constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+constants.swift"; sourceTree = "<group>"; };
 		85954BC42AB41DBA00680758 /* Parse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parse.swift; sourceTree = "<group>"; };
@@ -134,7 +126,6 @@
 		85D153262E1CE5CF00ECEEF9 /* Comment+parseScore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Comment+parseScore.swift"; sourceTree = "<group>"; };
 		85D153282E1CE5FD00ECEEF9 /* Post+parse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Post+parse.swift"; sourceTree = "<group>"; };
 		85D1532A2E1CE84400ECEEF9 /* Comment+ui.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Comment+ui.swift"; sourceTree = "<group>"; };
-		85D1532C2E1CEBEA00ECEEF9 /* SFSafariView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSafariView.swift; sourceTree = "<group>"; };
 		85D1532E2E1CEC2400ECEEF9 /* Binding+hasValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Binding+hasValue.swift"; sourceTree = "<group>"; };
 		85D153332E1CEC6600ECEEF9 /* View+handleInAppLinks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+handleInAppLinks.swift"; sourceTree = "<group>"; };
 		85D4F1292ABE86AF00CF8498 /* WindowRoot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowRoot.swift; sourceTree = "<group>"; };
@@ -154,7 +145,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				857B3ADD2B5DAED400CE90C7 /* Defaults in Frameworks */,
-				85568B9D2B5B9B4200EA2E20 /* SwiftUIIntrospect in Frameworks */,
 				85954BAF2AB4070F00680758 /* SwiftSoup in Frameworks */,
 				AFAFAFAF000000000000AA01 /* Aquifer in Frameworks */,
 			);
@@ -283,8 +273,6 @@
 		85954B962AB3F55C00680758 /* Root */ = {
 			isa = PBXGroup;
 			children = (
-				85954B972AB3F56600680758 /* VisionTabRoot.swift */,
-				858614AB2E247F910031F2FC /* TabRoot.swift */,
 				85D4F1292ABE86AF00CF8498 /* WindowRoot.swift */,
 			);
 			path = Root;
@@ -294,7 +282,6 @@
 			isa = PBXGroup;
 			children = (
 				85954B9A2AB3FF3700680758 /* ListingView.swift */,
-				85954BBD2AB40FF100680758 /* ListingColumns.swift */,
 			);
 			path = Listing;
 			sourceTree = "<group>";
@@ -398,7 +385,6 @@
 			isa = PBXGroup;
 			children = (
 				85D153332E1CEC6600ECEEF9 /* View+handleInAppLinks.swift */,
-				85D1532C2E1CEBEA00ECEEF9 /* SFSafariView.swift */,
 			);
 			path = Safari;
 			sourceTree = "<group>";
@@ -421,7 +407,6 @@
 			name = Tangerine;
 			packageProductDependencies = (
 				85954BAE2AB4070F00680758 /* SwiftSoup */,
-				85568B9C2B5B9B4200EA2E20 /* SwiftUIIntrospect */,
 				857B3ADC2B5DAED400CE90C7 /* Defaults */,
 				AFAFAFAF000000000000AA02 /* Aquifer */,
 			);
@@ -499,7 +484,6 @@
 			mainGroup = 85954B5F2AB3EEBB00680758;
 			packageReferences = (
 				85954BAD2AB4070F00680758 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
-				85568B9B2B5B9B4200EA2E20 /* XCRemoteSwiftPackageReference "swiftui-introspect" */,
 				857B3ADB2B5DAED400CE90C7 /* XCRemoteSwiftPackageReference "Defaults" */,
 				AFAFAFAF000000000000AA03 /* XCRemoteSwiftPackageReference "Aquifer" */,
 			);
@@ -553,15 +537,12 @@
 				85D4F12A2ABE86AF00CF8498 /* WindowRoot.swift in Sources */,
 				85954BC52AB41DBA00680758 /* Parse.swift in Sources */,
 				858CA7EC2B5CBAFD00FF49D0 /* HNTextView.swift in Sources */,
-				85954B982AB3F56600680758 /* VisionTabRoot.swift in Sources */,
 				85568B9A2B5B91A700EA2E20 /* ScoreView.swift in Sources */,
 				8501F0E12AB437A30046AA3C /* View+if.swift in Sources */,
 				85954B9F2AB3FF7300680758 /* API.swift in Sources */,
 				85D153342E1CEC6F00ECEEF9 /* View+handleInAppLinks.swift in Sources */,
 				85954B9B2AB3FF3700680758 /* ListingView.swift in Sources */,
 				85DF8D6F2B5C51DA00F9ADAC /* Comment.swift in Sources */,
-				858614AC2E247F910031F2FC /* TabRoot.swift in Sources */,
-				85D1532D2E1CEBEE00ECEEF9 /* SFSafariView.swift in Sources */,
 				85D153292E1CE5FD00ECEEF9 /* Post+parse.swift in Sources */,
 				85DF8D6B2B5C45C100F9ADAC /* ErrorView.swift in Sources */,
 				853B50722AB52E9700C2B611 /* Haptics.swift in Sources */,
@@ -582,7 +563,6 @@
 				858614AA2E24298C0031F2FC /* ReadManager.swift in Sources */,
 				85954BBC2AB409BD00680758 /* Logger+init.swift in Sources */,
 				85D98D532B5CE15D00FFB600 /* TangerineError+view.swift in Sources */,
-				85954BBE2AB40FF100680758 /* ListingColumns.swift in Sources */,
 				85568B952B5B898D00EA2E20 /* View+memorial.swift in Sources */,
 				85568B932B5B880D00EA2E20 /* API+parse.swift in Sources */,
 				85F54A4F2E16E1FC00512CE6 /* PostMenu.swift in Sources */,
@@ -954,14 +934,6 @@
 				kind = branch;
 			};
 		};
-		85568B9B2B5B9B4200EA2E20 /* XCRemoteSwiftPackageReference "swiftui-introspect" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/siteline/swiftui-introspect";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.1.2;
-			};
-		};
 		857B3ADB2B5DAED400CE90C7 /* XCRemoteSwiftPackageReference "Defaults" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sindresorhus/Defaults";
@@ -981,11 +953,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		85568B9C2B5B9B4200EA2E20 /* SwiftUIIntrospect */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 85568B9B2B5B9B4200EA2E20 /* XCRemoteSwiftPackageReference "swiftui-introspect" */;
-			productName = SwiftUIIntrospect;
-		};
 		857B3ADC2B5DAED400CE90C7 /* Defaults */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 857B3ADB2B5DAED400CE90C7 /* XCRemoteSwiftPackageReference "Defaults" */;

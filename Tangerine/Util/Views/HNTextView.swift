@@ -72,7 +72,6 @@ struct HNTextView: View {
     var body: some View {
         if !text.isEmpty {
             copy
-                .handleInAppLinks()
         }
     }
 }
