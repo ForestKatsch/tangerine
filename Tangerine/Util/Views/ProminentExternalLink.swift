@@ -1,42 +1,22 @@
 //
-//  OpenGraphLink.swift
+//  ProminentExternalLink.swift
 //  Tangerine
 //
 //  Created by Forest Katsch on 1/20/24.
 //
 
 import Defaults
+import SwiftSoup
 import SwiftUI
 
-extension LinkPreviewMode {
-    var showImage: Bool {
-        switch self {
-        case .titleAndImage:
-            return true
-        default:
-            return false
-        }
-    }
-}
-
+/// A link shown as a card with the page's title, description and image, read from its Open
+/// Graph tags.
 struct ProminentExternalLink: View {
-    @Default(.linkPreviewMode)
-    var linkPreviewMode
-
     struct Metadata {
         var title: String
         var description: String?
         var imageUrl: URL?
     }
-
-    var url: URL
-
-    init(_ url: URL) {
-        self.url = url
-    }
-
-    @State
-    var metadata: Metadata?
 
     enum FetchState {
         case idle
@@ -44,67 +24,74 @@ struct ProminentExternalLink: View {
         case done
     }
 
+    /// Fetched metadata by URL, so a card that scrolls away and back doesn't fetch again.
+    private static var cache: [URL: Metadata?] = [:]
+
+    @Default(.linkPreviewMode)
+    var linkPreviewMode
+
+    @Environment(\.horizontalSizeClass)
+    private var horizontalSizeClass
+
+    var url: URL
+
+    @State
+    var metadata: Metadata?
+
     @State
     var imageLoaded = false
 
     @State
     var state = FetchState.idle
 
-    // Add a static cache to prevent duplicate fetches across view recreations
-    private static var fetchCache: [URL: (state: FetchState, metadata: Metadata?)] = [:]
+    init(_ url: URL) {
+        self.url = url
+    }
+
+    var showAsLandscape: Bool {
+        #if os(macOS)
+            true
+        #else
+            horizontalSizeClass == .regular
+        #endif
+    }
 
     func fetch() async {
-        if state != .idle || self.metadata != nil {
+        guard state == .idle, metadata == nil else {
             return
         }
 
         state = .fetching
 
-        var metadata: Metadata?
+        let document = try? await API.fetchHTML(url, cachePolicy: .returnCacheDataElseLoad)
+        let metadata = document.flatMap(Self.metadata(from:))
 
-        defer {
-            withAnimation {
-                state = .done
-                self.metadata = metadata
-            }
-            // Update static cache
-            Self.fetchCache[url] = (state: .done, metadata: metadata)
+        withAnimation {
+            state = .done
+            self.metadata = metadata
         }
 
-        var request = URLRequest(url: url)
-        request.cachePolicy = .returnCacheDataElseLoad
+        Self.cache[url] = .some(metadata)
+    }
 
-        guard let document = try? await API.shared.fetchHTML(for: request) else {
-            return
+    static func metadata(from document: Document) -> Metadata? {
+        guard let title = document.attr("content", of: "meta[property=og:title]") else {
+            return (try? document.first("title")?.text()).map { Metadata(title: $0) }
         }
 
-        guard let titleText = try? document.select("meta[property=og:title]").first()?.attr("content") else {
-            if let titleText = try? document.select("title").first()?.text() {
-                metadata = Metadata(title: titleText)
-            }
-            return
-        }
+        let description = document.attr("content", of: "meta[property=og:description]")?
+            .trimmingCharacters(in: .whitespacesAndNewlines)
 
-        metadata = Metadata(title: titleText)
-
-        if let descriptionText = try? document.select("meta[property=og:description]").first()?.attr("content") {
-            let description = descriptionText.trimmingCharacters(in: .whitespacesAndNewlines)
-
-            if !description.isEmpty {
-                metadata?.description = description
-            }
-        }
-
-        if let imageUrl = try? document.select("meta[property=og:image]").first()?.attr("content") {
-            metadata?.imageUrl = URL(string: imageUrl)
-        }
+        return Metadata(
+            title: title,
+            description: description?.isEmpty == false ? description : nil,
+            imageUrl: document.attr("content", of: "meta[property=og:image]").flatMap { URL(string: $0) }
+        )
     }
 
     @ViewBuilder
     var image: some View {
-        if !linkPreviewMode.showImage {
-            EmptyView()
-        } else {
+        if linkPreviewMode == .titleAndImage {
             ZStack(alignment: .center) {
                 Rectangle()
                     .fill(.clear)
@@ -114,7 +101,7 @@ struct ProminentExternalLink: View {
                     Rectangle()
                         .fill(.clear)
                         .background {
-                            AsyncImage(url: imageUrl, content: { image in
+                            AsyncImage(url: imageUrl) { image in
                                 image
                                     .resizable()
                                     .aspectRatio(contentMode: .fill)
@@ -125,9 +112,9 @@ struct ProminentExternalLink: View {
                                             imageLoaded = true
                                         }
                                     }
-                            }, placeholder: {
+                            } placeholder: {
                                 EmptyView()
-                            })
+                            }
                         }
                 } else if state == .done {
                     Image(systemName: "text.page.fill")
@@ -140,79 +127,46 @@ struct ProminentExternalLink: View {
         }
     }
 
-    var chevron: some View {
-        Image(systemName: "chevron.right")
-            .foregroundStyle(.secondary)
-    }
-
-    @ViewBuilder
     var text: some View {
-        HStack(spacing: .spacingSmall) {
-            VStack(alignment: .leading, spacing: .spacingSmall) {
-                Text(url.host() ?? "")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .lineLimit(1)
-                Text(metadata?.title.trimmingCharacters(in: .whitespaces) ?? url.host() ?? "")
-                    .font(.headline)
-                    .lineLimit(2)
-                if let description = metadata?.description {
-                    Text(description.trimmingCharacters(in: .whitespaces))
-                        .font(.subheadline)
-                        .lineLimit(showAsLandscape ? 8 : 3)
-                }
+        VStack(alignment: .leading, spacing: .spacingSmall) {
+            Text(url.host() ?? "")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .lineLimit(1)
+            Text(metadata?.title.trimmingCharacters(in: .whitespaces) ?? url.host() ?? "")
+                .font(.headline)
+                .lineLimit(2)
+            if let description = metadata?.description {
+                Text(description.trimmingCharacters(in: .whitespaces))
+                    .font(.subheadline)
+                    .lineLimit(showAsLandscape ? 8 : 3)
             }
-            .multilineTextAlignment(.leading)
-            /*
-             Spacer()
-             chevron
-              */
         }
+        .multilineTextAlignment(.leading)
         .padding()
-    }
-
-    @ViewBuilder
-    var portrait: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            image
-            text
-        }
-        .frame(maxWidth: .infinity)
-        .fixedSize(horizontal: false, vertical: true)
-    }
-
-    @ViewBuilder
-    var landscape: some View {
-        HStack(alignment: .center, spacing: 0) {
-            image
-                .frame(maxWidth: 320)
-            text
-                .frame(maxWidth: .infinity)
-        }
-        .fixedSize(horizontal: false, vertical: true)
     }
 
     @ViewBuilder
     var preview: some View {
         if showAsLandscape {
-            landscape
+            HStack(alignment: .center, spacing: 0) {
+                image
+                    .frame(maxWidth: 320)
+                text
+                    .frame(maxWidth: .infinity)
+            }
+            .fixedSize(horizontal: false, vertical: true)
         } else {
-            portrait
+            VStack(alignment: .leading, spacing: 0) {
+                image
+                text
+            }
+            .frame(maxWidth: .infinity)
+            .fixedSize(horizontal: false, vertical: true)
         }
     }
 
-    @Environment(\.horizontalSizeClass)
-    private var horizontalSizeClass
-
-    var showAsLandscape: Bool {
-        #if os(macOS)
-            true
-        #else
-            horizontalSizeClass == .regular
-        #endif
-    }
-
-    var previewUrl: some View {
+    var linkOnly: some View {
         HStack {
             Text(url.absoluteString)
                 .font(.subheadline)
@@ -220,7 +174,8 @@ struct ProminentExternalLink: View {
                 .fixedSize(horizontal: false, vertical: true)
                 .foregroundStyle(.accent)
             Spacer()
-            chevron
+            Image(systemName: "chevron.right")
+                .foregroundStyle(.secondary)
         }
         .padding()
     }
@@ -228,12 +183,10 @@ struct ProminentExternalLink: View {
     @ViewBuilder
     var contents: some View {
         if linkPreviewMode == .linkOnly {
-            previewUrl
+            linkOnly
         } else {
             preview
-                .if(state != .done) { view in view
-                    .redacted(reason: .placeholder)
-                }
+                .if(state != .done) { $0.redacted(reason: .placeholder) }
         }
     }
 
@@ -255,17 +208,11 @@ struct ProminentExternalLink: View {
         .buttonStyle(.plain)
         .buttonBorderShape(.roundedRectangle(radius: .radius))
         .onAppear {
-            // Check static cache first
-            if let cached = Self.fetchCache[url] {
-                state = cached.state
-                metadata = cached.metadata
-                if state == .done {
-                    return
-                }
-            }
-
-            Task {
-                await fetch()
+            if let cached = Self.cache[url] {
+                state = .done
+                metadata = cached
+            } else {
+                Task { await fetch() }
             }
         }
         .id(url)
@@ -273,9 +220,6 @@ struct ProminentExternalLink: View {
 }
 
 #Preview {
-    // ProminentExternalLink(URL(string: "https://apple.com/vision-pro")!)
-    // ProminentExternalLink(URL(string: "https://nightshade.cs.uchicago.edu/whatis.html")!)
     ProminentExternalLink(URL(string: "https://arstechnica.com/gadgets/2024/01/alexa-is-in-trouble-paid-for-alexa-gives-inaccurate-answers-in-early-demos/")!)
-        // ProminentExternalLink(URL(string: "https://www.machinedesign.com/3d-printing-cad/article/21263614/how-to-build-your-own-injection-molding-machine")!)
         .padding()
 }

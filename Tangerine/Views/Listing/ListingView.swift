@@ -1,5 +1,5 @@
 //
-//  ListingScreen.swift
+//  ListingView.swift
 //  Tangerine
 //
 //  Created by Forest Katsch on 9/14/23.
@@ -11,65 +11,31 @@ import SwiftUI
 extension API.ListingType {
     var name: LocalizedStringKey {
         switch self {
-        case .news:
-            return "listing.news"
-        case .new:
-            return "listing.new"
-        case .ask:
-            return "listing.ask"
-        case .show:
-            return "listing.show"
-        case .jobs:
-            return "listing.jobs"
+        case .news: "listing.news"
+        case .new: "listing.new"
+        case .ask: "listing.ask"
+        case .show: "listing.show"
+        case .jobs: "listing.jobs"
         }
     }
 
     var title: LocalizedStringKey {
         switch self {
-        case .news:
-            return "listing.news.compact"
-        case .ask:
-            return "listing.ask.compact"
-        case .show:
-            return "listing.show.compact"
-        default:
-            return name
+        case .news: "listing.news.compact"
+        case .ask: "listing.ask.compact"
+        case .show: "listing.show.compact"
+        default: name
         }
     }
 
     var systemImage: String {
         switch self {
-        case .news:
-            return "newspaper"
-        case .new:
-            return "seal"
-        case .ask:
-            return "questionmark.circle"
-        case .show:
-            return "lightbulb"
-        case .jobs:
-            return "briefcase"
+        case .news: "newspaper"
+        case .new: "seal"
+        case .ask: "questionmark.circle"
+        case .show: "lightbulb"
+        case .jobs: "briefcase"
         }
-    }
-}
-
-struct ListingTypePicker: View {
-    @Binding
-    var type: API.ListingType
-
-    init(_ type: Binding<API.ListingType>) {
-        self._type = type
-    }
-
-    var body: some View {
-        Picker("listing.pick", selection: $type) {
-            ForEach(API.ListingType.allCases) { type in
-                Label(type.name, systemImage: type.systemImage).tag(type)
-            }
-        }
-        #if os(macOS)
-        .labelStyle(.titleOnly)
-        #endif
     }
 }
 
@@ -116,19 +82,16 @@ struct ListingView: View {
                     PostRow(post: post)
                         .tag(post)
                 }
-                InfiniteEnd(
-                    next: { Task { await listing.fetchNextPage() } },
-                    error: listing.error
-                )
+                InfiniteEnd(error: listing.error) {
+                    Task { await listing.fetchNextPage() }
+                }
             }
             .scrollIndicators(.hidden)
             .refreshable { await listing.refetch() }
             .onChange(of: posts.count, initial: true) {
-                guard selectsFirstPost, selection == nil, let first = posts.first else {
-                    return
+                if selectsFirstPost, selection == nil, let first = posts.first {
+                    selection = first
                 }
-
-                selection = first
             }
         }
     }
@@ -143,11 +106,15 @@ struct ListingView: View {
             // backdrop and scroll edge effect, so the listing scrolling underneath stays legible
             // without hand-rolling a material behind it.
             .safeAreaBar(edge: .top) {
-                ListingTypePicker($type)
-                    .pickerStyle(.segmented)
-                    .labelStyle(.titleOnly)
-                    .padding(.horizontal, .spacingHorizontal)
-                    .padding(.bottom, .spacingMedium)
+                Picker("listing.pick", selection: $type) {
+                    ForEach(API.ListingType.allCases) { type in
+                        Label(type.name, systemImage: type.systemImage).tag(type)
+                    }
+                }
+                .pickerStyle(.segmented)
+                .labelStyle(.titleOnly)
+                .padding(.horizontal, .spacingHorizontal)
+                .padding(.bottom, .spacingMedium)
             }
     }
 }
@@ -155,35 +122,26 @@ struct ListingView: View {
 /// Loads a post's full body and comments via Aquifer, showing the listing post immediately while
 /// the detail loads and merging in the fetched comments when they arrive. Pull-to-refresh refetches.
 struct PostDetail: View {
-    let post: Post
+    private let post: Post
 
-    var body: some View {
-        // Generic over the query so `@Fetch` can infer its type from the init argument (it can't be
-        // inferred from a `QueryState<Post>` annotation alone) — giving us a `refetch()` handle.
-        PostDetailLoader(FetchPost(postId: post.id), listing: post)
-    }
-}
+    // Plain `Fetch` member rather than the `@Fetch` attribute, so it can be built from `post` in
+    // `init`; SwiftUI still drives it as a DynamicProperty.
+    private var fetch: Fetch<FetchPost>
 
-private struct PostDetailLoader<Q: Query>: View where Q.Value == Post {
-    private let listing: Post
-    // Plain `Fetch` member (not the `@Fetch` attribute) so `Q` is inferred from the init argument;
-    // SwiftUI still drives it as a DynamicProperty. Same pattern Aquifer's own QueryView uses.
-    private var fetch: Fetch<Q>
-
-    init(_ query: Q, listing: Post) {
-        self.listing = listing
-        self.fetch = Fetch(query)
+    init(post: Post) {
+        self.post = post
+        self.fetch = Fetch(FetchPost(postId: post.id))
     }
 
     var body: some View {
         let state = fetch.wrappedValue
         PostScreen(
-            listing.merge(from: state.value ?? listing),
+            post.merge(from: state.value ?? post),
             isLoading: state.value == nil && state.isFetching,
             error: state.error
         )
         .unredacted()
-        .id(listing.id)
+        .id(post.id)
         .refreshable { await fetch.projectedValue.refetch() }
     }
 }
@@ -193,10 +151,6 @@ private struct PostDetailLoader<Q: Query>: View where Q.Value == Post {
 struct CenteredScrollView<Content: View>: View {
     @ViewBuilder
     var content: () -> Content
-
-    init(@ViewBuilder content: @escaping () -> Content) {
-        self.content = content
-    }
 
     var body: some View {
         GeometryReader { geom in
@@ -212,14 +166,13 @@ struct CenteredScrollView<Content: View>: View {
 /// The listing's last row: triggers the next page on appear and shows a loading hint or the
 /// pagination error.
 struct InfiniteEnd: View {
-    var next: () -> Void
     var error: Error?
+    var next: () -> Void
 
     var body: some View {
         ZStack(alignment: .center) {
-            if error != nil {
+            if let error {
                 ErrorView(error)
-                // TODO: "try again" button
             } else {
                 Text("loading.generic")
                     .textCase(.uppercase)
@@ -230,8 +183,6 @@ struct InfiniteEnd: View {
         .padding()
         .listRowSeparator(.hidden)
         .frame(maxWidth: .infinity)
-        .onAppear {
-            next()
-        }
+        .onAppear(perform: next)
     }
 }

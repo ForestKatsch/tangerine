@@ -1,21 +1,18 @@
 //
-//  Bundle.swift
-//  Pensieve
+//  Bundle+appInfo.swift
+//  Tangerine
 //
 //  Created by Forest Katsch on 8/19/23.
 //
 
 import Foundation
 
-public extension Bundle {
-    var appName: String? { getInfo("CFBundleName") }
-    var displayName: String? { getInfo("CFBundleDisplayName") }
-    var language: String? { getInfo("CFBundleDevelopmentRegion") }
-    var identifier: String? { getInfo("CFBundleIdentifier") }
+extension Bundle {
+    var identifier: String? { info("CFBundleIdentifier") }
+    var appBuild: String? { info("CFBundleVersion") }
+    var appVersionLong: String? { info("CFBundleShortVersionString") }
 
-    var appBuild: String? { getInfo("CFBundleVersion") }
-    var appVersionLong: String? { getInfo("CFBundleShortVersionString") }
-    // public var appVersionShort: String { getInfo("CFBundleShortVersion") }
-
-    fileprivate func getInfo(_ str: String) -> String? { infoDictionary?[str] as? String }
+    private func info(_ key: String) -> String? {
+        infoDictionary?[key] as? String
+    }
 }

@@ -15,14 +15,10 @@ struct ErrorView: View {
     }
 
     var body: some View {
-        guard let error = error as? TangerineError else {
-            return AnyView(ContentUnavailableView("error.generic", systemImage: "exclamationmark.triangle"))
-        }
-
-        if let detail = error.detail {
-            return AnyView(ContentUnavailableView(error.name, systemImage: error.systemImage, description: Text(detail)))
+        if let error = error as? TangerineError {
+            ContentUnavailableView(error.name, systemImage: error.systemImage, description: error.detail.map { Text($0) })
         } else {
-            return AnyView(ContentUnavailableView(error.name, systemImage: error.systemImage))
+            ContentUnavailableView("error.generic", systemImage: "exclamationmark.triangle")
         }
     }
 }

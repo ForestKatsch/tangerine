@@ -13,135 +13,89 @@ import SwiftSoup
 private let l = Logger(category: "API+Listing")
 
 extension API.ListingType {
-    var url: URL? {
-        switch self {
-        case .news:
-            return URL(string: "https://news.ycombinator.com/news")
-        case .new:
-            return URL(string: "https://news.ycombinator.com/newest")
-        case .ask:
-            return URL(string: "https://news.ycombinator.com/ask")
-        case .show:
-            return URL(string: "https://news.ycombinator.com/show")
-        case .jobs:
-            return URL(string: "https://news.ycombinator.com/jobs")
-        }
+    var url: URL {
+        let path = self == .new ? "newest" : rawValue
+        return URL(string: "https://news.ycombinator.com/\(path)")!
     }
-}
 
-extension API {
-    static func urlFor(listingType type: ListingType, page: Int? = nil) -> URL? {
-        var url = type.url
-
-        if let page {
-            url?.append(queryItems: [
-                .init(name: "p", value: String(page + 1)),
-            ])
-        }
-        return url
+    /// `page` counts from zero; HN's `p` counts from one.
+    func url(page: Int) -> URL {
+        url.appending(queryItems: [URLQueryItem(name: "p", value: String(page + 1))])
     }
 }
 
 extension Post {
     static func parse(fromListingPage document: Document, url: URL? = nil, listingType type: API.ListingType? = nil) throws -> [Post] {
-        try? API.shared.parse(document)
-
-        guard let main = try? document.select("#hnmain").first() else {
+        guard let main = document.first("#hnmain") else {
             throw TangerineError.generic(.cannotParseHtml, context: "#hnmain")
         }
 
-        guard let listingContainer = try? main.select("tbody > tr#bigbox table tbody").first() else {
+        guard let container = main.first("tbody > tr#bigbox table tbody") else {
             throw TangerineError.generic(.cannotParseHtml, context: "listing container")
         }
 
-        guard let itemElements = try? listingContainer.select(".athing") else {
+        guard let items = try? container.select(".athing") else {
             throw TangerineError.generic(.cannotParseHtml, context: "listing items")
         }
 
-        var posts: [Post] = []
-
-        for element in itemElements.array() {
-            let id = element.id()
-
-            var kind: Post.Kind = type == .jobs ? .job : .normal
-            var link: URL?
-            var title: String?
-            var score: Int?
-            var authorId: String?
-            var postedDate: Date?
-            var commentCount: Int?
-
-            if let titleLine = try? element.select(".titleline").first() {
-                if let linkElement = try? titleLine.select("a").first() {
-                    if let linkUrl = try? linkElement.attr("href") {
-                        link = URL(string: linkUrl, relativeTo: url)
-                    }
-                }
-
-                if let titleText = try? titleLine.select("a").first()?.text() {
-                    title = titleText
-                }
-            }
-
-            if let footer = try? element.nextElementSibling()?.select(".subtext").first() {
-                if let scoreText = try? footer.select(".score").text() {
-                    score = Parse.int(scoreText)
-                } else {
-                    l.warning("could not find footer '.score' for post \(id)")
-                }
-
-                if let authorText = try? footer.select(".hnuser").text() {
-                    authorId = authorText
-                } else {
-                    l.warning("could not find footer '.hnuser' for post \(id)")
-                }
-
-                if let age = try? footer.select(".age").first() {
-                    if let postedDateText = try? age.attr("title") {
-                        postedDate = Parse.date(fromSubline: postedDateText)
-                    }
-                } else {
-                    l.warning("could not find footer '.age' for post \(id)")
-                }
-
-                // If the comment URL and link URL go to the same URL, it's a text post!
-                if let commentUrl = try? footer.select("a[href^=item]").last()?.attr("href") {
-                    if let commentUrl = URL(string: commentUrl, relativeTo: url) {
-                        if commentUrl == link {
-                            link = nil
-                        }
-                    }
-                }
-                if let commentCountText = try? footer.select("a[href^=item]").last()?.text() {
-                    if commentCountText.hasSuffix("discuss") {
-                        commentCount = 0
-                    } else if commentCountText.hasSuffix("comment") || commentCountText.hasSuffix("comments") {
-                        commentCount = Parse.int(commentCountText)
-                    }
-                } else {
-                    l.warning("could not find footer '.score' for post \(id)")
-                }
-
-                if let hideElement = try? footer.select("a[href^=hide]").first() {
-                    if (try? hideElement.nextElementSibling()) == nil {
-                        kind = .job
-                    }
-                }
-            } else {
-                l.warning("could not find sibling '.subtext' for post \(id) - most fields will be nil")
-            }
-
-            posts.append(Post(
-                id: id, title: title, link: link, score: score, authorId: authorId,
-                postedDate: postedDate, commentCount: commentCount, kind: kind
-            ))
-        }
+        let posts = items.map { parse(listingItem: $0, url: url, type: type) }
 
         if posts.isEmpty {
             throw TangerineError.noMoreResults
         }
 
         return posts
+    }
+
+    /// One listing entry: a `.athing` row with the title, followed by a row whose `.subtext` holds
+    /// everything else.
+    private static func parse(listingItem element: Element, url: URL?, type: API.ListingType?) -> Post {
+        let id = element.id()
+        let titleLink = element.first(".titleline")?.first("a")
+        let title = try? titleLink?.text()
+        var link = (try? titleLink?.attr("href")).flatMap { URL(string: $0, relativeTo: url) }
+        var kind: Kind = type == .jobs ? .job : .normal
+
+        guard let footer = (try? element.nextElementSibling())?.first(".subtext") else {
+            l.warning("could not find sibling '.subtext' for post \(id) - most fields will be nil")
+            return Post(id: id, title: title, link: link, kind: kind)
+        }
+
+        let commentLink = try? footer.select("a[href^=item]").last()
+
+        // If the comment URL and link URL go to the same URL, it's a text post!
+        if let href = try? commentLink?.attr("href"), URL(string: href, relativeTo: url) == link {
+            link = nil
+        }
+
+        // Job posts have a "hide" link and nothing after it.
+        if let hide = footer.first("a[href^=hide]"), (try? hide.nextElementSibling()) == nil {
+            kind = .job
+        }
+
+        return Post(
+            id: id,
+            title: title,
+            link: link,
+            score: footer.text(of: ".score").flatMap(Parse.int),
+            authorId: footer.text(of: ".hnuser"),
+            postedDate: footer.attr("title", of: ".age").flatMap(Parse.date(fromSubline:)),
+            commentCount: (try? commentLink?.text()).flatMap(commentCount(from:)),
+            kind: kind
+        )
+    }
+
+    /// "discuss", "1 comment" or "12 comments".
+    private static func commentCount(from text: String) -> Int? {
+        if text.hasSuffix("discuss") {
+            return 0
+        }
+
+        if text.hasSuffix("comment") || text.hasSuffix("comments") {
+            return Parse.int(text)
+        }
+
+        return nil
     }
 }
 
@@ -154,16 +108,8 @@ struct FetchBrowseListing: InfiniteQuery {
     var initialPageParam: Int { 0 }
 
     func fetch(page param: Int) async throws -> [Post] {
-        guard let url = API.urlFor(listingType: type, page: param) else {
-            throw TangerineError.generic(.cannotCreateUrl)
-        }
-
-        var request = URLRequest(url: url)
-        request.cachePolicy = .reloadIgnoringCacheData
-
-        return try Post.parse(
-            fromListingPage: await API.shared.fetchHTML(for: request), url: url, listingType: type
-        )
+        let url = type.url(page: param)
+        return try await Post.parse(fromListingPage: API.fetchHTML(url), url: url, listingType: type)
     }
 
     // Forward-only: as long as the last page returned posts, assume there's another. A page that

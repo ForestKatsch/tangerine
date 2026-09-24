@@ -5,7 +5,7 @@
 //  Created by Forest Katsch on 9/14/23.
 //
 
-import Foundation
+import SwiftUI
 
 enum ErrorCode: Int {
     case unspecified = 1000
@@ -26,10 +26,43 @@ enum TangerineError: Error {
     case noMoreResults
 
     static func from(_ error: Error) -> TangerineError {
-        if let error = error as? TangerineError {
-            return error
-        }
+        error as? TangerineError ?? .generic(.otherError)
+    }
 
-        return .generic(.otherError)
+    var name: LocalizedStringKey {
+        switch self {
+        case .generic: "error.generic"
+        case .network: "error.network"
+        case .noMoreResults: "error.noMoreResults"
+        }
+    }
+
+    var systemImage: String {
+        switch self {
+        case .noMoreResults: "slash.circle"
+        default: "exclamationmark.triangle"
+        }
+    }
+
+    var detail: LocalizedStringKey? {
+        switch self {
+        case let .generic(code, context):
+            let codeName = String(describing: code)
+
+            if let context {
+                return "E\(String(code.rawValue)) .\(codeName)\n\(context)"
+            }
+
+            return "E\(String(code.rawValue)) .\(codeName)"
+        case let .network(statusCode, context):
+            guard let statusCode else {
+                return "error.network.\(context ?? "")"
+            }
+
+            let contextString = context.map { " (\($0))" } ?? ""
+            return "error.network.\(statusCode).\(contextString)"
+        case .noMoreResults:
+            return nil
+        }
     }
 }

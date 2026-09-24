@@ -6,8 +6,8 @@
 //
 
 import SwiftUI
-// import WebKit
 
+/// Renders the Markdown produced by ``Parse/hnText(_:)``.
 struct HNTextView: View {
     var text: String
 
@@ -15,63 +15,41 @@ struct HNTextView: View {
         self.text = text
     }
 
-    func paragraph(_ par: String) -> some View {
-        var paragraph = par.trimmingCharacters(in: .whitespacesAndNewlines)
-        let mono = paragraph.starts(with: "```")
-
-        if mono {
-            paragraph = String(paragraph[paragraph.index(paragraph.startIndex, offsetBy: 3)...])
-        }
-
-        if let attributedString = try? AttributedString(markdown: Parse.textToMarkdown(text: String(paragraph))) {
-            let text = Text(attributedString)
-
-            return AnyView(
-                HStack(alignment: .firstTextBaseline) {
-                    if mono {
-                        text
-                            .font(.body.monospaced())
-                    } else {
-                        if paragraph.first == ">" {
-                            Text(">")
-                            text
-                        } else {
-                            text
-                        }
-                    }
-                }
-            )
-        }
-
-        return AnyView(EmptyView())
-    }
-
-    @State
-    var presentingWebView = false
-
-    @State
-    var url: URL = .init(string: "https://apple.com/")!
-
     @ViewBuilder
-    var copy: some View {
-        let paragraphs = text.split(separator: "\n\n")
-        VStack(alignment: .leading, spacing: .spacingMedium) {
-            ForEach(paragraphs, id: \.self) { par in
-                paragraph(String(par))
-                    .fixedSize(horizontal: false, vertical: true)
+    func paragraph(_ source: String) -> some View {
+        let trimmed = source.trimmingCharacters(in: .whitespacesAndNewlines)
+        let mono = trimmed.hasPrefix("```")
+        let paragraph = mono ? String(trimmed.dropFirst(3)) : trimmed
+
+        if let markdown = try? AttributedString(markdown: Parse.textToMarkdown(text: paragraph)) {
+            HStack(alignment: .firstTextBaseline) {
+                if mono {
+                    Text(markdown)
+                        .font(.body.monospaced())
+                } else if paragraph.first == ">" {
+                    Text(">")
+                    Text(markdown)
+                } else {
+                    Text(markdown)
+                }
             }
-            #if !os(tvOS)
-            .textSelection(.enabled)
-            #endif
         }
-        .multilineTextAlignment(.leading)
-        .font(.body)
-        .lineSpacing(4)
     }
 
     var body: some View {
         if !text.isEmpty {
-            copy
+            VStack(alignment: .leading, spacing: .spacingMedium) {
+                ForEach(text.split(separator: "\n\n"), id: \.self) { paragraph in
+                    self.paragraph(String(paragraph))
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                #if !os(tvOS)
+                .textSelection(.enabled)
+                #endif
+            }
+            .multilineTextAlignment(.leading)
+            .font(.body)
+            .lineSpacing(4)
         }
     }
 }

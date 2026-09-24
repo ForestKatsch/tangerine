@@ -1,20 +1,14 @@
 //
-//  SFSafariViewController.swift
+//  ExternalLink.swift
 //  Tangerine
 //
 //  Created by Forest Katsch on 9/14/23.
 //
 
-import Foundation
 import SwiftUI
 
+/// A link out of the app, with a context menu to open, copy or share it.
 struct PlainExternalLink<Content: View>: View {
-    @Environment(\.isFocused)
-    var isFocused
-
-    @State
-    private var presentingSafariView = false
-
     var url: URL
 
     @ViewBuilder
@@ -25,26 +19,8 @@ struct PlainExternalLink<Content: View>: View {
         self.label = label
     }
 
-    #if os(iOS)
-        var safariView: some View {
-            Link(destination: url) {
-                label()
-            }
-        }
-    #else
-        var safariView: some View {
-            linkView
-        }
-    #endif
-
-    var linkView: some View {
-        Link(destination: url) {
-            label()
-        }
-    }
-
     var body: some View {
-        safariView
+        Link(destination: url, label: label)
             .contextMenu {
                 OpenLink(destination: url)
                 CopyLink(destination: url)
@@ -52,27 +28,5 @@ struct PlainExternalLink<Content: View>: View {
                     ShareLink(item: url)
                 #endif
             }
-    }
-}
-
-struct ExternalLink<Content: View>: View {
-    var url: URL
-
-    @ViewBuilder
-    var label: () -> Content
-
-    init(_ url: URL, @ViewBuilder label: @escaping () -> Content) {
-        self.url = url
-        self.label = label
-    }
-
-    var body: some View {
-        PlainExternalLink(url, label: label)
-        #if os(visionOS)
-            .buttonStyle(.bordered)
-        #elseif os(iOS)
-            .foregroundStyle(.accent)
-            .buttonStyle(.plain)
-        #endif
     }
 }
