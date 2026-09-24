@@ -1,0 +1,75 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Resolve packages with system git so the SSH agent below can fetch the private Aquifer repo.
+  XCODEBUILD_FLAGS: >-
+    -project Tangerine.xcodeproj
+    -scheme Tangerine
+    -scmProvider system
+    -skipMacroValidation
+    -skipPackagePluginValidation
+    CODE_SIGNING_ALLOWED=NO
+
+jobs:
+  build:
+    name: ${{ matrix.name }}
+    runs-on: macos-26
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: iOS (unit tests)
+            platform: iOS
+          - name: macOS
+            platform: macOS
+          - name: visionOS
+            platform: visionOS
+
+    steps:
+      - uses: actions/checkout@v5
+
+      # Read-only deploy key for ForestKatsch/Aquifer.
+      - uses: webfactory/ssh-agent@v0.9.1
+        with:
+          ssh-private-key: ${{ secrets.AQUIFER_SSH_KEY }}
+
+      - name: Select newest Xcode 26
+        run: |
+          sudo xcode-select -s "$(ls -d /Applications/Xcode_26*.app | sort -V | tail -1)"
+          xcodebuild -version
+
+      - name: Test on iOS Simulator
+        if: matrix.platform == 'iOS'
+        run: |
+          udid=$(xcrun simctl list devices available -j | jq -r '
+            [.devices | to_entries[]
+              | select(.key | test("iOS"))
+              | .key as $runtime
+              | .value[] | select(.name | startswith("iPhone"))
+              | {udid, version: ($runtime | split(".") | last | split("-")[1:] | map(tonumber))}]
+            | sort_by(.version) | last | .udid')
+          echo "Simulator: $udid"
+          xcodebuild test $XCODEBUILD_FLAGS \
+            -destination "id=$udid" \
+            -only-testing:TangerineTests
+
+      - name: Build for macOS
+        if: matrix.platform == 'macOS'
+        run: xcodebuild build $XCODEBUILD_FLAGS -destination 'generic/platform=macOS'
+
+      - name: Build for visionOS Simulator
+        if: matrix.platform == 'visionOS'
+        run: |
+          xcodebuild -downloadPlatform visionOS || true
+          xcodebuild build $XCODEBUILD_FLAGS -destination 'generic/platform=visionOS Simulator'
