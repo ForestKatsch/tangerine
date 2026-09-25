@@ -82,7 +82,6 @@ struct CommentSettings: View {
             CommentTree([Self.previewComment])
                 .foregroundStyle(.primary)
                 .allowsHitTesting(false)
-                .listRowSeparator(.hidden)
         }
     }
 }
@@ -99,9 +98,8 @@ struct PreviewSettings: View {
                         .tag(mode)
                 }
             }
-            ProminentExternalLink(URL(string: "https://producthunt.com/")!)
+            ProminentExternalLink(URL(string: "https://spacex.com/")!)
                 .allowsHitTesting(false)
-                .listRowSeparator(.hidden)
         }
     }
 }

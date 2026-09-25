@@ -37,6 +37,10 @@ extension API.ListingType {
         case .jobs: "briefcase"
         }
     }
+    
+    var label: some View {
+        Label(title, systemImage: systemImage)
+    }
 }
 
 struct ListingView: View {
@@ -86,6 +90,7 @@ struct ListingView: View {
                     Task { await listing.fetchNextPage() }
                 }
             }
+            .listStyle(.inset)
             .scrollIndicators(.hidden)
             .refreshable { await listing.refetch() }
             .onChange(of: posts.count, initial: true) {
@@ -99,22 +104,16 @@ struct ListingView: View {
     var body: some View {
         content
             .navigationTitle(type.title)
-            // The five HN listings are a filter on this one screen, not five destinations, so
-            // they sit in a picker under the title rather than taking up the tab bar.
-            //
-            // `safeAreaBar`, not `safeAreaInset`: the bar version comes with the system's own
-            // backdrop and scroll edge effect, so the listing scrolling underneath stays legible
-            // without hand-rolling a material behind it.
-            .safeAreaBar(edge: .top) {
-                Picker("listing.pick", selection: $type) {
-                    ForEach(API.ListingType.allCases) { type in
-                        Label(type.name, systemImage: type.systemImage).tag(type)
+            .toolbar {
+                Menu {
+                    Picker("listing.pick", selection: $type) {
+                        ForEach(API.ListingType.allCases) { type in
+                            Label(type.name, systemImage: type.systemImage).tag(type)
+                        }
                     }
+                } label: {
+                    type.label
                 }
-                .pickerStyle(.segmented)
-                .labelStyle(.titleOnly)
-                .padding(.horizontal, .spacingHorizontal)
-                .padding(.bottom, .spacingMedium)
             }
     }
 }
@@ -135,9 +134,18 @@ struct PostDetail: View {
 
     var body: some View {
         let state = fetch.wrappedValue
+        // Only a value fetched for *this* post says anything about its comments. Anything else —
+        // nothing loaded yet, or a value left over from the post we just navigated away from —
+        // means we're still waiting. `merge` silently drops a mismatched post, so without this
+        // filter the screen renders the comment-less listing post and announces "No comments".
+        let loaded = state.value.flatMap { $0 == post ? $0 : nil }
         PostScreen(
-            post.merge(from: state.value ?? post),
-            isLoading: state.value == nil && state.isFetching,
+            post.merge(from: loaded ?? post),
+            // Don't gate this on `isFetching`: a load is several actor hops away from setting it,
+            // and a superseded one clears it without ever producing a value. Every one of those
+            // gaps used to render as a confident "No comments". No value and no error means
+            // loading, full stop.
+            isLoading: loaded == nil && state.error == nil,
             error: state.error
         )
         .unredacted()
