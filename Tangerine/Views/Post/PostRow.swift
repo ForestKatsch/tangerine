@@ -8,86 +8,74 @@
 import SwiftUI
 
 struct PostRow: View {
-    @Environment(\.horizontalSizeClass)
-    var horizontalSizeClass
-
     var post: Post
 
+    /// An icon and a short value, like the score or comment count.
+    private func stat(_ systemImage: String, _ value: String, imageScale: Image.Scale = .medium) -> some View {
+        HStack(spacing: .spacingSmall) {
+            Image(systemName: systemImage)
+                .imageScale(imageScale)
+            Text(value)
+        }
+    }
+
     @ViewBuilder
-    var scoreView: some View {
+    var score: some View {
         if let score = post.score {
-            HStack(spacing: .spacingSmall) {
-                Image(systemName: "arrowtriangle.up")
-                Text(Formatter.format(intToAbbreviation: score))
-            }
+            stat("arrowtriangle.up", Formatter.format(intToAbbreviation: score))
         }
     }
 
     @ViewBuilder
-    var authorView: some View {
+    var author: some View {
         if let authorId = post.authorId {
-            HStack(spacing: .spacingSmall) {
-                Image(systemName: "person.fill")
-                    .imageScale(.small)
-                Text(authorId)
-            }
-        } else {
-            // Should not happen - this view is only called if authorId is valid.
-            EmptyView()
+            stat("person.fill", authorId, imageScale: .small)
         }
     }
 
     @ViewBuilder
-    var commentCountView: some View {
+    var commentCount: some View {
         if let commentCount = post.commentCount {
-            HStack(spacing: .spacingSmall) {
-                Image(systemName: "text.bubble")
-                Text(Formatter.format(intToAbbreviation: commentCount))
-            }
+            stat("text.bubble", Formatter.format(intToAbbreviation: commentCount))
         }
     }
 
     @ViewBuilder
-    var postedDateView: some View {
+    var postedDate: some View {
         if let date = post.postedDate {
             Text(date.formatted(.relative(presentation: .named)))
         }
     }
 
     @ViewBuilder
-    var sublineView: some View {
-        HStack(spacing: .spacingMedium) {
-            scoreView
-            authorView
-            Spacer()
-            commentCountView
+    var host: some View {
+        if let url = post.link {
+            Text(Formatter.format(urlHost: url))
         }
     }
 
     @ViewBuilder
-    var infoView: some View {
+    var info: some View {
         if post.kind != .normal {
             HStack {
                 if let kind = post.kind {
                     Image(systemName: kind.systemImage)
                 }
                 Spacer()
-                postedDateView
+                postedDate
             }
         } else {
             HStack {
-                linkView
+                host
                 Spacer()
-                postedDateView
+                postedDate
             }
-            sublineView
-        }
-    }
-
-    @ViewBuilder
-    var linkView: some View {
-        if let url = post.link {
-            Text(Formatter.format(urlHost: url))
+            HStack(spacing: .spacingMedium) {
+                score
+                author
+                Spacer()
+                commentCount
+            }
         }
     }
 
@@ -97,7 +85,7 @@ struct PostRow: View {
             Text(post.title ?? "")
                 .font(.headline.weight(.medium))
                 .lineLimit(2)
-            infoView
+            info
                 .font(.footnote)
                 .foregroundStyle(.secondary)
         }

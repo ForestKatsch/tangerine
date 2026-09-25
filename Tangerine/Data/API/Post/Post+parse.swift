@@ -1,5 +1,5 @@
 //
-//  FetchBrowseListing.swift
+//  Post+parse.swift
 //  Tangerine
 //
 //  Created by Forest Katsch on 9/14/23.
@@ -9,133 +9,112 @@ import Foundation
 import OSLog
 import SwiftSoup
 
-private let l = Logger(category: "API+Listing")
-
-/// Mutable scratch node used while reconstructing the comment tree from HN's flat, indent-tagged
-/// comment list. Frozen into an immutable ``Comment`` once its whole subtree is parsed.
-private final class CommentNode {
-    let id: String
-    let indent: Int
-
-    var authorId: String?
-    var postedDate: Date?
-    var score: Int?
-    var text: String?
-    var children: [CommentNode] = []
-
-    init(id: String, indent: Int) {
-        self.id = id
-        self.indent = indent
-    }
-
-    func freeze() -> Comment {
-        Comment(
-            id: id, text: text, score: score, authorId: authorId, postedDate: postedDate,
-            indent: indent, children: children.map { $0.freeze() }
-        )
-    }
-}
+private let l = Logger(category: "API+Post")
 
 extension Post {
-    static func parse(fromPostPage document: Document, postId: String, url _: URL? = nil) throws -> Post {
-        try? API.shared.parse(document)
-
-        guard let main = try? document.select("#hnmain").first() else {
+    static func parse(fromPostPage document: Document, postId: String) throws -> Post {
+        guard let main = document.first("#hnmain") else {
             throw TangerineError.generic(.cannotParseHtml, context: "#hnmain")
         }
 
-        guard let postContainer = try? main.select("> tbody table.fatitem").first() else {
+        guard let postContainer = main.first("> tbody table.fatitem") else {
             throw TangerineError.generic(.cannotParseHtml, context: ".fatitem")
         }
 
-        var postText: String?
-        if let textContainer = try? postContainer.select("div.toptext").first() {
-            postText = try? Parse.parseHNText(text: textContainer).joined(separator: "\n\n")
-        }
-
-        // Ugh, comment parsing lol.
-        //
         // HN emits the comment tree on every item page, empty ones included — a post with no
         // replies still gets a bare `<table class="comment-tree"></table>`. So a missing table
         // means we were handed a page we don't understand, and that's an error: returning an empty
         // post instead would be indistinguishable from a post nobody has replied to.
-        guard let commentContainer = try? main.select("table.comment-tree").first() else {
+        guard let commentContainer = main.first("table.comment-tree") else {
             throw TangerineError.generic(.cannotParseHtml, context: ".comment-tree")
         }
 
         // Rows are direct children of the table's implied `tbody`, which the HTML parser only
         // synthesizes once there's at least one row — hence matching the table, not its `tbody`,
         // above. No rows is a legitimately empty result, not a failure.
-        let commentElements = try commentContainer.select("> tbody > tr.athing")
+        let rows = try commentContainer.select("> tbody > tr.athing")
 
-        var topLevel: [CommentNode] = []
-        var commentBranch: [CommentNode] = []
+        return Post(
+            id: postId,
+            text: postContainer.first("div.toptext").map(Parse.hnText),
+            comments: tree(from: rows.compactMap(parse(commentRow:)))
+        )
+    }
 
-        for element in commentElements {
-            guard let indentString = try? element.select("td.ind[indent]").first()?.attr("indent") else {
-                l.error("oh no - expected indent!")
-                continue
-            }
-
-            guard let indent = Int(indentString, radix: 10) else {
-                l.error("oh no - expected indent 2.0!")
-                continue
-            }
-
-            let comment = CommentNode(id: element.id(), indent: indent)
-
-            if indent == commentBranch.count {
-                // One deeper!
-                // A <-- branch.count == 1
-                //   B <-- comment: indent = 1
-            } else if indent == commentBranch.count - 1 {
-                // Sibling of current
-                // A
-                //   B <-- branch.count == 2
-                //   C <-- comment: indent = 1
-                _ = commentBranch.popLast()
-            } else if indent < commentBranch.count {
-                // Back to a previous parent!
-                // A
-                //   B <-- branch.count == 2
-                // C <-- comment: indent = 0
-                commentBranch.removeLast(commentBranch.count - indent)
-            } else {
-                l.error("oh shit we lost our spot")
-            }
-
-            // Nothing on the branch - therefore we are a parent.
-            if let parent = commentBranch.last {
-                parent.children.append(comment)
-            } else {
-                topLevel.append(comment)
-            }
-
-            commentBranch.append(comment)
-
-            // OK, let's fill out the comment.
-            if let header = try? element.select("span.comhead").first() {
-                if let authorText = try? header.select(".hnuser").text() {
-                    comment.authorId = authorText
-                } else {
-                    l.warning("could not find header '.hnuser' for comment \(comment.id)")
-                }
-
-                if let age = try? header.select(".age").first() {
-                    if let postedDate = try? age.attr("title") {
-                        comment.postedDate = Parse.date(fromSubline: postedDate)
-                    }
-                } else {
-                    l.warning("could not find header '.age' for comment \(comment.id)")
-                }
-            }
-
-            if let textElement = try? element.select("div.comment > .commtext").first() {
-                comment.score = try? Comment.parseScore(fromComment: textElement)
-                comment.text = try? Parse.parseHNText(text: textElement).joined(separator: "\n\n")
-            }
+    /// One comment, without its replies.
+    private static func parse(commentRow row: Element) -> Comment? {
+        guard let indent = row.attr("indent", of: "td.ind[indent]").flatMap({ Int($0) }) else {
+            l.error("comment \(row.id()) has no indent")
+            return nil
         }
 
-        return Post(id: postId, text: postText, comments: topLevel.map { $0.freeze() })
+        let header = row.first("span.comhead")
+        let body = row.first("div.comment > .commtext")
+
+        return Comment(
+            id: row.id(),
+            text: body.map(Parse.hnText),
+            score: body.flatMap(Comment.score(fromClassesOf:)),
+            authorId: header?.text(of: ".hnuser"),
+            postedDate: header?.attr("title", of: ".age").flatMap(Parse.date(fromSubline:)),
+            indent: indent
+        )
+    }
+
+    /// HN sends comments as a flat list, each tagged with its depth. Rebuild the tree by keeping the
+    /// chain of open ancestors: a comment at depth `n` is a reply to the `n`th one.
+    private static func tree(from comments: [Comment]) -> [Comment] {
+        var roots: [CommentNode] = []
+        var branch: [CommentNode] = []
+
+        for comment in comments {
+            if comment.indent <= branch.count {
+                branch.removeLast(branch.count - comment.indent)
+            } else {
+                l.error("comment \(comment.id) is nested deeper than its parent")
+            }
+
+            let node = CommentNode(comment)
+
+            if let parent = branch.last {
+                parent.replies.append(node)
+            } else {
+                roots.append(node)
+            }
+
+            branch.append(node)
+        }
+
+        return roots.map(\.frozen)
+    }
+}
+
+/// Mutable scratch node used while rebuilding the comment tree, frozen into an immutable
+/// ``Comment`` once its whole subtree is known.
+private final class CommentNode {
+    let comment: Comment
+    var replies: [CommentNode] = []
+
+    init(_ comment: Comment) {
+        self.comment = comment
+    }
+
+    var frozen: Comment {
+        comment.with(children: replies.map(\.frozen))
+    }
+}
+
+extension Comment {
+    /// HN fades out downvoted comments with a `cXX` class, `c00` (untouched) through `cdd`
+    /// (faintest); read that back as a score from 0 down to -7.
+    static func score(fromClassesOf element: Element) -> Int? {
+        guard let classes = try? element.classNames(),
+              let shade = classes.first(where: { $0.count == 3 && $0.hasPrefix("c") && $0.dropFirst().allSatisfy(\.isHexDigit) }),
+              let value = Int(shade.dropFirst(), radix: 16)
+        else {
+            return nil
+        }
+
+        return -(min(value, 0xdd) / 0x1d)
     }
 }

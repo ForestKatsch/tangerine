@@ -40,25 +40,6 @@ struct PostScreen: View {
     }
 
     @ViewBuilder
-    var linkView: some View {
-        if let url = post.link {
-            ProminentExternalLink(url)
-        }
-    }
-
-
-    @ViewBuilder
-    var contentView: some View {
-        linkView
-        if let text = post.text {
-            HNTextView(text)
-        } else if post.likelyToContainText && isLoading {
-            HNTextView("Hi! This is just a few phony lines to make it appear as if we're currently loading some text. Don't worry though, it's a placeholder!\n\nAnd another paragraph to make it look longer :) and a link to [https://google.com/] to see if that shows up in the placeholder.")
-                .redacted(reason: .placeholder)
-        }
-    }
-
-    @ViewBuilder
     var titleView: some View {
         if let title = post.title {
             Text(title)
@@ -70,12 +51,20 @@ struct PostScreen: View {
     }
 
     @ViewBuilder
-    var scoreView: some View {
-        PostScoreView(post: post)
+    var content: some View {
+        if let url = post.link {
+            ProminentExternalLink(url)
+        }
+        if let text = post.text {
+            HNTextView(text)
+        } else if post.likelyToContainText && isLoading {
+            HNTextView("Hi! This is just a few phony lines to make it appear as if we're currently loading some text. Don't worry though, it's a placeholder!\n\nAnd another paragraph to make it look longer :) and a link to [https://google.com/] to see if that shows up in the placeholder.")
+                .redacted(reason: .placeholder)
+        }
     }
 
     @ViewBuilder
-    var authorView: some View {
+    var author: some View {
         if let authorId = post.authorId {
             Label(authorId, systemImage: "person.fill")
                 .foregroundStyle(.secondary)
@@ -84,7 +73,7 @@ struct PostScreen: View {
     }
 
     @ViewBuilder
-    var postedDateView: some View {
+    var postedDate: some View {
         if let date = post.postedDate {
             Text(date.formatted(.relative(presentation: .named)))
                 .foregroundStyle(.secondary)
@@ -92,37 +81,30 @@ struct PostScreen: View {
         }
     }
 
-    @ViewBuilder
-    var infoLeadingView: some View {
-        if post.kind == .job {
-            Label(Post.Kind.job.name, systemImage: Post.Kind.job.systemImage)
-        } else {
-            HStack(spacing: .spacingMedium) {
-                scoreView
-                authorView
-            }
-        }
-    }
-
-    @ViewBuilder
-    var infoView: some View {
+    var byline: some View {
         HStack(spacing: .spacingMedium) {
-            infoLeadingView
+            if post.kind == .job {
+                Label(Post.Kind.job.name, systemImage: Post.Kind.job.systemImage)
+            } else {
+                HStack(spacing: .spacingMedium) {
+                    PostScoreView(post: post)
+                    author
+                }
+            }
             Spacer()
-            postedDateView
+            postedDate
         }
         .font(.subheadline)
         .frame(maxWidth: .infinity)
     }
 
-    @ViewBuilder
-    var headerView: some View {
+    var header: some View {
         VStack(alignment: .leading, spacing: .spacingLarge) {
             if !nativeTitle {
                 titleView
             }
-            contentView
-            infoView
+            content
+            byline
             #if os(visionOS)
             .frame(minHeight: 50)
             #endif
@@ -130,40 +112,41 @@ struct PostScreen: View {
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 
-    var commentsView: some View {
-        VStack(spacing: .spacingHuge) {
-            CommentTree(post.comments, post: post)
-            if isLoading {
-                HStack {
-                    Spacer()
-                    ProgressView()
-                    Spacer()
-                }
-                .padding(.vertical)
-            } else if post.comments.isEmpty {
-                // An error only replaces the comments when it actually cost us them; a failed
-                // refresh that still has comments to show stays quiet.
-                if let error {
-                    ErrorView(error)
-                        .padding(.vertical)
-                } else {
-                    ContentUnavailableView("post.comments.none", systemImage: "bubble")
-                        .padding(.vertical)
-                }
+    @ViewBuilder
+    var commentsFooter: some View {
+        if isLoading {
+            HStack {
+                Spacer()
+                ProgressView()
+                Spacer()
+            }
+            .padding(.vertical)
+        } else if post.comments.isEmpty {
+            // An error only replaces the comments when it actually cost us them; a failed
+            // refresh that still has comments to show stays quiet.
+            if let error {
+                ErrorView(error)
+                    .padding(.vertical)
+            } else {
+                ContentUnavailableView("post.comments.none", systemImage: "bubble")
+                    .padding(.vertical)
             }
         }
-        .padding(.bottom)
     }
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: .spacingLarge) {
-                headerView
+                header
                     .padding(.top)
                     .padding(.horizontal, .spacingHorizontal)
                 Divider()
-                commentsView
-                    .padding(.horizontal, .spacingHorizontal)
+                VStack(spacing: .spacingHuge) {
+                    CommentTree(post.comments, post: post)
+                    commentsFooter
+                }
+                .padding(.bottom)
+                .padding(.horizontal, .spacingHorizontal)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         }
@@ -187,5 +170,5 @@ struct PostScreen: View {
 }
 
 #Preview {
-    PostScreen(.placeholder, isLoading: false)
+    PostScreen(.placeholder)
 }

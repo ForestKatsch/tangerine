@@ -1,5 +1,5 @@
 //
-//  View+handleOpenUrlInApp.swift
+//  View+handleInAppLinks.swift
 //  Tangerine
 //
 //  Created by Forest Katsch on 7/7/25.
@@ -79,17 +79,6 @@ import SwiftUI
                 }
         }
     }
-#else
-    private struct InAppLinksModifier: ViewModifier {
-        @Environment(\.openURL) var openURL
-        func body(content: Content) -> some View {
-            content
-                .environment(\.openURL, OpenURLAction { url in
-                    openURL(url)
-                    return .handled
-                })
-        }
-    }
 #endif
 
 extension View {
@@ -98,7 +87,14 @@ extension View {
     ///
     /// The override travels down the environment to every link below it, so apply this once per
     /// screen that contains links rather than once per link.
+    ///
+    /// On other platforms links open in the default browser, as they would anyway.
+    @ViewBuilder
     func handleInAppLinks() -> some View {
-        modifier(InAppLinksModifier())
+        #if os(iOS)
+            modifier(InAppLinksModifier())
+        #else
+            self
+        #endif
     }
 }

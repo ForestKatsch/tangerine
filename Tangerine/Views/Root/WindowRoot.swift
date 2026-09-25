@@ -31,7 +31,9 @@ struct WindowRoot: View {
                 ListingScreen()
             }
             Tab("account.label", systemImage: "person.crop.circle", value: AppTab.account) {
-                AccountTab()
+                NavigationStack {
+                    AccountScreen()
+                }
             }
         }
     }
@@ -95,15 +97,6 @@ struct ListingScreen: View {
         // top. Letting it own that edge puts the column backgrounds back under the status bar;
         // the split view still insets its own bars and content normally.
         .ignoresSafeArea(.container, edges: .top)
-    }
-}
-
-/// Your account, and the settings reachable from it.
-private struct AccountTab: View {
-    var body: some View {
-        NavigationStack {
-            AccountScreen()
-        }
     }
 }
 

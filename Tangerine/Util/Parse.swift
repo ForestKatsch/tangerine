@@ -8,137 +8,125 @@
 import Foundation
 import SwiftSoup
 
+extension Element {
+    /// The first element matching `query`.
+    func first(_ query: String) -> Element? {
+        try? select(query).first()
+    }
+
+    /// The text of every element matching `query`; empty, not `nil`, when nothing matches.
+    func text(of query: String) -> String? {
+        try? select(query).text()
+    }
+
+    /// Attribute `key` of the first element matching `query`.
+    func attr(_ key: String, of query: String) -> String? {
+        try? first(query)?.attr(key)
+    }
+}
+
 enum Parse {
     static func int(_ string: String) -> Int? {
-        Int(string.trimmingCharacters(in: .whitespacesAndNewlines.union(CharacterSet.letters)))
+        Int(string.trimmingCharacters(in: .whitespacesAndNewlines.union(.letters)))
     }
 
-    // Parses HN's date format.
+    private static let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        formatter.timeZone = .gmt
+        return formatter
+    }()
+
+    /// Parses the timestamp in an `.age` element's `title`: an ISO date, then a space and a Unix
+    /// timestamp.
     static func date(fromSubline string: String) -> Date? {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
-        dateFormatter.timeZone = .gmt
-        let datePart = string.split(separator: " ").first.map(String.init) ?? string
-        return dateFormatter.date(from: datePart)
+        dateFormatter.date(from: string.split(separator: " ").first.map(String.init) ?? string)
     }
 
+    private static let bareURL = try? NSRegularExpression(
+        pattern: "\\s+(https?://(?:www.)?[-a-zA-Z0-9@:%._+~#=]{1,256}.[a-zA-Z0-9()]{1,6}(?:[-a-zA-Z0-9()@:%_+.~#?&/=]*))",
+        options: .caseInsensitive
+    )
+
+    /// Turns bare URLs into Markdown links.
     static func textToMarkdown(text: String) -> String {
-        if let regex = try? NSRegularExpression(pattern: "\\s+(https?://(?:www.)?[-a-zA-Z0-9@:%._+~#=]{1,256}.[a-zA-Z0-9()]{1,6}(?:[-a-zA-Z0-9()@:%_+.~#?&/=]*))", options: .caseInsensitive) {
-            return regex.stringByReplacingMatches(in: text, range: NSRange(text.startIndex..., in: text), withTemplate: "[$0]($0)")
-        }
-
-        return text
+        bareURL?.stringByReplacingMatches(
+            in: text, range: NSRange(text.startIndex..., in: text), withTemplate: "[$0]($0)"
+        ) ?? text
     }
 
-    static func parseHNText(blockElement element: Element) throws -> String {
-        var p = ""
-
-        for node in element.getChildNodes() {
-            if let node = node as? TextNode {
-                p += node.text()
-                continue
-            }
-
-            guard let element = node as? Element else {
-                continue
-            }
-
-            let name = element.tagName()
-
-            if name == "code" {
-                if let text = try? parseHNText(blockElement: element) {
-                    p += text.trimmingCharacters(in: .whitespaces)
-                }
-            } else if name == "a" {
-                if let href = try? element.attr("href"), let text = try? element.text() {
-                    p += "[\(text)](\(href))"
-                }
-            } else if name == "i" {
-                if let contents = try? parseHNText(blockElement: element) {
-                    p += "_" + contents + "_"
-                }
-            } else {
-                p += "`unknown tag <\(name)>`"
-            }
-        }
-
-        return p
-    }
-
-    static func parseHNText(text element: Element) throws -> [String] {
-        // Weird fuckery is needed because HN's formatting is insane:
-        //
-        // <div id="container">
-        //   My first paragraph.
-        //   <p>My second paragraph.</p>
-        //   <p>My third paragraph.</p>
-        // </div>
-
-        // And for comments:
-        //
-        // <div class="comment">
-        //   <span class="commtext c00">
-        //     My first paragraph
-        //     <p>My second paragraph.</p>
-        //     <p>My third paragraph.</p>
-        //     <div class="reply">...</div> <!-- wtf -->
-        //   </span>
-        // </div>
-
-        var p = ""
-
+    /// Flattens an HN text block into Markdown paragraphs separated by blank lines.
+    ///
+    /// HN's markup is loose: the first paragraph is a bare text node and only the rest get a
+    /// `<p>`, code comes as `<pre>`, and comments carry their reply link inside the text:
+    ///
+    ///     <div class="commtext c00">
+    ///       My first paragraph.
+    ///       <p>My second paragraph.</p>
+    ///       <pre><code>  let x = 1</code></pre>
+    ///       <div class="reply">...</div>
+    ///     </div>
+    ///
+    /// A code block is a paragraph starting with "```".
+    static func hnText(_ element: Element) -> String {
         var paragraphs: [String] = []
+        var paragraph = ""
 
-        func appendParagraph() {
-            if p.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                return
+        func endParagraph() {
+            let trimmed = paragraph.trimmingCharacters(in: .whitespacesAndNewlines)
+            if !trimmed.isEmpty {
+                paragraphs.append(trimmed)
             }
-
-            paragraphs.append(p.trimmingCharacters(in: .whitespacesAndNewlines))
-            p = ""
+            paragraph = ""
         }
 
         for node in element.getChildNodes() {
-            if let node = node as? TextNode {
-                p += node.text()
+            guard let child = node as? Element else {
+                paragraph += (node as? TextNode)?.text() ?? ""
                 continue
             }
 
-            guard let element = node as? Element else {
+            switch child.tagName() {
+            case "p":
+                endParagraph()
+                paragraph = inline(child)
+            case "pre":
+                endParagraph()
+                paragraph = "```\n" + inline(child)
+                endParagraph()
+            case "div" where child.hasClass("reply"):
                 continue
-            }
-
-            let name = element.tagName()
-            if name == "p" {
-                appendParagraph()
-                if let paragraph = try? parseHNText(blockElement: element) {
-                    p += paragraph
-                } else {
-                    throw TangerineError.generic(.cannotParseHtml, context: "p")
-                }
-            } else if name == "span", element.hasClass("commtext") {
-                if let paragraph = try? parseHNText(blockElement: element) {
-                    p += paragraph
-                } else {
-                    throw TangerineError.generic(.cannotParseHtml, context: "span commtext")
-                }
-            } else if name == "pre" {
-                if let paragraph = try? parseHNText(blockElement: element) {
-                    appendParagraph()
-                    p = "```\n" + paragraph
-                    appendParagraph()
-                } else {
-                    throw TangerineError.generic(.cannotParseHtml, context: "pre")
-                }
-            } else if name == "div", element.hasClass("reply") {
-                continue
-            } else {
-                p += (try? parseHNText(blockElement: element)) ?? ""
+            default:
+                paragraph += inline(child)
             }
         }
 
-        appendParagraph()
+        endParagraph()
 
-        return paragraphs
+        return paragraphs.joined(separator: "\n\n")
+    }
+
+    /// The Markdown for an element's inline contents: text, links, italics and code.
+    private static func inline(_ element: Element) -> String {
+        element.getChildNodes().map { node in
+            guard let child = node as? Element else {
+                return (node as? TextNode)?.text() ?? ""
+            }
+
+            switch child.tagName() {
+            case "code":
+                return inline(child).trimmingCharacters(in: .whitespaces)
+            case "a":
+                guard let href = try? child.attr("href"), let text = try? child.text() else {
+                    return ""
+                }
+                return "[\(text)](\(href))"
+            case "i":
+                return "_\(inline(child))_"
+            case let name:
+                return "`unknown tag <\(name)>`"
+            }
+        }
+        .joined()
     }
 }

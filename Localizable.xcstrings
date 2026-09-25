@@ -137,46 +137,6 @@
         }
       }
     },
-    "comment-tree-mode.nested.description" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Traditional tree layout, using indentation to show hierarchy"
-          }
-        }
-      }
-    },
-    "comment-tree-mode.nested.label" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nested"
-          }
-        }
-      }
-    },
-    "comment-tree-mode.paged.description" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Horizontally swipe between sibling comments to view an entire branch at once"
-          }
-        }
-      }
-    },
-    "comment-tree-mode.paged.label" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Paged"
-          }
-        }
-      }
-    },
     "copy.generic" : {
       "localizations" : {
         "en" : {

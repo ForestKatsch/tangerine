@@ -6,6 +6,9 @@
 //
 
 import SwiftUI
+#if os(macOS)
+    import AppKit
+#endif
 
 struct CopyLink: View {
     var url: URL
@@ -23,7 +26,10 @@ struct CopyLink: View {
     }
 
     func copy() {
-        #if canImport(UIKit) && !os(tvOS)
+        #if os(macOS)
+            NSPasteboard.general.clearContents()
+            NSPasteboard.general.writeObjects([url as NSURL])
+        #elseif canImport(UIKit) && !os(tvOS)
             UIPasteboard.general.url = url
         #endif
     }
