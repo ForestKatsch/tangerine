@@ -7,28 +7,84 @@
 
 import SwiftUI
 
-/// Which tab is showing. `RawRepresentable` so it survives in `@SceneStorage`.
-enum AppTab: String {
+/// A reading tab: a group of HN listings shown on one screen. A feed with more than one listing
+/// gets a picker to switch between them; one with a single listing just shows it.
+///
+/// Adding a tab is adding a case here. `String`-backed so it can key per-feed scene storage.
+enum Feed: String, CaseIterable, Identifiable {
+    /// The front page, on its own.
     case news
+    /// Every other listing, behind a picker.
+    case explore
+
+    var id: Self { self }
+
+    /// The listings this feed offers, in picker order. The first is where it opens.
+    var listings: [API.ListingType] {
+        switch self {
+        case .news: [.news]
+        // Everything `news` doesn't claim, so a new listing type shows up here by default.
+        case .explore: API.ListingType.allCases.filter { !Feed.news.listings.contains($0) }
+        }
+    }
+
+    var name: LocalizedStringKey {
+        switch self {
+        case .news: "listing.news"
+        case .explore: "listing.explore"
+        }
+    }
+
+    var systemImage: String {
+        switch self {
+        case .news: "newspaper"
+        case .explore: "binoculars"
+        }
+    }
+}
+
+/// Which tab is showing. `RawRepresentable` so it survives in `@SceneStorage`.
+enum AppTab: Hashable, RawRepresentable {
+    case feed(Feed)
     case account
+
+    init?(rawValue: String) {
+        if rawValue == "account" {
+            self = .account
+        } else if let feed = Feed(rawValue: rawValue) {
+            self = .feed(feed)
+        } else {
+            return nil
+        }
+    }
+
+    var rawValue: String {
+        switch self {
+        case .feed(let feed): feed.rawValue
+        case .account: "account"
+        }
+    }
 }
 
 /// The app's only navigation container, on every platform and at every size.
 ///
-/// The tabs are the app's distinct destinations — reading and your account — not HN's five
-/// listings, which are one screen with a filter on it and live in the picker under its title.
+/// The tabs are the app's distinct destinations — one per `Feed`, and your account. HN's listings
+/// are grouped into those feeds rather than each taking a tab; within a feed they're a filter on
+/// one screen, switched from its toolbar.
 ///
-/// Deliberately not `.sidebarAdaptable`: two destinations don't need a sidebar, and that style
-/// brings its own sidebar toggle, which lands next to the one the `NavigationSplitView` inside
-/// each tab already draws.
+/// Deliberately not `.sidebarAdaptable`: a handful of destinations don't need a sidebar, and that
+/// style brings its own sidebar toggle, which lands next to the one the `NavigationSplitView`
+/// inside each tab already draws.
 struct WindowRoot: View {
     @SceneStorage("selectedTab")
-    private var tab: AppTab = .news
+    private var tab: AppTab = .feed(.news)
 
     var body: some View {
         TabView(selection: $tab) {
-            Tab("listing.news", systemImage: "newspaper", value: AppTab.news) {
-                ListingScreen()
+            ForEach(Feed.allCases) { feed in
+                Tab(feed.name, systemImage: feed.systemImage, value: AppTab.feed(feed)) {
+                    ListingScreen(feed: feed)
+                }
             }
             Tab("account.label", systemImage: "person.crop.circle", value: AppTab.account) {
                 NavigationStack {
@@ -55,10 +111,13 @@ struct ListingScreen: View {
     @Environment(\.horizontalSizeClass)
     private var horizontalSizeClass
 
-    /// Which listing is showing. `API.ListingType` is `String`-backed, so it round-trips through
-    /// scene storage and the app reopens on the feed it was left on.
-    @SceneStorage("listingType")
-    private var type: API.ListingType = .news
+    private let feed: Feed
+
+    /// Which of the feed's listings is showing. `API.ListingType` is `String`-backed, so it
+    /// round-trips through scene storage — keyed per feed — and each tab reopens on the listing it
+    /// was left on.
+    @SceneStorage
+    private var type: API.ListingType
 
     @State
     private var post: Post?
@@ -70,10 +129,16 @@ struct ListingScreen: View {
     @State
     private var columnVisibility: NavigationSplitViewVisibility = .all
 
+    init(feed: Feed) {
+        self.feed = feed
+        self._type = SceneStorage(wrappedValue: feed.listings[0], "listingType.\(feed.rawValue)")
+    }
+
     var body: some View {
         NavigationSplitView(columnVisibility: $columnVisibility) {
             ListingView(
                 type: $type,
+                listings: feed.listings,
                 selection: $post,
                 selectsFirstPost: horizontalSizeClass != .compact
             )

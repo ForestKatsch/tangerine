@@ -347,8 +347,7 @@
         }
       }
     },
-    "listing.other" : {
-      "extractionState" : "stale",
+    "listing.explore" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {

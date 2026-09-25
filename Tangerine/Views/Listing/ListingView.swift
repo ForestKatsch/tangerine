@@ -49,6 +49,9 @@ struct ListingView: View {
     @Binding
     var type: API.ListingType
 
+    /// The listings the picker offers. With only one there's nothing to pick, so no picker.
+    var listings: [API.ListingType]
+
     @Binding
     var selection: Post?
 
@@ -61,8 +64,14 @@ struct ListingView: View {
     @InfiniteFetch
     private var listing: InfiniteQueryHandle<FetchBrowseListing>
 
-    init(type: Binding<API.ListingType>, selection: Binding<Post?>, selectsFirstPost: Bool) {
+    init(
+        type: Binding<API.ListingType>,
+        listings: [API.ListingType],
+        selection: Binding<Post?>,
+        selectsFirstPost: Bool
+    ) {
         self._type = type
+        self.listings = listings
         self._selection = selection
         self.selectsFirstPost = selectsFirstPost
         self._listing = InfiniteFetch(FetchBrowseListing(type: type.wrappedValue))
@@ -105,14 +114,16 @@ struct ListingView: View {
         content
             .navigationTitle(type.title)
             .toolbar {
-                Menu {
-                    Picker("listing.pick", selection: $type) {
-                        ForEach(API.ListingType.allCases) { type in
-                            Label(type.name, systemImage: type.systemImage).tag(type)
+                if listings.count > 1 {
+                    Menu {
+                        Picker("listing.pick", selection: $type) {
+                            ForEach(listings) { type in
+                                Label(type.name, systemImage: type.systemImage).tag(type)
+                            }
                         }
+                    } label: {
+                        type.label
                     }
-                } label: {
-                    type.label
                 }
             }
     }
