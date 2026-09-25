@@ -902,7 +902,7 @@
 		};
 		AFAFAFAF000000000000AA03 /* XCRemoteSwiftPackageReference "Aquifer" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "git@github.com:ForestKatsch/Aquifer.git";
+			repositoryURL = "https://github.com/ForestKatsch/Aquifer.git";
 			requirement = {
 				branch = main;
 				kind = branch;

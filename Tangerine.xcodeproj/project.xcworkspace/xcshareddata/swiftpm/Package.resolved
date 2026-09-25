@@ -4,7 +4,7 @@
     {
       "identity" : "aquifer",
       "kind" : "remoteSourceControl",
-      "location" : "git@github.com:ForestKatsch/Aquifer.git",
+      "location" : "https://github.com/ForestKatsch/Aquifer.git",
       "state" : {
         "branch" : "main",
         "revision" : "14c32c17eb78bc565425030bd9ee1f59fe2dc84a"

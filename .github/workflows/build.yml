@@ -11,11 +11,9 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  # Resolve packages with system git so the SSH agent below can fetch the private Aquifer repo.
   XCODEBUILD_FLAGS: >-
     -project Tangerine.xcodeproj
     -scheme Tangerine
-    -scmProvider system
     -skipMacroValidation
     -skipPackagePluginValidation
     CODE_SIGNING_ALLOWED=NO
@@ -38,11 +36,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v5
-
-      # Read-only deploy key for ForestKatsch/Aquifer.
-      - uses: webfactory/ssh-agent@v0.9.1
-        with:
-          ssh-private-key: ${{ secrets.AQUIFER_SSH_KEY }}
 
       - name: Select newest Xcode 26
         run: |
