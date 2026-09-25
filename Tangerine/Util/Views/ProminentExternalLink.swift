@@ -74,7 +74,7 @@ struct ProminentExternalLink: View {
         Self.cache[url] = .some(metadata)
     }
 
-    static func metadata(from document: Document) -> Metadata? {
+    static func metadata(from document: SwiftSoup.Document) -> Metadata? {
         guard let title = document.attr("content", of: "meta[property=og:title]") else {
             return (try? document.first("title")?.text()).map { Metadata(title: $0) }
         }
